@@ -1,0 +1,399 @@
+INFO 2025-10-16 18:23:23,600 autoreload 4524 12368 Watching for file changes with StatReloader
+ERROR 2025-10-16 18:24:01,459 log 4524 11480 Internal Server Error: /
+Traceback (most recent call last):
+  File "E:\python\finance\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\itapp\views.py", line 97, in chatbot_view
+    return render(request, 'itapp/chatbot.html', {
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\shortcuts.py", line 24, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\backends\django.py", line 61, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 175, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 167, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 966, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\loader_tags.py", line 157, in render
+    return compiled_parent._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 167, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 966, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\defaulttags.py", line 471, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\urls\base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\urls\resolvers.py", line 828, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'home' not found. 'home' is not a valid view function or pattern name.
+ERROR 2025-10-16 18:24:01,608 basehttp 4524 11480 "GET / HTTP/1.1" 500 156659
+ERROR 2025-10-16 18:24:03,220 log 4524 10728 Internal Server Error: /favicon.ico
+Traceback (most recent call last):
+  File "E:\python\finance\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\users\middleware.py", line 29, in __call__
+    return redirect('company_selection')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\shortcuts.py", line 48, in redirect
+    return redirect_class(resolve_url(to, *args, **kwargs))
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\shortcuts.py", line 145, in resolve_url
+    return reverse(to, args=args, kwargs=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\urls\base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\urls\resolvers.py", line 828, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'company_selection' not found. 'company_selection' is not a valid view function or pattern name.
+ERROR 2025-10-16 18:24:03,243 basehttp 4524 10728 "GET /favicon.ico HTTP/1.1" 500 93597
+INFO 2025-10-16 18:27:50,852 autoreload 4524 12368 E:\python\finance\chatbot\urls.py changed, reloading.
+INFO 2025-10-16 18:28:00,125 autoreload 19388 2280 Watching for file changes with StatReloader
+INFO 2025-10-16 18:28:33,983 basehttp 19388 18532 "GET / HTTP/1.1" 200 3794
+ERROR 2025-10-16 18:28:35,377 log 19388 18532 Internal Server Error: /favicon.ico
+Traceback (most recent call last):
+  File "E:\python\finance\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\users\middleware.py", line 29, in __call__
+    return redirect('company_selection')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\shortcuts.py", line 48, in redirect
+    return redirect_class(resolve_url(to, *args, **kwargs))
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\shortcuts.py", line 145, in resolve_url
+    return reverse(to, args=args, kwargs=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\urls\base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\urls\resolvers.py", line 828, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'company_selection' not found. 'company_selection' is not a valid view function or pattern name.
+ERROR 2025-10-16 18:28:35,393 basehttp 19388 18532 "GET /favicon.ico HTTP/1.1" 500 93597
+ERROR 2025-10-16 18:28:50,689 log 19388 18532 Internal Server Error: /users/company/select/
+Traceback (most recent call last):
+  File "E:\python\finance\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\users\middleware.py", line 29, in __call__
+    return redirect('company_selection')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\shortcuts.py", line 48, in redirect
+    return redirect_class(resolve_url(to, *args, **kwargs))
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\shortcuts.py", line 145, in resolve_url
+    return reverse(to, args=args, kwargs=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\urls\base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\urls\resolvers.py", line 828, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'company_selection' not found. 'company_selection' is not a valid view function or pattern name.
+ERROR 2025-10-16 18:28:50,738 basehttp 19388 18532 "GET /users/company/select/ HTTP/1.1" 500 94139
+ERROR 2025-10-16 18:28:52,009 log 19388 18532 Internal Server Error: /favicon.ico
+Traceback (most recent call last):
+  File "E:\python\finance\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\users\middleware.py", line 29, in __call__
+    return redirect('company_selection')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\shortcuts.py", line 48, in redirect
+    return redirect_class(resolve_url(to, *args, **kwargs))
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\shortcuts.py", line 145, in resolve_url
+    return reverse(to, args=args, kwargs=kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\urls\base.py", line 88, in reverse
+    return resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\urls\resolvers.py", line 828, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'company_selection' not found. 'company_selection' is not a valid view function or pattern name.
+ERROR 2025-10-16 18:28:52,043 basehttp 19388 18532 "GET /favicon.ico HTTP/1.1" 500 93618
+INFO 2025-10-16 19:59:34,503 autoreload 3388 18492 Watching for file changes with StatReloader
+INFO 2025-10-16 20:14:42,404 autoreload 3388 18492 E:\python\finance\users\models.py changed, reloading.
+INFO 2025-10-16 20:14:42,853 autoreload 19388 2280 E:\python\finance\users\models.py changed, reloading.
+INFO 2025-10-16 20:14:49,194 autoreload 20992 20468 Watching for file changes with StatReloader
+INFO 2025-10-16 20:14:49,722 autoreload 3276 13064 Watching for file changes with StatReloader
+INFO 2025-10-16 20:16:39,738 autoreload 3276 13064 E:\python\finance\users\urls.py changed, reloading.
+INFO 2025-10-16 20:16:39,926 autoreload 20992 20468 E:\python\finance\users\urls.py changed, reloading.
+INFO 2025-10-16 20:16:46,798 autoreload 11112 2196 Watching for file changes with StatReloader
+INFO 2025-10-16 20:16:46,815 autoreload 20740 20516 Watching for file changes with StatReloader
+INFO 2025-10-16 20:18:45,311 autoreload 20740 20516 E:\python\finance\users\forms.py changed, reloading.
+INFO 2025-10-16 20:18:45,535 autoreload 11112 2196 E:\python\finance\users\forms.py changed, reloading.
+INFO 2025-10-16 20:18:49,072 autoreload 7948 16164 Watching for file changes with StatReloader
+INFO 2025-10-16 20:18:49,087 autoreload 19696 19468 Watching for file changes with StatReloader
+INFO 2025-10-16 20:22:39,617 autoreload 12432 7776 Watching for file changes with StatReloader
+INFO 2025-10-16 20:26:12,439 autoreload 12432 7776 E:\python\finance\users\forms.py changed, reloading.
+INFO 2025-10-16 20:26:12,470 autoreload 7948 16164 E:\python\finance\users\forms.py changed, reloading.
+INFO 2025-10-16 20:26:15,925 autoreload 4736 15040 Watching for file changes with StatReloader
+INFO 2025-10-16 20:26:15,932 autoreload 20684 15052 Watching for file changes with StatReloader
+INFO 2025-10-16 20:27:02,827 autoreload 4736 15040 E:\python\finance\users\models.py changed, reloading.
+INFO 2025-10-16 20:27:03,044 autoreload 20684 15052 E:\python\finance\users\models.py changed, reloading.
+INFO 2025-10-16 20:27:09,913 autoreload 372 13656 Watching for file changes with StatReloader
+INFO 2025-10-16 20:27:09,913 autoreload 15580 12312 Watching for file changes with StatReloader
+INFO 2025-10-16 20:30:37,217 autoreload 15580 12312 E:\python\finance\users\views.py changed, reloading.
+INFO 2025-10-16 20:30:37,435 autoreload 372 13656 E:\python\finance\users\views.py changed, reloading.
+INFO 2025-10-16 20:30:43,331 autoreload 5736 17208 Watching for file changes with StatReloader
+INFO 2025-10-16 20:30:43,444 autoreload 1504 11688 Watching for file changes with StatReloader
+INFO 2025-10-16 20:31:56,096 autoreload 9876 8780 Watching for file changes with StatReloader
+INFO 2025-10-17 10:44:16,957 autoreload 1504 11688 E:\python\finance\users\models.py changed, reloading.
+INFO 2025-10-17 10:44:17,722 autoreload 9876 8780 E:\python\finance\users\models.py changed, reloading.
+INFO 2025-10-17 10:44:44,250 autoreload 16108 22808 Watching for file changes with StatReloader
+INFO 2025-10-17 10:44:44,275 autoreload 15884 20616 Watching for file changes with StatReloader
+INFO 2025-10-17 11:23:14,555 basehttp 15884 1560 "GET / HTTP/1.1" 200 3794
+WARNING 2025-10-17 11:23:15,927 log 15884 1560 Not Found: /favicon.ico
+WARNING 2025-10-17 11:23:15,929 basehttp 15884 1560 "GET /favicon.ico HTTP/1.1" 404 6210
+ERROR 2025-10-17 11:23:24,470 log 15884 1560 Internal Server Error: /users/company/select/
+Traceback (most recent call last):
+  File "E:\python\finance\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\mssql\base.py", line 677, in execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pyodbc.ProgrammingError: ('42S22', "[42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'is_primary'. (207) (SQLExecDirectW); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'can_manage_users'. (207); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'can_manage_financial_data'. (207); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'can_view_reports'. (207); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'can_export_data'. (207); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'email'. (207); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'fiscal_year_start'. (207); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'fiscal_year_end'. (207); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'currency'. (207); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'description'. (207); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'is_verified'. (207); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'updated_at'. (207); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'is_primary'. (207); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Statement(s) could not be prepared. (8180)")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\python\finance\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\contrib\auth\decorators.py", line 23, in _wrapper_view
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\users\views.py", line 125, in company_selection
+  File "E:\python\finance\.venv\Lib\site-packages\django\shortcuts.py", line 24, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\backends\django.py", line 61, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 175, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 167, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 966, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\loader_tags.py", line 157, in render
+    return compiled_parent._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 167, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 966, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\loader_tags.py", line 63, in render
+    result = block.nodelist.render(context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 966, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\defaulttags.py", line 320, in render
+    if match:
+  File "E:\python\finance\.venv\Lib\site-packages\django\db\models\query.py", line 412, in __bool__
+    self._fetch_all()
+  File "E:\python\finance\.venv\Lib\site-packages\django\db\models\query.py", line 1881, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "E:\python\finance\.venv\Lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "E:\python\finance\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "E:\python\finance\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\mssql\base.py", line 677, in execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: ('42S22', "[42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'is_primary'. (207) (SQLExecDirectW); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'can_manage_users'. (207); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'can_manage_financial_data'. (207); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'can_view_reports'. (207); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'can_export_data'. (207); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'email'. (207); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'fiscal_year_start'. (207); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'fiscal_year_end'. (207); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'currency'. (207); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'description'. (207); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'is_verified'. (207); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'updated_at'. (207); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'is_primary'. (207); [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Statement(s) could not be prepared. (8180)")
+ERROR 2025-10-17 11:23:24,530 basehttp 15884 1560 "GET /users/company/select/ HTTP/1.1" 500 290569
+INFO 2025-10-17 11:27:19,682 autoreload 13816 15088 Watching for file changes with StatReloader
+INFO 2025-10-17 11:27:50,102 basehttp 15884 1560 "GET / HTTP/1.1" 200 3794
+INFO 2025-10-17 11:27:54,096 basehttp 15884 1560 "GET /users/company/select/ HTTP/1.1" 200 7314
+INFO 2025-10-17 11:28:03,596 basehttp 15884 1560 "GET /users/company/create/ HTTP/1.1" 200 15402
+INFO 2025-10-17 11:30:14,089 basehttp 15884 1560 "POST /users/company/create/ HTTP/1.1" 200 15849
+INFO 2025-10-17 11:30:36,043 basehttp 15884 1560 "POST /users/company/create/ HTTP/1.1" 302 0
+INFO 2025-10-17 11:30:37,079 basehttp 15884 1560 "GET /users/company/select/ HTTP/1.1" 302 0
+INFO 2025-10-17 11:30:37,356 basehttp 15884 1560 "GET /users/company/set/1/ HTTP/1.1" 302 0
+INFO 2025-10-17 11:30:37,588 basehttp 15884 1560 "GET /users/dashboard/ HTTP/1.1" 200 17020
+INFO 2025-10-17 11:31:14,795 basehttp 15884 1560 "GET /users/dashboard/ HTTP/1.1" 200 16012
+INFO 2025-10-17 11:48:35,468 autoreload 21268 20940 Watching for file changes with StatReloader
+INFO 2025-10-17 11:49:09,534 basehttp 15884 20424 "GET / HTTP/1.1" 200 4064
+INFO 2025-10-17 11:49:13,362 basehttp 15884 20424 "GET /users/dashboard/ HTTP/1.1" 200 20497
+INFO 2025-10-17 11:49:49,090 basehttp 15884 20424 "GET / HTTP/1.1" 200 4064
+INFO 2025-10-17 11:50:05,547 basehttp 15884 20424 "GET /users/dashboard/ HTTP/1.1" 200 20497
+INFO 2025-10-17 12:09:44,211 basehttp 15884 13232 "GET /users/company/1/members/ HTTP/1.1" 200 23449
+INFO 2025-10-17 12:09:45,319 basehttp 15884 13232 "GET /users/company/list/ HTTP/1.1" 200 17966
+WARNING 2025-10-17 12:09:45,493 log 15884 13232 Not Found: /media/company_logos/splash.jpg
+WARNING 2025-10-17 12:09:45,496 basehttp 15884 13232 "GET /media/company_logos/splash.jpg HTTP/1.1" 404 6267
+INFO 2025-10-17 12:10:01,242 basehttp 15884 13232 "GET /users/company/1/members/ HTTP/1.1" 200 23449
+INFO 2025-10-17 12:10:56,660 basehttp 15884 13232 "GET /users/dashboard/ HTTP/1.1" 200 20497
+INFO 2025-10-17 12:36:07,243 basehttp 15884 12228 "GET /users/company/1/members/ HTTP/1.1" 200 23449
+INFO 2025-10-17 12:36:37,551 basehttp 15884 12228 "GET /users/company/1/ HTTP/1.1" 200 27393
+WARNING 2025-10-17 12:36:38,302 log 15884 12228 Not Found: /media/company_logos/splash.jpg
+WARNING 2025-10-17 12:36:38,318 basehttp 15884 12228 "GET /media/company_logos/splash.jpg HTTP/1.1" 404 6267
+INFO 2025-10-17 16:13:32,621 autoreload 11464 3032 Watching for file changes with StatReloader
+INFO 2025-10-17 20:29:18,832 autoreload 3388 15940 Watching for file changes with StatReloader
+ERROR 2025-10-17 20:29:43,008 log 15884 11924 Internal Server Error: /
+Traceback (most recent call last):
+  File "E:\python\finance\.venv\Lib\site-packages\django\urls\base.py", line 71, in reverse
+    extra, resolver = resolver.namespace_dict[ns]
+                      ~~~~~~~~~~~~~~~~~~~~~~~^^^^
+KeyError: 'financial_system'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\python\finance\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+               ^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\backends\django.py", line 61, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 175, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 167, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 966, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\loader_tags.py", line 157, in render
+    return compiled_parent._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 167, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 1005, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 1005, in <listcomp>
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\base.py", line 966, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\template\defaulttags.py", line 471, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\finance\.venv\Lib\site-packages\django\urls\base.py", line 82, in reverse
+    raise NoReverseMatch("%s is not a registered namespace" % key)
+django.urls.exceptions.NoReverseMatch: 'financial_system' is not a registered namespace
+ERROR 2025-10-17 20:29:43,039 basehttp 15884 11924 "GET / HTTP/1.1" 500 154668
+INFO 2025-10-17 20:33:32,182 basehttp 15884 11924 "GET / HTTP/1.1" 200 4064
+INFO 2025-10-17 20:33:42,860 basehttp 15884 11924 "GET /users/dashboard/ HTTP/1.1" 200 20497
+WARNING 2025-10-17 20:34:03,718 log 15884 11924 Not Found: /chat
+WARNING 2025-10-17 20:34:03,721 basehttp 15884 11924 "GET /chat HTTP/1.1" 404 6189
+WARNING 2025-10-17 20:35:19,530 log 15884 11924 Not Found: /financial/
+WARNING 2025-10-17 20:35:19,538 basehttp 15884 11924 "GET /financial/ HTTP/1.1" 404 6207
+INFO 2025-10-17 20:37:48,593 autoreload 15884 20616 E:\python\finance\chatbot\urls.py changed, reloading.
+INFO 2025-10-17 20:37:48,645 autoreload 3388 15940 E:\python\finance\chatbot\urls.py changed, reloading.
+INFO 2025-10-17 20:37:53,088 autoreload 19980 15628 Watching for file changes with StatReloader
+INFO 2025-10-17 20:37:53,343 autoreload 3356 15352 Watching for file changes with StatReloader
+INFO 2025-10-18 07:18:17,038 autoreload 3356 15352 E:\python\finance\chatbot\urls.py changed, reloading.
+INFO 2025-10-18 07:18:17,217 autoreload 19980 15628 E:\python\finance\chatbot\urls.py changed, reloading.
+INFO 2025-10-18 07:18:55,182 autoreload 16000 6872 Watching for file changes with StatReloader
+INFO 2025-10-18 07:19:20,919 autoreload 22188 19968 Watching for file changes with StatReloader
+INFO 2025-10-18 07:23:16,838 autoreload 16000 6872 E:\python\finance\chatbot\urls.py changed, reloading.
+INFO 2025-10-18 07:23:23,541 autoreload 17032 1996 Watching for file changes with StatReloader
+INFO 2025-10-18 07:46:42,437 autoreload 17032 1996 E:\python\finance\financial_system\views.py changed, reloading.
+INFO 2025-10-18 07:46:51,451 autoreload 20540 19496 Watching for file changes with StatReloader
+INFO 2025-10-18 07:52:16,841 autoreload 20540 19496 E:\python\finance\financial_system\views.py changed, reloading.
+INFO 2025-10-18 07:52:24,136 autoreload 16936 5396 Watching for file changes with StatReloader
+INFO 2025-10-18 07:54:00,931 autoreload 16936 5396 E:\python\finance\chatbot\settings.py changed, reloading.

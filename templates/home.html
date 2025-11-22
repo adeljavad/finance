@@ -1,0 +1,79 @@
+<!-- templates/home.html -->
+{% extends "base.html" %}
+
+{% block title %}Financial AI Assistant{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-8 text-center">
+        <h1 class="display-4 mb-4">به Financial AI Assistant خوش آمدید</h1>
+        <p class="lead mb-4">سیستم هوشمند تحلیل مالی و حسابرسی با قابلیت‌های پیشرفته</p>
+        
+        {% if user.is_authenticated %}
+            <div class="alert alert-success">
+                <h4>شما با موفقیت وارد شده‌اید!</h4>
+                <p>ایمیل: {{ user.email }}</p>
+                {% if request.session.current_company_name %}
+                    <p>شرکت جاری: {{ request.session.current_company_name }}</p>
+                    <a href="{% url 'users:dashboard' %}" class="btn btn-primary btn-lg">
+                        رفتن به داشبورد
+                    </a>
+                {% else %}
+                    <a href="{% url 'users:company_selection' %}" class="btn btn-primary btn-lg">
+                        انتخاب شرکت
+                    </a>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">ورود به سیستم</h5>
+                            <p class="card-text">برای استفاده از سیستم، لطفاً وارد شوید</p>
+                            <div class="d-grid gap-2">
+                                <a href="{% url 'account_login' %}" class="btn btn-primary btn-lg">
+                                    <i class="bi bi-box-arrow-in-right"></i> ورود به سیستم
+                                </a>
+                                <a href="{% url 'account_signup' %}" class="btn btn-outline-primary">
+                                    ثبت‌نام در سیستم
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        
+        <div class="row mt-5">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <i class="bi bi-file-earmark-spreadsheet display-4 text-primary"></i>
+                        <h5>ایمپورت داده‌های مالی</h5>
+                        <p>پشتیبانی از فایل‌های اکسل نرم‌افزارهای مالی ایرانی</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <i class="bi bi-graph-up display-4 text-success"></i>
+                        <h5>تحلیل هوشمند</h5>
+                        <p>تحلیل‌های مالی پیشرفته با هوش مصنوعی</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <i class="bi bi-shield-check display-4 text-warning"></i>
+                        <h5>حسابرسی خودکار</h5>
+                        <p>شناسیایی ریسک‌ها و انحرافات مالی</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

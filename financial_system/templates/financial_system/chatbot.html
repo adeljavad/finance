@@ -1,0 +1,640 @@
+<!-- financial_system/templates/financial_system/chatbot.html -->
+{% extends 'financial_system/base.html' %}
+
+{% block title %}دستیار هوشمند مالی - {{ company.name }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">
+        <i class="bi bi-robot text-success"></i>
+        دستیار هوشمند مالی
+    </h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        {% if company and period %}
+        <div class="btn-group me-2">
+            <span class="btn btn-outline-secondary">
+                <i class="bi bi-building"></i>
+                {{ company.name }}
+            </span>
+            <span class="btn btn-outline-primary">
+                <i class="bi bi-calendar"></i>
+                {{ period.name }}
+            </span>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <!-- چت باکس -->
+        <div class="card">
+            <div class="card-header bg-white">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-chat-dots text-primary"></i>
+                    پرسش و پاسخ مالی
+                </h5>
+            </div>
+            <div class="card-body">
+                <div id="chat-container" style="height: 400px; overflow-y: auto; border: 1px solid #e9ecef; border-radius: 8px; padding: 15px; margin-bottom: 15px; background-color: #f8f9fa;">
+                    <div id="chat-messages">
+                        <!-- پیام‌ها اینجا نمایش داده می‌شوند -->
+                        <div class="alert alert-info text-center">
+                            <i class="bi bi-info-circle"></i>
+                            سوالات مالی خود را در مورد {{ company.name }} بپرسید.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <textarea id="chat-input" class="form-control" placeholder="سوال مالی خود را بپرسید..." 
+                              rows="4" style="resize: vertical; min-height: 100px;"
+                              {% if not company or not period %}disabled{% endif %}></textarea>
+                    <button class="btn btn-primary" id="send-btn" {% if not company or not period %}disabled{% endif %}>
+                        <i class="bi bi-send"></i>
+                        ارسال
+                    </button>
+                </div>
+                
+                {% if not company or not period %}
+                <div class="alert alert-warning mt-3">
+                    <i class="bi bi-exclamation-triangle"></i>
+                    برای استفاده از دستیار هوشمند، لطفاً ابتدا شرکت و دوره مالی را انتخاب کنید.
+                    <br>
+                    <a href="{% url 'users:company_selection' %}" class="btn btn-sm btn-outline-primary mt-2">
+                        <i class="bi bi-building"></i>
+                        انتخاب شرکت
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <!-- راهنمایی -->
+        <div class="card">
+            <div class="card-header bg-white">
+                <h6 class="card-title mb-0">
+                    <i class="bi bi-info-circle text-info"></i>
+                    راهنمای استفاده
+                </h6>
+            </div>
+            <div class="card-body">
+                <h6>سوالات مالی قابل پرسش:</h6>
+                <ul class="small">
+                    <li>مانده حساب‌های مختلف</li>
+                    <li>نسبت‌های مالی و نقدینگی</li>
+                    <li>تحلیل صورت‌های مالی</li>
+                    <li>گردش حساب‌ها و اسناد</li>
+                    <li>ریسک‌های مالی و پیشنهادات</li>
+                </ul>
+                
+                <hr>
+                
+                <h6>مثال‌های پیشرفته:</h6>
+                <ul class="small">
+                    <li>"تحلیل دارایی‌های جاری شرکت"</li>
+                    <li>"نسبت بدهی به حقوق صاحبان سهام"</li>
+                    <li>"گردش موجودی کالا در ۶ ماه گذشته"</li>
+                    <li>"شناسایی ریسک‌های مالی اصلی"</li>
+                </ul>
+                
+                <!-- نمونه سوالات مالی -->
+                <div class="mt-4">
+                    <h6 class="text-warning">
+                        <i class="bi bi-lightbulb"></i>
+                        نمونه سوالات مالی
+                    </h6>
+                    <div class="row mt-2">
+                        <div class="col-12 mb-2">
+                            <button class="btn btn-outline-secondary w-100 sample-question" data-question="مانده حساب صندوق چقدر است؟">
+                                مانده حساب صندوق
+                            </button>
+                        </div>
+                        <div class="col-12 mb-2">
+                            <button class="btn btn-outline-secondary w-100 sample-question" data-question="نسبت جاری شرکت چقدر است؟">
+                                نسبت جاری
+                            </button>
+                        </div>
+                        <div class="col-12 mb-2">
+                            <button class="btn btn-outline-secondary w-100 sample-question" data-question="تحلیل دارایی‌های جاری را ارائه دهید">
+                                تحلیل دارایی‌های جاری
+                            </button>
+                        </div>
+                        <div class="col-12 mb-2">
+                            <button class="btn btn-outline-secondary w-100 sample-question" data-question="گردش مالی دوره جاری چقدر است؟">
+                                گردش مالی
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alert alert-success mt-3">
+                    <small>
+                        <i class="bi bi-shield-check"></i>
+                        <strong>امن:</strong> تمام داده‌ها فقط برای شرکت انتخاب شده قابل دسترسی هستند.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const chatInput = document.getElementById('chat-input');
+    const sendBtn = document.getElementById('send-btn');
+    const chatMessages = document.getElementById('chat-messages');
+    const chatContainer = document.getElementById('chat-container');
+    const sampleQuestions = document.querySelectorAll('.sample-question');
+    
+    // اسکرول به پایین چت
+    function scrollToBottom() {
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+    
+    // افزودن پیام به چت
+    function addMessage(message, isUser = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `mb-3 ${isUser ? 'text-start' : 'text-end'}`;
+        
+        const bubble = document.createElement('div');
+        bubble.className = `d-inline-block p-3 rounded-3 ${isUser ? 'bg-primary text-white' : 'bg-light border'}`;
+        bubble.style.maxWidth = '70%';
+        bubble.textContent = message;
+        
+        messageDiv.appendChild(bubble);
+        chatMessages.appendChild(messageDiv);
+        scrollToBottom();
+    }
+    
+    // ارسال پیام
+    function sendMessage() {
+        const message = chatInput.value.trim();
+        if (!message) {
+            addMessage('❌ خطا: پیام نمی‌تواند خالی باشد');
+            return;
+        }
+        
+        // نمایش پیام کاربر
+        addMessage(message, true);
+        chatInput.value = '';
+        
+        // نمایش وضعیت در حال پردازش
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'text-center text-muted mb-3';
+        typingDiv.id = 'typing-indicator';
+        typingDiv.innerHTML = '<i class="bi bi-robot"></i> در حال پردازش...';
+        chatMessages.appendChild(typingDiv);
+        scrollToBottom();
+        
+    // ارسال به سرور
+    fetch("{% url 'financial_system:financial_chat_api' %}", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({
+            question: message,
+            company_id: {{ company.id|default:1 }},
+            period_id: {{ period.id|default:1 }}
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // حذف نشانگر در حال پردازش
+        document.getElementById('typing-indicator')?.remove();
+        
+        if (!data.success) {
+            addMessage(`❌ خطا: ${data.error || 'خطای ناشناخته'}`);
+        } else {
+            // نمایش پاسخ JSON به صورت زیبا
+            displayJsonResponse(data);
+        }
+    })
+    .catch(error => {
+        document.getElementById('typing-indicator')?.remove();
+        addMessage('❌ خطا در ارتباط با سرور');
+        console.error('Error:', error);
+    });
+    }
+    
+    // رویدادهای ارسال
+    sendBtn.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+    
+    // سوالات نمونه
+    sampleQuestions.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const question = this.getAttribute('data-question');
+            
+            // نمایش پیام کاربر
+            addMessage(question, true);
+            
+            // نمایش وضعیت در حال پردازش
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'text-center text-muted mb-3';
+            typingDiv.id = 'typing-indicator';
+            typingDiv.innerHTML = '<i class="bi bi-robot"></i> در حال پردازش...';
+            chatMessages.appendChild(typingDiv);
+            scrollToBottom();
+            
+            // ارسال به سرور
+            fetch("{% url 'financial_system:financial_chat_api' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({
+                    question: question,
+                    company_id: {{ company.id|default:1 }},
+                    period_id: {{ period.id|default:1 }}
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // حذف نشانگر در حال پردازش
+                document.getElementById('typing-indicator')?.remove();
+                
+                if (!data.success) {
+                    addMessage(`❌ خطا: ${data.error || 'خطای ناشناخته'}`);
+                } else {
+                    // نمایش پاسخ JSON به صورت زیبا
+                    displayJsonResponse(data);
+                }
+            })
+            .catch(error => {
+                document.getElementById('typing-indicator')?.remove();
+                addMessage('❌ خطا در ارتباط با سرور');
+                console.error('Error:', error);
+            });
+        });
+    });
+    
+    // نمایش پاسخ JSON به صورت زیبا
+    function displayJsonResponse(data) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'mb-3 text-end';
+        
+        const bubble = document.createElement('div');
+        bubble.className = 'd-inline-block p-3 rounded-3 bg-light border';
+        bubble.style.maxWidth = '90%';
+        bubble.style.textAlign = 'right';
+        
+        // بررسی نوع گزارش و نمایش مناسب
+        if (data.report_type === 'balance_sheet') {
+            bubble.innerHTML = formatBalanceSheet(data);
+        } else if (data.report_type === 'financial_ratios') {
+            bubble.innerHTML = formatFinancialRatios(data);
+        } else if (data.report_type === 'income_statement') {
+            bubble.innerHTML = formatIncomeStatement(data);
+        } else if (data.report_type === 'four_column_balance') {
+            bubble.innerHTML = formatFourColumnBalance(data);
+        } else if (data.report_type === 'text_response') {
+            bubble.innerHTML = formatTextResponse(data);
+        } else {
+            bubble.innerHTML = formatGenericResponse(data);
+        }
+        
+        messageDiv.appendChild(bubble);
+        chatMessages.appendChild(messageDiv);
+        scrollToBottom();
+    }
+    
+    // فرمت‌بندی ترازنامه
+    function formatBalanceSheet(data) {
+        const metadata = data.data.metadata;
+        const sections = data.data.sections;
+        const summary = data.data.summary;
+        
+        let html = `
+            <div class="text-center mb-3">
+                <h6 class="text-success mb-1">${metadata.report_title}</h6>
+                <small class="text-muted">${metadata.company_name} - ${metadata.period_name}</small>
+            </div>
+        `;
+        
+        // نمایش بخش‌ها
+        sections.forEach(section => {
+            html += `
+                <div class="mb-3">
+                    <h6 class="border-bottom pb-1">${section.title}</h6>
+                    ${section.items.map(item => `
+                        <div class="d-flex justify-content-between small py-1">
+                            <span>${item.account_group}</span>
+                            <span class="fw-bold ${item.amount < 0 ? 'text-danger' : 'text-success'}">
+                                ${item.formatted_amount}
+                            </span>
+                        </div>
+                    `).join('')}
+                    <div class="d-flex justify-content-between border-top pt-1 mt-1 fw-bold">
+                        <span>جمع ${section.title}</span>
+                        <span class="${section.total < 0 ? 'text-danger' : 'text-success'}">
+                            ${section.formatted_total}
+                        </span>
+                    </div>
+                </div>
+            `;
+        });
+        
+        // نمایش خلاصه
+        html += `
+            <div class="mt-3 p-2 rounded bg-light">
+                <h6 class="text-center mb-2">خلاصه ترازنامه</h6>
+                <div class="d-flex justify-content-between small">
+                    <span>کل دارایی‌ها:</span>
+                    <span class="${summary.total_assets < 0 ? 'text-danger' : 'text-success'}">
+                        ${summary.formatted_total_assets}
+                    </span>
+                </div>
+                <div class="d-flex justify-content-between small">
+                    <span>کل بدهی‌ها:</span>
+                    <span>${summary.formatted_total_liabilities}</span>
+                </div>
+                <div class="d-flex justify-content-between small">
+                    <span>حقوق صاحبان سهام:</span>
+                    <span class="${summary.total_equity < 0 ? 'text-danger' : 'text-success'}">
+                        ${summary.formatted_total_equity}
+                    </span>
+                </div>
+                <div class="d-flex justify-content-between small mt-2 border-top pt-1">
+                    <span>وضعیت تراز:</span>
+                    <span class="badge ${summary.balance_check ? 'bg-success' : 'bg-danger'}">
+                        ${summary.balance_status}
+                    </span>
+                </div>
+            </div>
+        `;
+        
+        return html;
+    }
+    
+    // فرمت‌بندی نسبت‌های مالی
+    function formatFinancialRatios(data) {
+        const metadata = data.data.metadata;
+        const ratios = data.data.ratios;
+        const analysis = data.data.analysis;
+        
+        let html = `
+            <div class="text-center mb-3">
+                <h6 class="text-info mb-1">${metadata.report_title}</h6>
+                <small class="text-muted">${metadata.company_name} - ${metadata.period_name}</small>
+            </div>
+        `;
+        
+        // نسبت‌های نقدینگی
+        html += `
+            <div class="mb-3">
+                <h6 class="border-bottom pb-1">نسبت‌های نقدینگی</h6>
+                ${Object.entries(ratios.liquidity_ratios).map(([key, ratio]) => `
+                    <div class="d-flex justify-content-between small py-1">
+                        <span>${ratio.description}:</span>
+                        <span>
+                            <span class="fw-bold">${ratio.value}</span>
+                            <span class="badge ${getRatioStatusBadge(ratio.status)} ms-1">
+                                ${ratio.status}
+                            </span>
+                        </span>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        
+        // نسبت‌های سودآوری
+        html += `
+            <div class="mb-3">
+                <h6 class="border-bottom pb-1">نسبت‌های سودآوری</h6>
+                ${Object.entries(ratios.profitability_ratios).map(([key, ratio]) => `
+                    <div class="d-flex justify-content-between small py-1">
+                        <span>${ratio.description}:</span>
+                        <span>
+                            <span class="fw-bold">${ratio.value}${ratio.unit || ''}</span>
+                            ${ratio.status ? `<span class="badge ${getRatioStatusBadge(ratio.status)} ms-1">${ratio.status}</span>` : ''}
+                        </span>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        
+        // تحلیل
+        html += `
+            <div class="mt-3 p-2 rounded bg-light">
+                <h6 class="text-center mb-2">تحلیل کلی</h6>
+                <div class="d-flex justify-content-between small">
+                    <span>وضعیت کلی:</span>
+                    <span class="badge ${getRatioStatusBadge(analysis.overall_status)}">
+                        ${analysis.overall_status}
+                    </span>
+                </div>
+                <div class="d-flex justify-content-between small">
+                    <span>سطح ریسک:</span>
+                    <span class="badge ${getRiskLevelBadge(analysis.risk_level)}">
+                        ${analysis.risk_level}
+                    </span>
+                </div>
+                ${analysis.recommendations.length > 0 ? `
+                    <div class="mt-2">
+                        <small class="fw-bold">توصیه‌ها:</small>
+                        <ul class="small mb-0 ps-3">
+                            ${analysis.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                        </ul>
+                    </div>
+                ` : ''}
+            </div>
+        `;
+        
+        return html;
+    }
+    
+    // فرمت‌بندی صورت سود و زیان
+    function formatIncomeStatement(data) {
+        const metadata = data.data.metadata;
+        const sections = data.data.sections;
+        const summary = data.data.summary;
+        
+        let html = `
+            <div class="text-center mb-3">
+                <h6 class="text-warning mb-1">${metadata.report_title}</h6>
+                <small class="text-muted">${metadata.company_name} - ${metadata.period_name}</small>
+            </div>
+        `;
+        
+        // نمایش بخش‌ها
+        sections.forEach(section => {
+            html += `
+                <div class="mb-3">
+                    <h6 class="border-bottom pb-1">${section.title}</h6>
+                    ${section.items.map(item => `
+                        <div class="d-flex justify-content-between small py-1">
+                            <span>${item.account_group}</span>
+                            <span class="fw-bold ${item.amount < 0 ? 'text-danger' : 'text-success'}">
+                                ${item.formatted_amount}
+                            </span>
+                        </div>
+                    `).join('')}
+                    <div class="d-flex justify-content-between border-top pt-1 mt-1 fw-bold">
+                        <span>جمع ${section.title}</span>
+                        <span class="${section.total < 0 ? 'text-danger' : 'text-success'}">
+                            ${section.formatted_total}
+                        </span>
+                    </div>
+                </div>
+            `;
+        });
+        
+        // نمایش خلاصه
+        html += `
+            <div class="mt-3 p-2 rounded bg-light">
+                <h6 class="text-center mb-2">خلاصه صورت سود و زیان</h6>
+                <div class="d-flex justify-content-between small">
+                    <span>کل درآمدها:</span>
+                    <span class="text-success">${summary.formatted_total_revenue}</span>
+                </div>
+                <div class="d-flex justify-content-between small">
+                    <span>کل هزینه‌ها:</span>
+                    <span class="text-danger">${summary.formatted_total_expenses}</span>
+                </div>
+                <div class="d-flex justify-content-between small border-top pt-1">
+                    <span>سود/زیان خالص:</span>
+                    <span class="fw-bold ${summary.net_income < 0 ? 'text-danger' : 'text-success'}">
+                        ${summary.formatted_net_income}
+                    </span>
+                </div>
+                <div class="d-flex justify-content-between small">
+                    <span>حاشیه سود:</span>
+                    <span class="fw-bold ${summary.profit_margin < 0 ? 'text-danger' : 'text-success'}">
+                        ${summary.profit_margin}%
+                    </span>
+                </div>
+                <div class="d-flex justify-content-between small mt-2 border-top pt-1">
+                    <span>وضعیت:</span>
+                    <span class="badge ${summary.is_profitable ? 'bg-success' : 'bg-danger'}">
+                        ${summary.profit_status}
+                    </span>
+                </div>
+            </div>
+        `;
+        
+        return html;
+    }
+    
+    // فرمت‌بندی تراز چهارستونی
+    function formatFourColumnBalance(data) {
+        const metadata = data.data.metadata;
+        const accounts = data.data.accounts;
+        const totals = data.data.totals;
+        
+        let html = `
+            <div class="text-center mb-3">
+                <h6 class="text-primary mb-1">${metadata.report_title}</h6>
+                <small class="text-muted">${metadata.company_name} - ${metadata.period_name}</small>
+            </div>
+        `;
+        
+        // نمایش حساب‌ها
+        html += `
+            <div class="table-responsive">
+                <table class="table table-sm table-bordered small">
+                    <thead class="table-light">
+                        <tr>
+                            <th>حساب</th>
+                            <th>مانده ابتدا</th>
+                            <th>گردش بدهکار</th>
+                            <th>گردش بستانکار</th>
+                            <th>مانده انتها</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${accounts.map(account => `
+                            <tr>
+                                <td>${account.account_name}</td>
+                                <td class="text-end">${account.formatted_beginning_balance}</td>
+                                <td class="text-end">${account.formatted_debit_turnover}</td>
+                                <td class="text-end">${account.formatted_credit_turnover}</td>
+                                <td class="text-end fw-bold ${account.ending_balance < 0 ? 'text-danger' : 'text-success'}">
+                                    ${account.formatted_ending_balance}
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                    <tfoot class="table-secondary">
+                        <tr>
+                            <td class="fw-bold">جمع کل</td>
+                            <td class="text-end fw-bold">${totals.formatted_total_beginning_balance}</td>
+                            <td class="text-end fw-bold">${totals.formatted_total_debit_turnover}</td>
+                            <td class="text-end fw-bold">${totals.formatted_total_credit_turnover}</td>
+                            <td class="text-end fw-bold ${totals.total_ending_balance < 0 ? 'text-danger' : 'text-success'}">
+                                ${totals.formatted_total_ending_balance}
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        `;
+        
+        return html;
+    }
+    
+    // فرمت‌بندی پاسخ متنی
+    function formatTextResponse(data) {
+        return `
+            <div class="text-muted small mb-2">
+                <i class="bi bi-info-circle"></i>
+                ${data.data.metadata.report_title}
+            </div>
+            <div class="text-wrap">
+                ${data.data.content.replace(/\n/g, '<br>')}
+            </div>
+        `;
+    }
+    
+    // فرمت‌بندی پاسخ عمومی
+    function formatGenericResponse(data) {
+        return `
+            <div class="text-muted small mb-2">
+                <i class="bi bi-file-earmark-text"></i>
+                ${data.data.metadata.report_title}
+            </div>
+            <div class="text-wrap">
+                ${JSON.stringify(data.data.content, null, 2).replace(/\n/g, '<br>')}
+            </div>
+        `;
+    }
+    
+    // Helper functions
+    function getRatioStatusBadge(status) {
+        const statusMap = {
+            'عالی': 'bg-success',
+            'مطلوب': 'bg-info',
+            'متوسط': 'bg-warning',
+            'ضعیف': 'bg-danger',
+            'نامشخص': 'bg-secondary'
+        };
+        return statusMap[status] || 'bg-secondary';
+    }
+    
+    function getRiskLevelBadge(riskLevel) {
+        const riskMap = {
+            'کم': 'bg-success',
+            'متوسط': 'bg-warning',
+            'زیاد': 'bg-danger',
+            'نامشخص': 'bg-secondary'
+        };
+        return riskMap[riskLevel] || 'bg-secondary';
+    }
+    
+    // اسکرول اولیه به پایین
+    scrollToBottom();
+});
+</script>
+{% endblock %}

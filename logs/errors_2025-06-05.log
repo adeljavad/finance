@@ -1,0 +1,150 @@
+ERROR 2025-06-05 09:08:14,481 loggers 12372 20452 Serializer validation failed: {'ationQueueId': [ErrorDetail(string='این مقدار لازم است.', code='required')]}
+ERROR 2025-06-05 09:19:07,078 loggers 23032 21992 Serializer validation failed: {'ationQueueId': [ErrorDetail(string='این مقدار لازم است.', code='required')]}
+ERROR 2025-06-05 10:17:04,503 loggers 20732 20924 Error saving action: ActionQueue() got unexpected keyword arguments: 'action_data'
+Traceback (most recent call last):
+  File "D:\python\chatbot\pas1\itapp\generateaction.py", line 367, in _save_action_result
+    action = ActionQueue.objects.create(
+  File "D:\python\chatbot\pas1\.venv\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "D:\python\chatbot\pas1\.venv\lib\site-packages\django\db\models\query.py", line 656, in create
+    obj = self.model(**kwargs)
+  File "D:\python\chatbot\pas1\.venv\lib\site-packages\django\db\models\base.py", line 567, in __init__
+    raise TypeError(
+TypeError: ActionQueue() got unexpected keyword arguments: 'action_data'
+ERROR 2025-06-05 10:17:04,525 loggers 20732 20924 Unexpected error in call_adviser: ActionQueue() got unexpected keyword arguments: 'action_data'
+Traceback (most recent call last):
+  File "D:\python\chatbot\pas1\itapp\generateaction.py", line 458, in call_adviser
+    action = self._save_action_result(
+  File "D:\python\chatbot\pas1\itapp\generateaction.py", line 367, in _save_action_result
+    action = ActionQueue.objects.create(
+  File "D:\python\chatbot\pas1\.venv\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "D:\python\chatbot\pas1\.venv\lib\site-packages\django\db\models\query.py", line 656, in create
+    obj = self.model(**kwargs)
+  File "D:\python\chatbot\pas1\.venv\lib\site-packages\django\db\models\base.py", line 567, in __init__
+    raise TypeError(
+TypeError: ActionQueue() got unexpected keyword arguments: 'action_data'
+ERROR 2025-06-05 10:17:04,752 loggers 20732 20924 Error saving action: ActionQueue() got unexpected keyword arguments: 'action_data'
+Traceback (most recent call last):
+  File "D:\python\chatbot\pas1\itapp\generateaction.py", line 367, in _save_action_result
+    action = ActionQueue.objects.create(
+  File "D:\python\chatbot\pas1\.venv\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "D:\python\chatbot\pas1\.venv\lib\site-packages\django\db\models\query.py", line 656, in create
+    obj = self.model(**kwargs)
+  File "D:\python\chatbot\pas1\.venv\lib\site-packages\django\db\models\base.py", line 567, in __init__
+    raise TypeError(
+TypeError: ActionQueue() got unexpected keyword arguments: 'action_data'
+ERROR 2025-06-05 10:17:04,757 loggers 20732 20924 Unexpected error in call_next_attribute: ActionQueue() got unexpected keyword arguments: 'action_data'
+Traceback (most recent call last):
+  File "D:\python\chatbot\pas1\itapp\generateaction.py", line 525, in call_next_attribute
+    action = self._save_action_result(
+  File "D:\python\chatbot\pas1\itapp\generateaction.py", line 367, in _save_action_result
+    action = ActionQueue.objects.create(
+  File "D:\python\chatbot\pas1\.venv\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "D:\python\chatbot\pas1\.venv\lib\site-packages\django\db\models\query.py", line 656, in create
+    obj = self.model(**kwargs)
+  File "D:\python\chatbot\pas1\.venv\lib\site-packages\django\db\models\base.py", line 567, in __init__
+    raise TypeError(
+TypeError: ActionQueue() got unexpected keyword arguments: 'action_data'
+ERROR 2025-06-05 10:20:58,898 loggers 20732 20924 Error saving action: ActionQueue() got unexpected keyword arguments: 'action_data'
+Traceback (most recent call last):
+  File "D:\python\chatbot\pas1\itapp\generateaction.py", line 367, in _save_action_result
+    action = ActionQueue.objects.create(
+  File "D:\python\chatbot\pas1\.venv\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "D:\python\chatbot\pas1\.venv\lib\site-packages\django\db\models\query.py", line 656, in create
+    obj = self.model(**kwargs)
+  File "D:\python\chatbot\pas1\.venv\lib\site-packages\django\db\models\base.py", line 567, in __init__
+    raise TypeError(
+TypeError: ActionQueue() got unexpected keyword arguments: 'action_data'
+ERROR 2025-06-05 10:20:58,902 loggers 20732 20924 Unexpected error in call_adviser: ActionQueue() got unexpected keyword arguments: 'action_data'
+Traceback (most recent call last):
+  File "D:\python\chatbot\pas1\itapp\generateaction.py", line 458, in call_adviser
+    action = self._save_action_result(
+  File "D:\python\chatbot\pas1\itapp\generateaction.py", line 367, in _save_action_result
+    action = ActionQueue.objects.create(
+  File "D:\python\chatbot\pas1\.venv\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "D:\python\chatbot\pas1\.venv\lib\site-packages\django\db\models\query.py", line 656, in create
+    obj = self.model(**kwargs)
+  File "D:\python\chatbot\pas1\.venv\lib\site-packages\django\db\models\base.py", line 567, in __init__
+    raise TypeError(
+TypeError: ActionQueue() got unexpected keyword arguments: 'action_data'
+ERROR 2025-06-05 10:20:59,082 loggers 20732 20924 Error saving action: ActionQueue() got unexpected keyword arguments: 'action_data'
+Traceback (most recent call last):
+  File "D:\python\chatbot\pas1\itapp\generateaction.py", line 367, in _save_action_result
+    action = ActionQueue.objects.create(
+  File "D:\python\chatbot\pas1\.venv\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "D:\python\chatbot\pas1\.venv\lib\site-packages\django\db\models\query.py", line 656, in create
+    obj = self.model(**kwargs)
+  File "D:\python\chatbot\pas1\.venv\lib\site-packages\django\db\models\base.py", line 567, in __init__
+    raise TypeError(
+TypeError: ActionQueue() got unexpected keyword arguments: 'action_data'
+ERROR 2025-06-05 10:20:59,085 loggers 20732 20924 Unexpected error in call_next_attribute: ActionQueue() got unexpected keyword arguments: 'action_data'
+Traceback (most recent call last):
+  File "D:\python\chatbot\pas1\itapp\generateaction.py", line 525, in call_next_attribute
+    action = self._save_action_result(
+  File "D:\python\chatbot\pas1\itapp\generateaction.py", line 367, in _save_action_result
+    action = ActionQueue.objects.create(
+  File "D:\python\chatbot\pas1\.venv\lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "D:\python\chatbot\pas1\.venv\lib\site-packages\django\db\models\query.py", line 656, in create
+    obj = self.model(**kwargs)
+  File "D:\python\chatbot\pas1\.venv\lib\site-packages\django\db\models\base.py", line 567, in __init__
+    raise TypeError(
+TypeError: ActionQueue() got unexpected keyword arguments: 'action_data'
+ERROR 2025-06-05 10:34:33,508 loggers 23412 18032 Unexpected error in call_adviser: name 'time' is not defined
+Traceback (most recent call last):
+  File "D:\python\chatbot\pas1\itapp\generateaction.py", line 493, in call_adviser
+    action = self._save_action_result(
+  File "D:\python\chatbot\pas1\itapp\generateaction.py", line 372, in _save_action_result
+    'action_time': int(time.time())
+NameError: name 'time' is not defined
+ERROR 2025-06-05 10:34:33,663 loggers 23412 18032 Unexpected error in call_next_attribute: name 'time' is not defined
+Traceback (most recent call last):
+  File "D:\python\chatbot\pas1\itapp\generateaction.py", line 560, in call_next_attribute
+    action = self._save_action_result(
+  File "D:\python\chatbot\pas1\itapp\generateaction.py", line 372, in _save_action_result
+    'action_time': int(time.time())
+NameError: name 'time' is not defined
+ERROR 2025-06-05 10:39:25,074 loggers 17084 3700 Error in smart action processing: 'ActionQueue' object has no attribute 'action_data'
+Traceback (most recent call last):
+  File "D:\python\chatbot\pas1\itapp\generateaction.py", line 164, in _handle_smart_action
+    return self._build_response(
+  File "D:\python\chatbot\pas1\itapp\generateaction.py", line 445, in _build_response
+    "actionData": action.action_data if action else None
+AttributeError: 'ActionQueue' object has no attribute 'action_data'. Did you mean: 'action_name'?
+ERROR 2025-06-05 10:39:25,087 loggers 17084 3700 Unexpected error in GenerateAction: 'ActionQueue' object has no attribute 'action_data'
+Traceback (most recent call last):
+  File "D:\python\chatbot\pas1\itapp\generateaction.py", line 74, in post
+    return self._handle_smart_action(session_id)
+  File "D:\python\chatbot\pas1\itapp\generateaction.py", line 164, in _handle_smart_action
+    return self._build_response(
+  File "D:\python\chatbot\pas1\itapp\generateaction.py", line 445, in _build_response
+    "actionData": action.action_data if action else None
+AttributeError: 'ActionQueue' object has no attribute 'action_data'. Did you mean: 'action_name'?
+ERROR 2025-06-05 10:51:30,295 loggers 9184 18348 Error in smart action processing: 'ActionQueue' object has no attribute 'questionMessage'
+Traceback (most recent call last):
+  File "D:\python\chatbot\pas1\itapp\generateaction.py", line 164, in _handle_smart_action
+    return self._build_response(
+  File "D:\python\chatbot\pas1\itapp\generateaction.py", line 445, in _build_response
+    "questionMessage": action.questionMessage if action else None
+AttributeError: 'ActionQueue' object has no attribute 'questionMessage'
+ERROR 2025-06-05 10:51:30,317 loggers 9184 18348 Unexpected error in GenerateAction: 'ActionQueue' object has no attribute 'questionMessage'
+Traceback (most recent call last):
+  File "D:\python\chatbot\pas1\itapp\generateaction.py", line 74, in post
+    return self._handle_smart_action(session_id)
+  File "D:\python\chatbot\pas1\itapp\generateaction.py", line 164, in _handle_smart_action
+    return self._build_response(
+  File "D:\python\chatbot\pas1\itapp\generateaction.py", line 445, in _build_response
+    "questionMessage": action.questionMessage if action else None
+AttributeError: 'ActionQueue' object has no attribute 'questionMessage'
+ERROR 2025-06-05 11:50:28,574 loggers 22968 20088 Unexpected error in call_next_attribute: unhashable type: 'dict'
+Traceback (most recent call last):
+  File "D:\python\chatbot\pas1\itapp\generateaction.py", line 555, in call_next_attribute
+    extra_data={ next_attr}
+TypeError: unhashable type: 'dict'
+ERROR 2025-06-05 18:28:50,697 loggers 22936 16308 Serializer validation failed: {'actionQueueId': [ErrorDetail(string='این مقدار لازم است.', code='required')]}

@@ -1,0 +1,12 @@
+# Add to your Django settings.py
+INSTALLED_APPS += ['assistant']
+
+# DeepSeek
+DEEPSEEK_API_KEY = 'replace_with_key'
+DEEPSEEK_API_URL = 'https://api.deepseek.ai/v1'  # update if different
+
+# Chroma dir
+CHROMA_DIR = os.path.join(BASE_DIR, 'data', 'chroma')
+
+# Embedding model
+EMBEDDING_MODEL = 'paraphrase-multilingual-MiniLM-L12-v2'

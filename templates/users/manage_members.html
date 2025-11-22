@@ -1,0 +1,340 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}مدیریت اعضای شرکت - {{ company.name }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="fw-bold text-dark mb-1">
+            <i class="bi bi-people me-2"></i>
+            مدیریت اعضای شرکت
+        </h3>
+        <p class="text-muted mb-0">{{ company.name }}</p>
+    </div>
+    
+    <a href="{% url 'users:company_detail' company.id %}" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-right me-1"></i>
+        بازگشت به شرکت
+    </a>
+</div>
+
+<div class="row g-4">
+    <!-- فرم دعوت عضو جدید -->
+    <div class="col-lg-5">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-primary text-white py-3">
+                <h5 class="mb-0">
+                    <i class="bi bi-person-plus me-2"></i>
+                    دعوت عضو جدید
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="{{ invitation_form.email.id_for_label }}" class="form-label">
+                            ایمیل کاربر
+                        </label>
+                        {{ invitation_form.email }}
+                        {% if invitation_form.email.errors %}
+                        <div class="text-danger small mt-1">
+                            {{ invitation_form.email.errors }}
+                        </div>
+                        {% endif %}
+                        <div class="form-text text-muted">
+                            کاربر باید با این ایمیل در سیستم ثبت‌نام کرده باشد
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="{{ invitation_form.role.id_for_label }}" class="form-label">
+                            نقش کاربر
+                        </label>
+                        {{ invitation_form.role }}
+                        {% if invitation_form.role.errors %}
+                        <div class="text-danger small mt-1">
+                            {{ invitation_form.role.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-send me-1"></i>
+                            ارسال دعوتنامه
+                        </button>
+                    </div>
+                </form>
+                
+                <!-- راهنما نقش‌ها -->
+                <div class="mt-4 pt-3 border-top">
+                    <h6 class="text-dark mb-3">راهنمای نقش‌ها:</h6>
+                    <div class="row g-2">
+                        <div class="col-12">
+                            <span class="badge role-owner me-2">مالک</span>
+                            <small class="text-muted">دسترسی کامل به همه بخش‌ها</small>
+                        </div>
+                        <div class="col-12">
+                            <span class="badge role-admin me-2">مدیر</span>
+                            <small class="text-muted">مدیریت کاربران و داده‌های مالی</small>
+                        </div>
+                        <div class="col-12">
+                            <span class="badge role-accountant me-2">حسابدار</span>
+                            <small class="text-muted">مدیریت داده‌های مالی و گزارش‌ها</small>
+                        </div>
+                        <div class="col-12">
+                            <span class="badge role-auditor me-2">حسابرس</span>
+                            <small class="text-muted">مشاهده گزارش‌ها و خروجی داده</small>
+                        </div>
+                        <div class="col-12">
+                            <span class="badge role-data_entry me-2">تکمیل کننده داده</span>
+                            <small class="text-muted">ورود داده‌های مالی</small>
+                        </div>
+                        <div class="col-12">
+                            <span class="badge role-viewer me-2">مشاهده‌کننده</span>
+                            <small class="text-muted">فقط مشاهده گزارش‌ها</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- لیست اعضای فعلی -->
+    <div class="col-lg-7">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-success text-white py-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="bi bi-people-fill me-2"></i>
+                        اعضای شرکت
+                    </h5>
+                    <span class="badge bg-light text-dark fs-6">
+                        {{ members.count }} عضو
+                    </span>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                {% if members %}
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>کاربر</th>
+                                <th>نقش</th>
+                                <th>تاریخ پیوستن</th>
+                                <th>وضعیت</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for member in members %}
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        {% if member.user.avatar %}
+                                        <img src="{{ member.user.avatar.url }}" 
+                                             alt="{{ member.user.get_full_name }}" 
+                                             class="rounded-circle me-2" 
+                                             width="32" height="32">
+                                        {% else %}
+                                        <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center me-2" 
+                                             style="width: 32px; height: 32px;">
+                                            <i class="bi bi-person text-white"></i>
+                                        </div>
+                                        {% endif %}
+                                        <div>
+                                            <div class="fw-semibold">
+                                                {{ member.user.get_full_name|default:member.user.username }}
+                                            </div>
+                                            <small class="text-muted">{{ member.user.email }}</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="role-badge role-{{ member.role|lower }}">
+                                        {{ member.get_role_display }}
+                                        {% if member.is_primary %}
+                                        <i class="bi bi-star-fill ms-1"></i>
+                                        {% endif %}
+                                    </span>
+                                </td>
+                                <td>
+                                    <small class="text-muted">
+                                        {% if member.joined_at %}
+                                        {{ member.joined_at|date:"Y/m/d" }}
+                                        {% else %}
+                                        <span class="text-warning">در انتظار</span>
+                                        {% endif %}
+                                    </small>
+                                </td>
+                                <td>
+                                    {% if member.is_active %}
+                                    <span class="badge bg-success">فعال</span>
+                                    {% else %}
+                                    <span class="badge bg-secondary">غیرفعال</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" 
+                                                type="button" data-bs-toggle="dropdown">
+                                            <i class="bi bi-gear"></i>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-end">
+                                            {% if user_role.role == 'OWNER' and member.role != 'OWNER' or user_role.role == 'ADMIN' and member.role not in 'OWNER,ADMIN' %}
+                                            <li>
+                                                <a class="dropdown-item text-warning" href="#">
+                                                    <i class="bi bi-pencil me-2"></i>
+                                                    تغییر نقش
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item text-danger" href="#">
+                                                    <i class="bi bi-person-x me-2"></i>
+                                                    حذف از شرکت
+                                                </a>
+                                            </li>
+                                            {% else %}
+                                            <li>
+                                                <span class="dropdown-item text-muted">
+                                                    <i class="bi bi-lock me-2"></i>
+                                                    بدون دسترسی
+                                                </span>
+                                            </li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-5">
+                    <i class="bi bi-people text-muted" style="font-size: 3rem;"></i>
+                    <p class="text-muted mt-3">هیچ عضوی در این شرکت وجود ندارد</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- دعوتنامه‌های در انتظار -->
+        <div class="card border-0 shadow-sm mt-4">
+            <div class="card-header bg-warning text-dark py-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="bi bi-clock-history me-2"></i>
+                        دعوتنامه‌های در انتظار
+                    </h5>
+                    <span class="badge bg-light text-dark fs-6">
+                        {{ invitations.count }} دعوتنامه
+                    </span>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                {% if invitations %}
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ایمیل</th>
+                                <th>نقش</th>
+                                <th>ارسال شده توسط</th>
+                                <th>انقضا</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for invitation in invitations %}
+                            <tr>
+                                <td>
+                                    <div class="fw-semibold">{{ invitation.email }}</div>
+                                    <small class="text-muted">ارسال در {{ invitation.created_at|date:"Y/m/d" }}</small>
+                                </td>
+                                <td>
+                                    <span class="badge role-{{ invitation.role|lower }}">
+                                        {{ invitation.get_role_display }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <small>{{ invitation.invited_by.get_full_name|default:invitation.invited_by.username }}</small>
+                                </td>
+                                <td>
+                                    <small class="{% if invitation.is_expired %}text-danger{% else %}text-muted{% endif %}">
+                                        {{ invitation.expires_at|date:"Y/m/d" }}
+                                        {% if invitation.is_expired %}
+                                        <br><span class="badge bg-danger">منقضی شده</span>
+                                        {% endif %}
+                                    </small>
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <button class="btn btn-outline-secondary" 
+                                                onclick="copyInvitationLink('{{ invitation.token }}')"
+                                                title="کپی لینک دعوت">
+                                            <i class="bi bi-link"></i>
+                                        </button>
+                                        {% if user_role.role == 'OWNER' or invitation.invited_by == request.user %}
+                                        <button class="btn btn-outline-danger" 
+                                                onclick="cancelInvitation({{ invitation.id }})"
+                                                title="لغو دعوت">
+                                            <i class="bi bi-x-circle"></i>
+                                        </button>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="bi bi-check-circle text-muted" style="font-size: 2rem;"></i>
+                    <p class="text-muted mt-2">هیچ دعوتنامه در انتظاری وجود ندارد</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Add Bootstrap classes to form fields
+    document.addEventListener('DOMContentLoaded', function() {
+        const inputs = document.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            if (!input.classList.contains('form-control')) {
+                input.classList.add('form-control');
+            }
+        });
+        
+        const selects = document.querySelectorAll('select');
+        selects.forEach(select => {
+            select.classList.add('form-select');
+        });
+    });
+
+    function copyInvitationLink(token) {
+        const invitationUrl = `${window.location.origin}{% url 'users:accept_invitation' 'TOKEN' %}`.replace('TOKEN', token);
+        navigator.clipboard.writeText(invitationUrl).then(function() {
+            alert('لینک دعوت با موفقیت کپی شد');
+        }, function(err) {
+            console.error('خطا در کپی لینک: ', err);
+        });
+    }
+
+    function cancelInvitation(invitationId) {
+        if (confirm('آیا از لغو این دعوتنامه اطمینان دارید؟')) {
+            // TODO: Implement cancel invitation API
+            alert('این قابلیت به زودی اضافه خواهد شد');
+        }
+    }
+</script>
+{% endblock %}

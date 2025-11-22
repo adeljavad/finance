@@ -1,0 +1,150 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}شرکت‌های من - سیستم مالی هوشمند{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="fw-bold text-dark">
+        <i class="bi bi-building me-2"></i>
+        شرکت‌های من
+    </h3>
+    
+    <a href="{% url 'users:create_company' %}" class="btn btn-primary">
+        <i class="bi bi-plus-circle me-1"></i>
+        شرکت جدید
+    </a>
+</div>
+
+<div class="row g-4">
+    {% for user_role in user_companies %}
+    <div class="col-xl-4 col-lg-6">
+        <div class="card company-card h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div class="d-flex align-items-center">
+                        {% if user_role.company.logo %}
+                        <img src="{{ user_role.company.logo.url }}" 
+                             alt="{{ user_role.company.name }}" 
+                             class="rounded-circle me-3" 
+                             width="50" height="50">
+                        {% else %}
+                        <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center me-3" 
+                             style="width: 50px; height: 50px;">
+                            <i class="bi bi-building text-white"></i>
+                        </div>
+                        {% endif %}
+                        
+                        <div>
+                            <h5 class="card-title mb-0 fw-bold">{{ user_role.company.name }}</h5>
+                            <small class="text-muted">
+                                {{ user_role.company.get_company_type_display }}
+                            </small>
+                        </div>
+                    </div>
+                    
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" 
+                                type="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-three-dots"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item" 
+                                   href="{% url 'users:company_detail' user_role.company.id %}">
+                                    <i class="bi bi-eye me-2"></i>مشاهده
+                                </a>
+                            </li>
+                            {% if user_role.role in 'OWNER,ADMIN' %}
+                            <li>
+                                <a class="dropdown-item" 
+                                   href="{% url 'users:update_company' user_role.company.id %}">
+                                    <i class="bi bi-pencil me-2"></i>ویرایش
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" 
+                                   href="{% url 'users:manage_company_members' user_role.company.id %}">
+                                    <i class="bi bi-people me-2"></i>مدیریت اعضا
+                                </a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="company-info small text-muted mb-3">
+                    <div class="mb-1">
+                        <i class="bi bi-card-text me-1"></i>
+                        کد اقتصادی: {{ user_role.company.economic_code }}
+                    </div>
+                    <div class="mb-1">
+                        <i class="bi bi-calendar me-1"></i>
+                        سال مالی: {{ user_role.company.current_fiscal_year }}
+                    </div>
+                    {% if user_role.company.address %}
+                    <div class="mb-1">
+                        <i class="bi bi-geo-alt me-1"></i>
+                        {{ user_role.company.address|truncatewords:8 }}
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="role-badge role-{{ user_role.role|lower }}">
+                        {{ user_role.get_role_display }}
+                        {% if user_role.is_primary %}
+                        <i class="bi bi-star-fill ms-1"></i>
+                        {% endif %}
+                    </span>
+                    
+                    <div class="btn-group btn-group-sm">
+                        {% if request.session.current_company_id != user_role.company.id %}
+                        <a href="{% url 'users:set_current_company' user_role.company.id %}" 
+                           class="btn btn-outline-primary">
+                            انتخاب
+                        </a>
+                        {% else %}
+                        <span class="btn btn-success disabled">
+                            فعال
+                        </span>
+                        {% endif %}
+                        
+                        <a href="{% url 'users:company_detail' user_role.company.id %}" 
+                           class="btn btn-outline-secondary">
+                            جزئیات
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-footer bg-transparent border-top-0">
+                <div class="d-flex justify-content-between text-muted small">
+                    <span>
+                        <i class="bi bi-people me-1"></i>
+                        {{ user_role.company.get_active_members_count }} عضو
+                    </span>
+                    <span>
+                        ایجاد شده در {{ user_role.company.created_at|date:"Y/m/d" }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="text-center py-5">
+            <div class="mb-4">
+                <i class="bi bi-building text-muted" style="font-size: 4rem;"></i>
+            </div>
+            <h4 class="text-muted mb-3">شرکتی پیدا نشد</h4>
+            <p class="text-muted mb-4">شما به هیچ شرکتی دسترسی ندارید.</p>
+            <a href="{% url 'users:create_company' %}" class="btn btn-primary btn-lg">
+                <i class="bi bi-plus-circle me-2"></i>
+                ایجاد اولین شرکت
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

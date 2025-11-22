@@ -1,0 +1,72 @@
+<nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container-fluid">
+        <!-- لوگو و برند -->
+        <a class="navbar-brand fw-bold text-primary" href="{% url 'home' %}">
+            <i class="bi bi-graph-up"></i>
+            سیستم مالی هوشمند
+        </a>
+        
+        <!-- دکمه همبرگر برای موبایل -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <!-- منوی سمت راست -->
+            <ul class="navbar-nav ms-auto">  <!-- تغییر از me-auto به ms-auto -->
+                {% if user.is_authenticated %}
+                    {% if request.session.current_company_id %}
+                    <li class="nav-item">
+                        <span class="nav-link text-dark">
+                            <i class="bi bi-building"></i>
+                            {{ request.session.current_company_name }}
+                        </span>
+                    </li>
+                    {% endif %}
+                {% endif %}
+            </ul>
+            
+            <!-- منوی سمت چپ -->
+            <ul class="navbar-nav">
+                {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-person-circle"></i>
+                        {{ user.get_full_name|default:user.username }}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-start">  <!-- تغییر به dropdown-menu-start -->
+                        <li><a class="dropdown-item" href="{% url 'users:dashboard' %}">
+                            <i class="bi bi-speedometer2"></i> داشبورد
+                        </a></li>
+                        <li><a class="dropdown-item" href="{% url 'users:company_list' %}">
+                            <i class="bi bi-building"></i> شرکت‌های من
+                        </a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url 'account_logout' %}">
+                            <i class="bi bi-box-arrow-left"></i> خروج
+                        </a></li>
+                    </ul>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="{% url 'account_login' %}">
+                        <i class="bi bi-box-arrow-in-left"></i> ورود
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="{% url 'account_signup' %}">
+                        <i class="bi bi-person-plus"></i> ثبت‌نام
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <!-- دکمه نمایش سایدبار در موبایل -->
+{% if user.is_authenticated and request.session.current_company_id %}
+<button class="btn btn-primary d-md-none sidebar-toggle" type="button" 
+        onclick="toggleSidebar()" style="margin-left: 10px;">
+    <i class="bi bi-list"></i>
+</button>
+{% endif %}
+</nav>

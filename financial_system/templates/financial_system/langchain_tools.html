@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ابزارهای هوشمند مالی - سیستم مالی هوشمند</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        .tool-card {
+            transition: transform 0.2s ease-in-out;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .tool-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .tool-category {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+        .tool-description {
+            color: #6c757d;
+            line-height: 1.6;
+        }
+        .execute-btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            border: none;
+            border-radius: 25px;
+            padding: 0.5rem 1.5rem;
+            font-weight: 600;
+        }
+        .execute-btn:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #218838 0%, #1e9e8a 100%);
+        }
+        .search-box {
+            border-radius: 25px;
+            border: 2px solid #e9ecef;
+            padding: 0.75rem 1.5rem;
+        }
+        .search-box:focus {
+            border-color: #28a745;
+            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+        }
+        .category-filter {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+        .stats-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    {% extends 'financial_system/base.html' %}
+    
+    {% block content %}
+    <div class="container-fluid py-4">
+        <!-- هدر صفحه -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="h3 mb-1">
+                            <i class="bi bi-robot text-success me-2"></i>
+                            ابزارهای هوشمند مالی
+                        </h1>
+                        <p class="text-muted mb-0">دسترسی به ابزارهای پیشرفته تحلیل مالی مبتنی بر هوش مصنوعی</p>
+                    </div>
+                    <div class="stats-card">
+                        <div class="text-center">
+                            <h2 class="h1 mb-1">{{ tools_count }}</h2>
+                            <p class="mb-0">ابزار فعال</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if messages %}
+        <div class="row mb-4">
+            <div class="col-12">
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    <i class="bi bi-{% if message.tags == 'success' %}check-circle{% else %}exclamation-triangle{% endif %} me-2"></i>
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- فیلترها و جستجو -->
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <div class="category-filter">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control search-box" placeholder="🔍 جستجو در ابزارها..." id="searchInput">
+                        </div>
+                        <div class="col-md-6">
+                            <select class="form-select search-box" id="categoryFilter">
+                                <option value="all">همه دسته‌بندی‌ها</option>
+                                <option value="analysis">تحلیل مالی</option>
+                                <option value="audit">حسابرسی</option>
+                                <option value="reporting">گزارش‌گیری</option>
+                                <option value="prediction">پیش‌بینی</option>
+                                <option value="optimization">بهینه‌سازی</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="d-grid">
+                    <a href="{% url 'financial_system:dashboard' %}" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-right me-2"></i>
+                        بازگشت به داشبورد
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- لیست ابزارها -->
+        <div class="row" id="toolsContainer">
+            {% if tools %}
+                {% for tool in tools %}
+                <div class="col-lg-4 col-md-6 tool-item" data-category="analysis">
+                    <div class="card tool-card h-100">
+                        <div class="card-body">
+                            <div class="text-center mb-3">
+                                <div class="tool-icon text-success">
+                                    <i class="bi bi-graph-up-arrow"></i>
+                                </div>
+                                <span class="tool-category">تحلیل مالی</span>
+                            </div>
+                            
+                            <h5 class="card-title text-center mb-3">
+                                {{ tool.name|default:"ابزار مالی" }}
+                            </h5>
+                            
+                            <p class="tool-description text-center mb-4">
+                                {{ tool.description|default:"ابزار تحلیل مالی پیشرفته" }}
+                            </p>
+                            
+                            <div class="d-grid">
+                                <a href="{% url 'financial_system:execute_tool' tool_name=tool.name %}" 
+                                   class="btn execute-btn text-white">
+                                    <i class="bi bi-play-circle me-2"></i>
+                                    اجرای ابزار
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12">
+                    <div class="text-center py-5">
+                        <i class="bi bi-tools display-1 text-muted mb-3"></i>
+                        <h3 class="text-muted">هیچ ابزاری یافت نشد</h3>
+                        <p class="text-muted">در حال حاضر هیچ ابزار هوشمندی برای نمایش وجود ندارد.</p>
+                        <a href="{% url 'financial_system:dashboard' %}" class="btn btn-primary mt-3">
+                            <i class="bi bi-arrow-right me-2"></i>
+                            بازگشت به داشبورد
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- راهنمایی -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-info-circle display-6 me-3"></i>
+                        <div>
+                            <h5 class="alert-heading mb-2">راهنمای استفاده از ابزارهای هوشمند</h5>
+                            <p class="mb-2">• برای اجرای هر ابزار، روی دکمه "اجرای ابزار" کلیک کنید</p>
+                            <p class="mb-2">• نتایج تحلیل بلافاصله پس از اجرا نمایش داده می‌شود</p>
+                            <p class="mb-0">• از جستجو و فیلتر برای یافتن سریع ابزار مورد نظر استفاده کنید</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // فیلتر و جستجوی ابزارها
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const categoryFilter = document.getElementById('categoryFilter');
+            const toolItems = document.querySelectorAll('.tool-item');
+            
+            function filterTools() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const selectedCategory = categoryFilter.value;
+                
+                toolItems.forEach(item => {
+                    const toolName = item.querySelector('.card-title').textContent.toLowerCase();
+                    const toolDescription = item.querySelector('.tool-description').textContent.toLowerCase();
+                    const toolCategory = item.getAttribute('data-category');
+                    
+                    const matchesSearch = toolName.includes(searchTerm) || toolDescription.includes(searchTerm);
+                    const matchesCategory = selectedCategory === 'all' || toolCategory === selectedCategory;
+                    
+                    if (matchesSearch && matchesCategory) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+            
+            searchInput.addEventListener('input', filterTools);
+            categoryFilter.addEventListener('change', filterTools);
+            
+            // نمایش انیمیشن برای ابزارها
+            toolItems.forEach((item, index) => {
+                item.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+    </script>
+    {% endblock %}
+</body>
+</html>

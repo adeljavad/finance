@@ -1,0 +1,233 @@
+/* فونت آیکون‌ها */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+
+/* متغیرهای رنگ برای تم‌ها */
+:root {
+    /* تم روشن */
+    --background: #ffffff;
+    --surface: #f8f9fa;
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --border: #e5e7eb;
+    --sidebar-bg: #f1f5f9; /* رنگ روشن برای سایدبار */
+    --sidebar-text: #1e293b;
+    --user-msg-bg: #3b82f6; /* آبی به جای سبز */
+    --bot-msg-bg: #e2e8f0;
+    --primary: #4f46e5;
+    --button-bg: #2563eb;
+  }
+
+[data-theme="dark"] {
+  --background: #0f172a;
+  --surface: #1e293b;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --border: #334155;
+  --sidebar-bg: #0f172a;
+  --sidebar-text: #f8fafc;
+  
+  --bot-msg-bg: #334155;
+  --user-msg-bg: #1d4ed8; /* آبی تیره */
+  --primary: #6366f1;
+  --button-bg: #10b981;
+}
+
+/* استایل‌های پایه */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 200px;
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--border);
+  color: var(--sidebar-text);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar button {
+  width: 100%;
+  padding: 10px;
+  background-color: var(--surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.sidebar button:hover {
+  background-color: var(--primary);
+  color: white;
+}
+
+/* بخش اصلی چت */
+.chat-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: 800px;
+  margin: 20px auto;
+  background: var(--surface);
+  border-radius: 15px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.chat-box {
+  height: 500px;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* پیام کاربر */
+
+.chatbot-user-message {
+  align-self: flex-end;
+  max-width: 70%;
+  padding: 12px 40px 12px 20px;
+  background-color: var(--user-msg-bg);
+  background: var(--user-msg-bg);
+  color: white;
+  color: white;
+  border-radius: 15px 15px 0 15px;
+  position: relative;
+  margin-left: 30%;
+  margin-right: 15px;
+  animation: slide-in-right 0.3s ease;
+}
+
+.chatbot-user-message::before {
+  /* content: '👤'; */
+  position: absolute;
+  right: -20px;
+  bottom: 0;
+  font-size: 24px;
+}
+
+/* پیام بات */
+.chatbot-bot-response {
+  align-self: flex-start;
+  max-width: 70%;
+  padding: 12px 20px;
+  background: var(--bot-msg-bg);
+  color: var(--text-primary);
+  border-radius: 15px 15px 15px 0;
+  position: relative;
+  margin-right: 25%;
+  margin-left: 15px;
+  animation: slide-in-left 0.3s ease;
+}
+
+.chatbot-bot-response::before {
+  /* content: '🤖'; */
+  position: absolute;
+  left: -20px;
+  bottom: 0;
+  font-size: 24px;
+}
+
+/* دکمه کپی */
+.copy-btn {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  padding: 4px;
+  transition: all 0.3s;
+}
+
+.copy-btn:hover {
+  color: #fff;
+  transform: scale(1.1);
+}
+
+/* فرم ارسال پیام */
+#chat-form {
+  display: flex;
+  gap: 10px;
+  padding: 20px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+
+#message {
+  flex: 1;
+  padding: 12px;
+  background: var(--background);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  resize: none;
+  height: 50px;
+}
+
+button[type="submit"] {
+  padding: 12px 25px;
+  background: var(--button-bg);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button[type="submit"]:hover {
+  filter: brightness(1.1);
+}
+
+/* انیمیشن‌ها */
+@keyframes slide-in-right {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slide-in-left {
+  from { transform: translateX(-100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* اسپینر */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+  border-top-color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+/* دکمه تغییر تم */
+.theme-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  z-index: 1000;
+}

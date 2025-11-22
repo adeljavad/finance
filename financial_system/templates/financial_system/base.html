@@ -1,0 +1,206 @@
+<!-- financial_system/templates/financial_system/base.html -->
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}سیستم مالی هوشمند{% endblock %}</title>
+    
+    <!-- فونت‌های فارسی -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+        }
+        
+        body {
+            font-family: 'Vazirmatn', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            line-height: 1.6;
+        }
+        
+        .sidebar {
+            background: linear-gradient(135deg, var(--primary-color), #34495e);
+            color: white;
+            min-height: 100vh;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar .nav-link {
+            color: #ecf0f1;
+            padding: 12px 20px;
+            margin: 4px 0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar .nav-link:hover {
+            background-color: rgba(255,255,255,0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .sidebar .nav-link.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .main-content {
+            padding: 20px;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            margin-bottom: 20px;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .analysis-card {
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .tool-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tool-card:hover {
+            background-color: #f8f9fa;
+            border-color: var(--secondary-color);
+        }
+        
+        .analysis-result {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <div class="text-center mb-4">
+                        <h4>💰 سیستم مالی</h4>
+                        <small class="text-light">هوشمند و یکپارچه</small>
+                    </div>
+                    
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" 
+                               href="{% url 'financial_system:dashboard' %}">
+                                <i class="bi bi-speedometer2 me-2"></i>
+                                داشبورد
+                            </a>
+                        </li>
+                        <!-- در فایل base.html، به منو اضافه کنید -->
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'financial_chatbot' %}active{% endif %}" 
+                href="{% url 'financial_system:financial_chatbot' %}">
+                    <i class="bi bi-chat-dots me-2"></i>
+                    دستیار هوشمند
+                </a>
+            </li>
+            
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'reports' %}active{% endif %}" 
+                               href="{% url 'financial_system:reports' %}">
+                                <i class="bi bi-graph-up me-2"></i>
+                                گزارش‌ها
+                            </a>
+                        </li>
+                        
+                        <!-- Advanced Chat menu item commented out due to missing URL pattern -->
+                        <!--
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'advanced_chat' %}active{% endif %}" 
+                               {% comment %} href="{% url 'financial_system:advanced_chat' %}"> {% endcomment %}
+                                <i class="bi bi-robot me-2"></i>
+                                چت پیشرفته
+                            </a>
+                        </li>
+                        -->
+                        
+                        <hr class="text-light">
+                        
+                        <li class="nav-item">
+                            <small class="text-light px-3">گزارش‌های مالی</small>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'financial_system:trial_balance' %}">
+                                <i class="bi bi-file-earmark-spreadsheet me-2"></i>
+                                تراز آزمایشی
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 main-content">
+                <!-- Messages -->
+                {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <!-- Page content -->
+                {% block content %}
+                {% endblock %}
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script>
+        // فعال کردن tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
+    </script>
+    
+    {% block extra_scripts %}
+    {% endblock %}
+</body>
+</html>

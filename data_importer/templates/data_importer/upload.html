@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آپلود فایل اکسل - سیستم حسابداری هوشمند</title>
+    <!-- فونت‌های فارسی -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+
+        body {
+            font-family: 'Vazirmatn', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 10px;
+            direction: rtl;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .header h1 {
+            color: #333;
+            margin: 0;
+        }
+        .header p {
+            color: #666;
+            margin: 10px 0 0 0;
+        }
+        .upload-area {
+            border: 2px dashed #007bff;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 15px;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+        .upload-area:hover {
+            background-color: #e9ecef;
+            border-color: #0056b3;
+        }
+        .upload-area i {
+            font-size: 48px;
+            color: #007bff;
+            margin-bottom: 15px;
+        }
+        .file-input {
+            display: none;
+        }
+        .file-label {
+            display: inline-block;
+            background: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .file-label:hover {
+            background: #0056b3;
+        }
+        .selected-file {
+            margin-top: 15px;
+            padding: 10px;
+            background: #e7f3ff;
+            border-radius: 5px;
+            border-right: 4px solid #007bff;
+        }
+        .submit-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .submit-btn:hover {
+            background: #218838;
+        }
+        .submit-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+        .requirements {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+        .requirements h3 {
+            margin-top: 0;
+            color: #856404;
+        }
+        .requirements ul {
+            margin: 10px 0;
+            padding-right: 20px;
+        }
+        .requirements li {
+            margin-bottom: 5px;
+        }
+        .messages {
+            margin-bottom: 15px;
+        }
+        .alert {
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        .navigation {
+            margin-top: 15px;
+            text-align: center;
+        }
+        .nav-link {
+            display: inline-block;
+            margin: 0 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .nav-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 آپلود فایل اکسل اسناد مالی</h1>
+            <p>فایل اکسل اسناد حسابداری خود را برای تحلیل و وارد کردن آپلود کنید</p>
+        </div>
+
+        <!-- نمایش پیام‌ها -->
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="requirements">
+            <h3>📋 الزامات فایل</h3>
+            <ul>
+                <li>فقط فایل‌های با پسوند .xlsx یا .xls قابل قبول هستند</li>
+                <li>حداکثر حجم فایل: 50 مگابایت</li>
+                <li>فایل باید شامل ستون‌های ضروری مانند "بدهکار" و "بستانکار" باشد</li>
+                <li>سیستم از نرم‌افزارهای همکاران سیستم، راهکاران و سپیدار پشتیبانی می‌کند</li>
+            </ul>
+        </div>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="upload-area">
+                <i>📁</i>
+                <h3>فایل اکسل خود را اینجا رها کنید یا کلیک کنید</h3>
+                <p>فایل‌های اکسل اسناد حسابداری را آپلود کنید</p>
+                
+                <input type="file" name="excel_file" id="excel_file" class="file-input" accept=".xlsx,.xls" required>
+                <label for="excel_file" class="file-label">انتخاب فایل</label>
+                
+                <div id="selected-file" class="selected-file" style="display: none;">
+                    <strong>فایل انتخاب شده:</strong>
+                    <span id="file-name"></span>
+                    <span id="file-size"></span>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submit-btn" disabled>
+                آپلود و تحلیل فایل
+            </button>
+        </form>
+
+        <div class="navigation">
+            <a href="{% url 'data_importer:dashboard' %}" class="nav-link">🏠 بازگشت به داشبورد</a>
+            <a href="{% url 'data_importer:file_list' %}" class="nav-link">📋 مشاهده فایل‌های آپلود شده</a>
+            <a href="/financial/chat/" class="nav-link">🤖 چت بات</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('excel_file').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const selectedFileDiv = document.getElementById('selected-file');
+            const fileNameSpan = document.getElementById('file-name');
+            const fileSizeSpan = document.getElementById('file-size');
+            const submitBtn = document.getElementById('submit-btn');
+            
+            if (file) {
+                // نمایش اطلاعات فایل
+                fileNameSpan.textContent = file.name;
+                
+                // محاسبه و نمایش حجم فایل
+                const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+                fileSizeSpan.textContent = ` (${fileSizeMB} MB)`;
+                
+                // نمایش بخش اطلاعات فایل
+                selectedFileDiv.style.display = 'block';
+                
+                // فعال کردن دکمه ارسال
+                submitBtn.disabled = false;
+            } else {
+                // مخفی کردن اطلاعات فایل
+                selectedFileDiv.style.display = 'none';
+                
+                // غیرفعال کردن دکمه ارسال
+                submitBtn.disabled = true;
+            }
+        });
+
+        // Drag and Drop functionality
+        const uploadArea = document.querySelector('.upload-area');
+        
+        uploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            uploadArea.style.backgroundColor = '#e9ecef';
+            uploadArea.style.borderColor = '#0056b3';
+        });
+        
+        uploadArea.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            uploadArea.style.backgroundColor = '#f8f9fa';
+            uploadArea.style.borderColor = '#007bff';
+        });
+        
+        uploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            uploadArea.style.backgroundColor = '#f8f9fa';
+            uploadArea.style.borderColor = '#007bff';
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                const fileInput = document.getElementById('excel_file');
+                fileInput.files = files;
+                
+                // Trigger change event
+                const event = new Event('change');
+                fileInput.dispatchEvent(event);
+            }
+        });
+
+        // کلیک روی ناحیه آپلود - فقط روی قسمت‌های خالی کلیک کند
+        let isClicking = false;
+        uploadArea.addEventListener('click', function(e) {
+            // جلوگیری از کلیک روی دکمه انتخاب فایل و جلوگیری از کلیک‌های متوالی
+            if (!e.target.closest('.file-label') && !isClicking) {
+                isClicking = true;
+                document.getElementById('excel_file').click();
+                
+                // بازنشانی فلگ پس از مدت کوتاه
+                setTimeout(() => {
+                    isClicking = false;
+                }, 300);
+            }
+        });
+    </script>
+</body>
+</html>

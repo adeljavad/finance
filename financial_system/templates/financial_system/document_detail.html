@@ -1,0 +1,243 @@
+{% extends 'financial_system/base.html' %}
+
+{% block title %}جزئیات سند مالی - {{ document.document_number|default:"بدون شماره" }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">
+        <i class="bi bi-file-earmark-text text-primary"></i>
+        جزئیات سند مالی
+    </h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="{% url 'financial_system:document_list' %}" class="btn btn-outline-secondary me-2">
+            <i class="bi bi-arrow-right"></i>
+            بازگشت به لیست
+        </a>
+        {% if company and period %}
+        <div class="btn-group me-2">
+            <span class="btn btn-outline-secondary">
+                <i class="bi bi-building"></i>
+                {{ company.name }}
+            </span>
+            <span class="btn btn-outline-primary">
+                <i class="bi bi-calendar"></i>
+                {{ period.name }}
+            </span>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-4">
+        <!-- اطلاعات سند -->
+        <div class="card">
+            <div class="card-header bg-white">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-info-circle"></i>
+                    اطلاعات سند
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <strong>شماره سند:</strong>
+                    <span class="float-end">{{ document.document_number|default:"-" }}</span>
+                </div>
+                <div class="mb-3">
+                    <strong>تاریخ سند:</strong>
+                    <span class="float-end">{{ document.document_date|date:"Y/m/d" }}</span>
+                </div>
+                <div class="mb-3">
+                    <strong>شرح سند:</strong>
+                    <p class="mt-2">{{ document.description|default:"بدون شرح" }}</p>
+                </div>
+                <div class="mb-3">
+                    <strong>تعداد اقلام:</strong>
+                    <span class="float-end badge bg-primary">
+                        {{ document.items.count|default:0 }} قلم
+                    </span>
+                </div>
+                <div class="mb-3">
+                    <strong>جمع بدهکار:</strong>
+                    <span class="float-end text-success">
+                        {{ document.total_debit|default:0|floatformat:0 }} ریال
+                    </span>
+                </div>
+                <div class="mb-3">
+                    <strong>جمع بستانکار:</strong>
+                    <span class="float-end text-danger">
+                        {{ document.total_credit|default:0|floatformat:0 }} ریال
+                    </span>
+                </div>
+                <div class="mb-3">
+                    <strong>مانده:</strong>
+                    <span class="float-end {% if document.balance >= 0 %}text-success{% else %}text-danger{% endif %}">
+                        {{ document.balance|default:0|floatformat:0 }} ریال
+                    </span>
+                </div>
+                <div class="mb-3">
+                    <strong>وضعیت:</strong>
+                    <span class="float-end badge bg-success">تأیید شده</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- عملیات -->
+        <div class="card mt-4">
+            <div class="card-header bg-white">
+                <h6 class="card-title mb-0">
+                    <i class="bi bi-gear"></i>
+                    عملیات
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <button class="btn btn-outline-primary">
+                        <i class="bi bi-printer"></i>
+                        چاپ سند
+                    </button>
+                    <button class="btn btn-outline-info">
+                        <i class="bi bi-download"></i>
+                        دانلود PDF
+                    </button>
+                    <button class="btn btn-outline-warning">
+                        <i class="bi bi-pencil"></i>
+                        ویرایش سند
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <!-- اقلام سند -->
+        <div class="card">
+            <div class="card-header bg-white">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-list-check"></i>
+                    اقلام سند
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if document.items.all %}
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>ردیف</th>
+                                <th>کد حساب</th>
+                                <th>شرح حساب</th>
+                                <th>شرح</th>
+                                <th class="text-end">بدهکار</th>
+                                <th class="text-end">بستانکار</th>
+                                <th>مرکز هزینه</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in document.items.all %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>
+                                    <span class="badge bg-secondary">
+                                        {{ item.account.code|default:"-" }}
+                                    </span>
+                                </td>
+                                <td>{{ item.account.name|default:"-" }}</td>
+                                <td>{{ item.description|default:"-"|truncatewords:5 }}</td>
+                                <td class="text-end text-success">
+                                    {% if item.debit %}
+                                    {{ item.debit|floatformat:0 }} ریال
+                                    {% else %}
+                                    -
+                                    {% endif %}
+                                </td>
+                                <td class="text-end text-danger">
+                                    {% if item.credit %}
+                                    {{ item.credit|floatformat:0 }} ریال
+                                    {% else %}
+                                    -
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <small class="text-muted">
+                                        {{ item.cost_center|default:"-" }}
+                                    </small>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr class="table-active">
+                                <td colspan="4" class="text-end"><strong>جمع کل:</strong></td>
+                                <td class="text-end text-success">
+                                    <strong>{{ document.total_debit|default:0|floatformat:0 }} ریال</strong>
+                                </td>
+                                <td class="text-end text-danger">
+                                    <strong>{{ document.total_credit|default:0|floatformat:0 }} ریال</strong>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr class="table-info">
+                                <td colspan="4" class="text-end"><strong>مانده:</strong></td>
+                                <td colspan="2" class="text-center">
+                                    <strong class="{% if document.balance >= 0 %}text-success{% else %}text-danger{% endif %}">
+                                        {{ document.balance|default:0|floatformat:0 }} ریال
+                                    </strong>
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-5">
+                    <i class="bi bi-file-earmark-x display-1 text-muted"></i>
+                    <h4 class="text-muted mt-3">هیچ موردی یافت نشد</h4>
+                    <p class="text-muted">این سند فاقد اقلام مالی است.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- تحلیل سند -->
+        <div class="card mt-4">
+            <div class="card-header bg-white">
+                <h6 class="card-title mb-0">
+                    <i class="bi bi-graph-up"></i>
+                    تحلیل سند
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <div class="border rounded p-3">
+                            <i class="bi bi-arrow-up-circle text-success display-6"></i>
+                            <h5 class="mt-2">بدهکار</h5>
+                            <p class="h4 text-success">{{ document.total_debit|default:0|floatformat:0 }}</p>
+                            <small class="text-muted">ریال</small>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="border rounded p-3">
+                            <i class="bi bi-arrow-down-circle text-danger display-6"></i>
+                            <h5 class="mt-2">بستانکار</h5>
+                            <p class="h4 text-danger">{{ document.total_credit|default:0|floatformat:0 }}</p>
+                            <small class="text-muted">ریال</small>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="border rounded p-3">
+                            <i class="bi bi-scale text-info display-6"></i>
+                            <h5 class="mt-2">توازن</h5>
+                            <p class="h4 {% if document.balance == 0 %}text-success{% else %}text-warning{% endif %}">
+                                {% if document.balance == 0 %}متعادل{% else %}نامتعادل{% endif %}
+                            </p>
+                            <small class="text-muted">وضعیت</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

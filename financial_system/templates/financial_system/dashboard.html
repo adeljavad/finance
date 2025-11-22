@@ -1,0 +1,196 @@
+<!-- financial_system/templates/financial_system/dashboard.html -->
+{% extends 'financial_system/base.html' %}
+
+{% block title %}داشبورد سیستم مالی - {{ company.name }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">
+        <i class="bi bi-speedometer2 text-primary"></i>
+        داشبورد مالی
+    </h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <span class="btn btn-outline-secondary">
+                <i class="bi bi-building"></i>
+                {{ company.name }}
+            </span>
+            <span class="btn btn-outline-primary">
+                <i class="bi bi-calendar"></i>
+                {{ period.name }}
+            </span>
+        </div>
+    </div>
+</div>
+
+<!-- آمار سریع -->
+<div class="row">
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="stat-card">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <div class="text-white-50 small">تعداد اسناد</div>
+                    <div class="fs-4 fw-bold">{{ quick_stats.total_documents }}</div>
+                </div>
+                <i class="bi bi-file-text fs-1 opacity-50"></i>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="stat-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <div class="text-white-50 small">تعداد آرتیکل‌ها</div>
+                    <div class="fs-4 fw-bold">{{ quick_stats.total_transactions }}</div>
+                </div>
+                <i class="bi bi-list-check fs-1 opacity-50"></i>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="stat-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <div class="text-white-50 small">مجموع بدهکار</div>
+                    <div class="fs-6 fw-bold">{{ quick_stats.total_debit|floatformat:0 }} ریال</div>
+                </div>
+                <i class="bi bi-arrow-up-circle fs-1 opacity-50"></i>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="stat-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <div class="text-white-50 small">مجموع بستانکار</div>
+                    <div class="fs-6 fw-bold">{{ quick_stats.total_credit|floatformat:0 }} ریال</div>
+                </div>
+                <i class="bi bi-arrow-down-circle fs-1 opacity-50"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- تحلیل‌های سریع -->
+    <div class="col-lg-8">
+        <div class="card analysis-card">
+            <div class="card-header bg-white">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-lightning-charge text-warning"></i>
+                    تحلیل‌های سریع
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for tool in analysis_tools %}
+                    <div class="col-md-6 mb-3">
+                        <div class="card tool-card h-100" onclick="runQuickAnalysis('{{ tool.tool }}')">
+                            <div class="card-body text-center">
+                                <div class="fs-1">{{ tool.icon }}</div>
+                                <h6 class="card-title">{{ tool.name }}</h6>
+                                <small class="text-muted">کلیک برای اجرای تحلیل</small>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- اسناد اخیر -->
+        <div class="card mt-4">
+            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-clock-history text-primary"></i>
+                    اسناد اخیر
+                </h5>
+                <a href="{% url 'financial_system:document_list' %}" class="btn btn-sm btn-outline-primary">
+                    مشاهده همه
+                </a>
+            </div>
+            <div class="card-body">
+                {% if recent_documents %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>شماره سند</th>
+                                <th>تاریخ</th>
+                                <th>شرح</th>
+                                <th>تعداد آرتیکل</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for document in recent_documents %}
+                            <tr>
+                                <td>
+                                    <a href="{% url 'financial_system:document_detail' document.pk %}" class="text-decoration-none">
+                                        {{ document.document_id }}
+                                    </a>
+                                </td>
+                                <td>{{ document.document_date|date:"Y/m/d" }}</td>
+                                <td>{{ document.description|truncatewords:5 }}</td>
+                                <td>
+                                    <span class="badge bg-secondary">{{ document.items.count }}</span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center text-muted py-4">
+                    <i class="bi bi-inbox fs-1"></i>
+                    <p class="mt-2">هنوز سندی ثبت نشده است</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- ابزارهای هوشمند -->
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header bg-white">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-robot text-success"></i>
+                    دستیار هوشمند
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">از هوش مصنوعی برای تحلیل پیشرفته داده‌های مالی استفاده کنید:</p>
+                
+                <div class="d-grid gap-2">
+                    <a href="{% url 'financial_system:langchain_tools' %}" class="btn btn-success">
+                        <i class="bi bi-play-circle"></i>
+                        اجرای ابزارهای هوشمند
+                    </a>
+                    
+                    <a href="{% url 'financial_system:financial_analysis' 'balance_sheet' %}" class="btn btn-outline-primary">
+                        <i class="bi bi-graph-up"></i>
+                        کنترل ترازنامه
+                    </a>
+                    
+                    <a href="{% url 'financial_system:reports' %}" class="btn btn-outline-info">
+                        <i class="bi bi-file-earmark-text"></i>
+                        گزارش‌های مالی
+                    </a>
+                </div>
+                
+                <hr>
+                
+                <div class="alert alert-info">
+                    <small>
+                        <i class="bi bi-info-circle"></i>
+                        <strong>راهنمایی:</strong> برای تحلیل دقیق‌تر، از بخش "ابزارهای هوشمند" استفاده کنید.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

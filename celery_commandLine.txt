@@ -1,0 +1,4 @@
+# توقف Worker و Beat (با Ctrl+C)
+# سپس اجرای مجدد:
+celery -A chatbot worker --loglevel=info --pool=solo
+celery -A chatbot beat --loglevel=info

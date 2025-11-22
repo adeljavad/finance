@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستندات - دستیار هوشمند مالی</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Persian Font -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+</head>
+<body class="min-vh-100">
+    <!-- Header -->
+    {% include 'assistant/header.html' %}
+    
+    <!-- محتوای مستندات -->
+    <section class="docs-section py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="display-4 text-center mb-5">مستندات و راهنما</h2>
+                    
+                    <!-- معرفی کلی -->
+                    <div class="intro-card card border-0 shadow-sm mb-5">
+                        <div class="card-body p-4">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <h3 class="text-primary mb-3">راهنمای جامع استفاده از دستیار مالی هوشمند</h3>
+                                    <p class="lead text-muted">
+                                        این مستندات به شما کمک می‌کند تا از تمامی قابلیت‌های سامانه به بهترین شکل استفاده کنید.
+                                    </p>
+                                </div>
+                                <div class="col-md-4 text-center">
+                                    <div class="bg-primary rounded-3 p-4 text-white">
+                                        <i class="fas fa-book-open fa-3x mb-3"></i>
+                                        <h5>مستندات کاربری</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- بخش‌های مختلف مستندات -->
+                    <div class="row g-4">
+                        <!-- شروع سریع -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-header bg-success text-white">
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-rocket ml-2"></i>
+                                        شروع سریع
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="text-success">اولین استفاده از سامانه</h6>
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">✅ ثبت‌نام و ایجاد حساب کاربری</li>
+                                        <li class="mb-2">✅ آشنایی با محیط کاربری</li>
+                                        <li class="mb-2">✅ تنظیمات اولیه پروفایل</li>
+                                        <li class="mb-2">✅ اتصال به سیستم‌های مالی</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- آپلود داده‌ها -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-header bg-primary text-white">
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-cloud-upload-alt ml-2"></i>
+                                        مدیریت داده‌ها
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="text-primary">آپلود و مدیریت اسناد مالی</h6>
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">📊 فرمت‌های فایل قابل قبول</li>
+                                        <li class="mb-2">📊 ساختار استاندارد داده‌ها</li>
+                                        <li class="mb-2">📊 محدودیت‌های حجمی</li>
+                                        <li class="mb-2">📊 تأیید صحت داده‌ها</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- تحلیل‌های مالی -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-header bg-warning text-dark">
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-chart-line ml-2"></i>
+                                        تحلیل‌های مالی
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="text-warning">انواع گزارش‌های قابل تولید</h6>
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">📈 تحلیل ترازنامه و صورت‌های مالی</li>
+                                        <li class="mb-2">📈 گزارش‌های سود و زیان</li>
+                                        <li class="mb-2">📈 محاسبه نسبت‌های مالی</li>
+                                        <li class="mb-2">📈 پیش‌بینی روندهای مالی</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- امنیت و حریم خصوصی -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-shield-alt ml-2"></i>
+                                        امنیت داده‌ها
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="text-info">حفاظت از اطلاعات مالی</h6>
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">🔒 رمزنگاری پیشرفته داده‌ها</li>
+                                        <li class="mb-2">🔒 دسترسی‌های امن کاربران</li>
+                                        <li class="mb-2">🔒 پشتیبان‌گیری خودکار</li>
+                                        <li class="mb-2">🔒 انطباق با استانداردهای امنیتی</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- راهنمای گام به گام -->
+                    <div class="mt-5">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-header bg-purple text-white">
+                                <h4 class="mb-0">
+                                    <i class="fas fa-graduation-cap ml-2"></i>
+                                    آموزش گام به گام
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-4">
+                                    <div class="col-md-4">
+                                        <div class="text-center p-3">
+                                            <div class="bg-primary rounded-circle p-3 d-inline-block mb-3">
+                                                <i class="fas fa-upload fa-2x text-white"></i>
+                                            </div>
+                                            <h6>گام اول: آپلود داده‌ها</h6>
+                                            <p class="small text-muted">اسناد مالی خود را با فرمت استاندارد آپلود کنید</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="text-center p-3">
+                                            <div class="bg-success rounded-circle p-3 d-inline-block mb-3">
+                                                <i class="fas fa-cogs fa-2x text-white"></i>
+                                            </div>
+                                            <h6>گام دوم: تحلیل خودکار</h6>
+                                            <p class="small text-muted">سیستم به صورت هوشمند داده‌ها را تحلیل می‌کند</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="text-center p-3">
+                                            <div class="bg-warning rounded-circle p-3 d-inline-block mb-3">
+                                                <i class="fas fa-chart-bar fa-2x text-white"></i>
+                                            </div>
+                                            <h6>گام سوم: دریافت گزارش</h6>
+                                            <p class="small text-muted">گزارش‌های تحلیلی جامع دریافت کنید</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- سوالات متداول -->
+                    <div class="mt-5">
+                        <h3 class="text-center mb-4">سوالات متداول</h3>
+                        <div class="accordion" id="faqAccordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                        چه نوع فایل‌هایی قابل آپلود هستند؟
+                                    </button>
+                                </h2>
+                                <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        فایل‌های Excel و CSV با ساختار استاندارد حسابداری قابل قبول می‌باشند.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                        داده‌های مالی من چطور محافظت می‌شوند؟
+                                    </button>
+                                </h2>
+                                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        کلیه داده‌ها با الگوریتم‌های پیشرفته رمزنگاری شده و تنها برای تحلیل مورد استفاده قرار می‌گیرند.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                        آیا امکان یکپارچه سازی با نرم‌افزارهای موجود وجود دارد؟
+                                    </button>
+                                </h2>
+                                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        بله، از طریق APIهای امن می‌توانید با سیستم‌های موجود یکپارچه شوید.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- تماس پشتیبانی -->
+                    <div class="text-center mt-5 p-4 bg-primary text-white rounded-3">
+                        <h4>نیاز به راهنمایی بیشتر دارید؟</h4>
+                        <p class="mb-3">تیم پشتیبانی ما آماده پاسخگویی به سوالات شماست</p>
+                        <a href="/assistant/contact/" class="btn btn-light btn-lg">
+                            <i class="fas fa-headset ml-2"></i>
+                            تماس با پشتیبانی
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    {% include 'assistant/footer.html' %}
+
+    <!-- Bootstrap & JavaScript Files -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <style>
+        .bg-purple {
+            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%) !important;
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}"> <!-- اضافه کردن فایل CSS -->
+
+<h2>ورود به سیستم</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">ورود</button>
+</form>
+<p>حساب کاربری ندارید؟ <a href="{% url 'register' %}">ثبت نام کنید</a></p>
+{% endblock %}

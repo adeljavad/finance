@@ -1,0 +1,98 @@
+<!-- financial_system/templates/financial_system/analysis_result.html -->
+{% extends 'financial_system/base.html' %}
+
+{% block title %}{{ analysis_title }} - {{ company.name }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">
+        <i class="bi bi-graph-up text-primary"></i>
+        {{ analysis_title }}
+    </h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <span class="btn btn-outline-secondary">
+                <i class="bi bi-building"></i>
+                {{ company.name }}
+            </span>
+            <span class="btn btn-outline-primary">
+                <i class="bi bi-calendar"></i>
+                {{ period.name }}
+            </span>
+        </div>
+        <button class="btn btn-outline-success" onclick="window.print()">
+            <i class="bi bi-printer"></i>
+            چاپ گزارش
+        </button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-clipboard-data text-primary"></i>
+                    نتیجه تحلیل
+                </h5>
+                <small class="text-muted">
+                    اجرا شده در: {{ executed_at|date:"Y/m/d H:i" }}
+                </small>
+            </div>
+            <div class="card-body">
+                {% if result %}
+                <div class="analysis-result">
+                    {{ result }}
+                </div>
+                {% else %}
+                <div class="text-center text-muted py-4">
+                    <i class="bi bi-exclamation-triangle fs-1"></i>
+                    <p class="mt-2">نتیجه‌ای برای نمایش وجود ندارد</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-white">
+                <h6 class="card-title mb-0">
+                    <i class="bi bi-lightning-charge text-warning"></i>
+                    تحلیل‌های مرتبط
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 mb-2">
+                        <a href="{% url 'financial_system:financial_analysis' 'current_assets' %}" 
+                           class="btn btn-outline-primary w-100">
+                            دارایی‌های جاری
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{% url 'financial_system:financial_analysis' 'current_liabilities' %}" 
+                           class="btn btn-outline-primary w-100">
+                            بدهی‌های جاری
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{% url 'financial_system:financial_analysis' 'equity' %}" 
+                           class="btn btn-outline-primary w-100">
+                            حقوق صاحبان سهام
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{% url 'financial_system:langchain_tools' %}" 
+                           class="btn btn-success w-100">
+                            ابزارهای هوشمند
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

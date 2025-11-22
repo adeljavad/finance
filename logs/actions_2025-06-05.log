@@ -1,0 +1,201 @@
+2025-06-05 09:08:14,480 | INFO | N/A | N/A | SetActionValue_Request | Init | Received SetActionValue request
+2025-06-05 09:19:07,077 | INFO | N/A | N/A | SetActionValue_Request | Init | Received SetActionValue request
+2025-06-05 09:43:34,385 | INFO | N/A | N/A | SetActionValue_Request | Init | Received SetActionValue request
+2025-06-05 09:43:34,390 | INFO | 123e4567-e89b-12d3-a456-426614174000 | a5caee0c-93a1-45f4-88ae-916fb932f0bd | SetActionValue_Processing | Init | Start processing action value
+2025-06-05 09:43:34,425 | INFO | 123e4567-e89b-12d3-a456-426614174000 | a5caee0c-93a1-45f4-88ae-916fb932f0bd | SetActionValue_InvalidAction | Init | Action is not the latest record
+2025-06-05 09:57:13,939 | INFO | N/A | N/A | GenerateAction_Request | Init | Received GenerateAction request
+2025-06-05 09:57:13,940 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | None | Init | Start processing generate action
+2025-06-05 09:57:13,947 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GenerateAction_TryAdviser | Init | Trying to get adviser recommendation
+2025-06-05 09:57:14,202 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GenerateAction_TryNextAttribute | Init | Trying to get next attribute
+2025-06-05 09:57:14,350 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GenerateAction_CheckCompletedAttributes | Init | Checking completed attributes
+2025-06-05 09:57:14,350 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GenerateAction_NoCompletedAttributes | Failed | No completed attributes found
+2025-06-05 10:17:04,099 | INFO | N/A | N/A | GenerateAction_Request | Init | Received GenerateAction request
+2025-06-05 10:17:04,100 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | None | Init | Start processing generate action
+2025-06-05 10:17:04,110 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GenerateAction_TryAdviser | Init | Trying to get adviser recommendation
+2025-06-05 10:17:04,123 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GetAttributes | Processing | Collecting attributes
+2025-06-05 10:17:04,141 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GetAdvisers | Processing | Collecting advisers
+2025-06-05 10:17:04,152 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | PreparePayload | Completed | Prepared API payload
+2025-06-05 10:17:04,153 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | Adviser_Request | Init | Calling Adviser API
+2025-06-05 10:17:04,502 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | Adviser_Response | Received | Received Adviser API response
+2025-06-05 10:17:04,528 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GenerateAction_TryNextAttribute | Init | Trying to get next attribute
+2025-06-05 10:17:04,547 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GetAttributes | Processing | Collecting attributes
+2025-06-05 10:17:04,596 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GetAdvisers | Processing | Collecting advisers
+2025-06-05 10:17:04,623 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | PreparePayload | Completed | Prepared API payload
+2025-06-05 10:17:04,625 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | NextAttribute_Request | Init | Calling NextAttribute API
+2025-06-05 10:17:04,751 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | NextAttribute_Response | Received | Received NextAttribute response
+2025-06-05 10:17:04,766 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | CheckCompletedAttributes | Checked | Checked for completed attributes
+2025-06-05 10:17:04,767 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GenerateAction_CheckCompletedAttributes | Init | Checking completed attributes
+2025-06-05 10:17:04,786 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GenerateAction_NoCompletedAttributes | Failed | No completed attributes found
+2025-06-05 10:20:58,577 | INFO | N/A | N/A | GenerateAction_Request | Init | Received GenerateAction request
+2025-06-05 10:20:58,580 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | None | Init | Start processing generate action
+2025-06-05 10:20:58,595 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GenerateAction_TryAdviser | Init | Trying to get adviser recommendation
+2025-06-05 10:20:58,605 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GetAttributes | Processing | Collecting attributes
+2025-06-05 10:20:58,641 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GetAdvisers | Processing | Collecting advisers
+2025-06-05 10:20:58,643 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | PreparePayload | Completed | Prepared API payload
+2025-06-05 10:20:58,644 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | Adviser_Request | Init | Calling Adviser API
+2025-06-05 10:20:58,897 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | Adviser_Response | Received | Received Adviser API response
+2025-06-05 10:20:58,907 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GenerateAction_TryNextAttribute | Init | Trying to get next attribute
+2025-06-05 10:20:58,922 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GetAttributes | Processing | Collecting attributes
+2025-06-05 10:20:58,929 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GetAdvisers | Processing | Collecting advisers
+2025-06-05 10:20:58,929 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | PreparePayload | Completed | Prepared API payload
+2025-06-05 10:20:58,929 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | NextAttribute_Request | Init | Calling NextAttribute API
+2025-06-05 10:20:59,081 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | NextAttribute_Response | Received | Received NextAttribute response
+2025-06-05 10:20:59,101 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | CheckCompletedAttributes | Checked | Checked for completed attributes
+2025-06-05 10:20:59,104 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GenerateAction_CheckCompletedAttributes | Init | Checking completed attributes
+2025-06-05 10:20:59,105 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GenerateAction_NoCompletedAttributes | Failed | No completed attributes found
+2025-06-05 10:34:33,180 | INFO | N/A | N/A | GenerateAction_Request | Init | Received GenerateAction request
+2025-06-05 10:34:33,181 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | None | Init | Start processing generate action
+2025-06-05 10:34:33,209 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GenerateAction_TryAdviser | Init | Trying to get adviser recommendation
+2025-06-05 10:34:33,215 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GetAttributes | Processing | Collecting attributes
+2025-06-05 10:34:33,220 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GetAdvisers | Processing | Collecting advisers
+2025-06-05 10:34:33,220 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | PreparePayload | Completed | Prepared API payload
+2025-06-05 10:34:33,221 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | Adviser_Request | Init | Calling Adviser API
+2025-06-05 10:34:33,507 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | Adviser_Response | Received | Received Adviser API response
+2025-06-05 10:34:33,513 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GenerateAction_TryNextAttribute | Init | Trying to get next attribute
+2025-06-05 10:34:33,522 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GetAttributes | Processing | Collecting attributes
+2025-06-05 10:34:33,533 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GetAdvisers | Processing | Collecting advisers
+2025-06-05 10:34:33,533 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | PreparePayload | Completed | Prepared API payload
+2025-06-05 10:34:33,534 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | NextAttribute_Request | Init | Calling NextAttribute API
+2025-06-05 10:34:33,661 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | NextAttribute_Response | Received | Received NextAttribute response
+2025-06-05 10:34:33,673 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | CheckCompletedAttributes | Checked | Checked for completed attributes
+2025-06-05 10:34:33,673 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GenerateAction_CheckCompletedAttributes | Init | Checking completed attributes
+2025-06-05 10:34:33,674 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GenerateAction_NoCompletedAttributes | Failed | No completed attributes found
+2025-06-05 10:39:24,780 | INFO | N/A | N/A | GenerateAction_Request | Init | Received GenerateAction request
+2025-06-05 10:39:24,782 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | None | Init | Start processing generate action
+2025-06-05 10:39:24,798 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GenerateAction_TryAdviser | Init | Trying to get adviser recommendation
+2025-06-05 10:39:24,824 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GetAttributes | Processing | Collecting attributes
+2025-06-05 10:39:24,831 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GetAdvisers | Processing | Collecting advisers
+2025-06-05 10:39:24,832 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | PreparePayload | Completed | Prepared API payload
+2025-06-05 10:39:24,832 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | Adviser_Request | Init | Calling Adviser API
+2025-06-05 10:39:25,045 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | Adviser_Response | Received | Received Adviser API response
+2025-06-05 10:39:25,060 | INFO | 123e4567-e89b-12d3-a456-426614174000 | bd2d1a50-c606-446e-a02b-59e1464183fd | Adv | Init | Saved new Adv action
+2025-06-05 10:39:25,061 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GenerateAction_AdviserSuccess | Pending | Adviser recommendation successful
+2025-06-05 10:39:25,072 | INFO | 123e4567-e89b-12d3-a456-426614174000 | daf9692b-5840-46ad-b583-2887a314efdd | Adv | Init | Saved new Adv action
+2025-06-05 10:51:29,850 | INFO | N/A | N/A | GenerateAction_Request | Init | Received GenerateAction request
+2025-06-05 10:51:29,852 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | None | Init | Start processing generate action
+2025-06-05 10:51:29,859 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GenerateAction_TryAdviser | Init | Trying to get adviser recommendation
+2025-06-05 10:51:29,882 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GetAttributes | Processing | Collecting attributes
+2025-06-05 10:51:29,893 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GetAdvisers | Processing | Collecting advisers
+2025-06-05 10:51:29,894 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | PreparePayload | Completed | Prepared API payload
+2025-06-05 10:51:29,894 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | Adviser_Request | Init | Calling Adviser API
+2025-06-05 10:51:30,273 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | Adviser_Response | Received | Received Adviser API response
+2025-06-05 10:51:30,282 | INFO | 123e4567-e89b-12d3-a456-426614174000 | c0d8c236-de54-433f-9d66-c3ce8f73baeb | Adv | Init | Saved new Adv action
+2025-06-05 10:51:30,283 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GenerateAction_AdviserSuccess | Pending | Adviser recommendation successful
+2025-06-05 10:51:30,292 | INFO | 123e4567-e89b-12d3-a456-426614174000 | 6d4800d8-4aef-407a-98e6-617bbe40ea76 | Adv | Init | Saved new Adv action
+2025-06-05 10:52:07,672 | INFO | N/A | N/A | GenerateAction_Request | Init | Received GenerateAction request
+2025-06-05 10:52:07,673 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | None | Init | Start processing generate action
+2025-06-05 10:52:07,684 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GenerateAction_TryAdviser | Init | Trying to get adviser recommendation
+2025-06-05 10:52:07,703 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GetAttributes | Processing | Collecting attributes
+2025-06-05 10:52:07,733 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GetAdvisers | Processing | Collecting advisers
+2025-06-05 10:52:07,733 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | PreparePayload | Completed | Prepared API payload
+2025-06-05 10:52:07,734 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | Adviser_Request | Init | Calling Adviser API
+2025-06-05 10:52:07,886 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | Adviser_Response | Received | Received Adviser API response
+2025-06-05 10:52:07,893 | INFO | 123e4567-e89b-12d3-a456-426614174000 | e1ea1686-be1c-4df0-8b17-1ce0c63c836a | Adv | Init | Saved new Adv action
+2025-06-05 10:52:07,894 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GenerateAction_AdviserSuccess | Pending | Adviser recommendation successful
+2025-06-05 10:52:07,910 | INFO | 123e4567-e89b-12d3-a456-426614174000 | d2ef3de8-d485-44e8-b48d-fed446130f56 | Adv | Init | Saved new Adv action
+2025-06-05 10:52:07,910 | INFO | N/A | d2ef3de8-d485-44e8-b48d-fed446130f56 | GenerateAction_Response | Completed | Sending response
+2025-06-05 11:41:12,069 | INFO | N/A | N/A | GenerateAction_Request | Init | Received GenerateAction request
+2025-06-05 11:41:12,070 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | None | Init | Start processing generate action
+2025-06-05 11:41:12,082 | INFO | 123e4567-e89b-12d3-a456-426614174000 | None | GenerateAction_RemoveNoVal | Deleted | Removed last NoVal record
+2025-06-05 11:41:12,082 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GenerateAction_TryAdviser | Init | Trying to get adviser recommendation
+2025-06-05 11:41:12,103 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GetAttributes | Processing | Collecting attributes
+2025-06-05 11:41:12,116 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GetAdvisers | Processing | Collecting advisers
+2025-06-05 11:41:12,125 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | PreparePayload | Completed | Prepared API payload
+2025-06-05 11:41:12,134 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | Adviser_Request | Init | Calling Adviser API
+2025-06-05 11:41:12,356 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | Adviser_Response | Received | Received Adviser API response
+2025-06-05 11:41:12,365 | INFO | 123e4567-e89b-12d3-a456-426614174000 | 9b22fda9-7474-4644-97ab-79b934d7c6a6 | Adv | Init | Saved new Adv action
+2025-06-05 11:41:12,366 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GenerateAction_AdviserSuccess | Pending | Adviser recommendation successful
+2025-06-05 11:41:12,378 | INFO | 123e4567-e89b-12d3-a456-426614174000 | 1409395f-be82-45f6-8ed9-7a669f8becb1 | Adv | Init | Saved new Adv action
+2025-06-05 11:41:12,379 | INFO | N/A | 1409395f-be82-45f6-8ed9-7a669f8becb1 | GenerateAction_Response | Completed | Sending response
+2025-06-05 11:50:28,264 | INFO | N/A | N/A | GenerateAction_Request | Init | Received GenerateAction request
+2025-06-05 11:50:28,265 | INFO | 123e4567-e89b-12d3-a456-426614174001 | N/A | None | Init | Start processing generate action
+2025-06-05 11:50:28,275 | INFO | 123e4567-e89b-12d3-a456-426614174001 | N/A | GenerateAction_TryAdviser | Init | Trying to get adviser recommendation
+2025-06-05 11:50:28,275 | INFO | 123e4567-e89b-12d3-a456-426614174001 | N/A | GenerateAction_TryNextAttribute | Init | Trying to get next attribute
+2025-06-05 11:50:28,283 | INFO | 123e4567-e89b-12d3-a456-426614174001 | N/A | GetAttributes | Processing | Collecting attributes
+2025-06-05 11:50:28,301 | INFO | 123e4567-e89b-12d3-a456-426614174001 | N/A | GetAdvisers | Processing | Collecting advisers
+2025-06-05 11:50:28,302 | INFO | 123e4567-e89b-12d3-a456-426614174001 | N/A | PreparePayload | Completed | Prepared API payload
+2025-06-05 11:50:28,302 | INFO | 123e4567-e89b-12d3-a456-426614174001 | N/A | NextAttribute_Request | Init | Calling NextAttribute API
+2025-06-05 11:50:28,582 | INFO | 123e4567-e89b-12d3-a456-426614174001 | N/A | CheckCompletedAttributes | Checked | Checked for completed attributes
+2025-06-05 11:50:28,582 | INFO | 123e4567-e89b-12d3-a456-426614174001 | N/A | GenerateAction_CheckCompletedAttributes | Init | Checking completed attributes
+2025-06-05 11:50:28,583 | INFO | 123e4567-e89b-12d3-a456-426614174001 | N/A | GenerateAction_NoCompletedAttributes | Failed | No completed attributes found
+2025-06-05 11:53:03,370 | INFO | N/A | N/A | GenerateAction_Request | Init | Received GenerateAction request
+2025-06-05 11:53:03,372 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | None | Init | Start processing generate action
+2025-06-05 11:53:03,432 | INFO | 123e4567-e89b-12d3-a456-426614174000 | None | GenerateAction_RemoveNoVal | Deleted | Removed last NoVal record
+2025-06-05 11:53:03,433 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GenerateAction_TryAdviser | Init | Trying to get adviser recommendation
+2025-06-05 11:53:03,440 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GenerateAction_TryNextAttribute | Init | Trying to get next attribute
+2025-06-05 11:53:03,453 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GetAttributes | Processing | Collecting attributes
+2025-06-05 11:53:03,470 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GetAdvisers | Processing | Collecting advisers
+2025-06-05 11:53:03,484 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | PreparePayload | Completed | Prepared API payload
+2025-06-05 11:53:03,490 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | NextAttribute_Request | Init | Calling NextAttribute API
+2025-06-05 11:53:03,737 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | NextAttribute_Response | Received | Received NextAttribute response
+2025-06-05 11:53:03,745 | INFO | 123e4567-e89b-12d3-a456-426614174000 | 412b0ff3-6c5e-43d6-bc33-22e69df33916 | Atr | Init | Saved new Atr action
+2025-06-05 11:53:03,746 | INFO | 123e4567-e89b-12d3-a456-426614174000 | N/A | GenerateAction_NextAttributeSuccess | Pending | Next attribute successful
+2025-06-05 11:53:03,757 | INFO | 123e4567-e89b-12d3-a456-426614174000 | ee7e6eed-5734-4925-9bf7-2c25c58f47c5 | Atr | Init | Saved new Atr action
+2025-06-05 11:53:03,758 | INFO | N/A | ee7e6eed-5734-4925-9bf7-2c25c58f47c5 | GenerateAction_Response | Completed | Sending response
+2025-06-05 12:24:48,799 | INFO | N/A | N/A | GenerateAction_Request | Init | Received GenerateAction request
+2025-06-05 12:24:48,800 | INFO | 123e4567-e89b-12d3-a456-426614174002 | N/A | None | Init | Start processing generate action
+2025-06-05 12:24:48,814 | INFO | 123e4567-e89b-12d3-a456-426614174002 | N/A | GenerateAction_TryAdviser | Init | Trying to get adviser recommendation
+2025-06-05 12:24:48,815 | INFO | 123e4567-e89b-12d3-a456-426614174002 | N/A | GenerateAction_TryNextAttribute | Init | Trying to get next attribute
+2025-06-05 12:24:48,843 | INFO | 123e4567-e89b-12d3-a456-426614174002 | N/A | GetAttributes | Processing | Collecting attributes
+2025-06-05 12:24:48,873 | INFO | 123e4567-e89b-12d3-a456-426614174002 | N/A | GetAdvisers | Processing | Collecting advisers
+2025-06-05 12:24:48,873 | INFO | 123e4567-e89b-12d3-a456-426614174002 | N/A | PreparePayload | Completed | Prepared API payload
+2025-06-05 12:24:48,873 | INFO | 123e4567-e89b-12d3-a456-426614174002 | N/A | NextAttribute_Request | Init | Calling NextAttribute API
+2025-06-05 12:24:49,236 | INFO | 123e4567-e89b-12d3-a456-426614174002 | N/A | NextAttribute_Response | Received | Received NextAttribute response
+2025-06-05 12:24:49,243 | INFO | 123e4567-e89b-12d3-a456-426614174002 | 7173a2c1-cddb-4af1-8ea2-4a14121fb270 | Atr | Init | Saved new Atr action
+2025-06-05 12:24:49,244 | INFO | 123e4567-e89b-12d3-a456-426614174002 | N/A | GenerateAction_NextAttributeSuccess | Pending | Next attribute successful
+2025-06-05 12:24:49,256 | INFO | 123e4567-e89b-12d3-a456-426614174002 | c9989f95-8056-4c78-bf33-eae698c44a73 | Atr | Init | Saved new Atr action
+2025-06-05 12:24:49,258 | INFO | N/A | c9989f95-8056-4c78-bf33-eae698c44a73 | GenerateAction_Response | Completed | Sending response
+2025-06-05 12:40:37,036 | INFO | N/A | N/A | GenerateAction_Request | Init | Received GenerateAction request
+2025-06-05 12:40:37,038 | INFO | 123e4567-e89b-12d3-a456-426614174004 | N/A | None | Init | Start processing generate action
+2025-06-05 12:40:37,048 | INFO | 123e4567-e89b-12d3-a456-426614174004 | N/A | GenerateAction_TryAdviser | Init | Trying to get adviser recommendation
+2025-06-05 12:40:37,048 | INFO | 123e4567-e89b-12d3-a456-426614174004 | N/A | GenerateAction_TryNextAttribute | Init | Trying to get next attribute
+2025-06-05 12:40:37,058 | INFO | 123e4567-e89b-12d3-a456-426614174004 | N/A | GetAttributes | Processing | Collecting attributes
+2025-06-05 12:40:37,068 | INFO | 123e4567-e89b-12d3-a456-426614174004 | N/A | GetAdvisers | Processing | Collecting advisers
+2025-06-05 12:40:37,069 | INFO | 123e4567-e89b-12d3-a456-426614174004 | N/A | PreparePayload | Completed | Prepared API payload
+2025-06-05 12:40:37,070 | INFO | 123e4567-e89b-12d3-a456-426614174004 | N/A | NextAttribute_Request | Init | Calling NextAttribute API
+2025-06-05 12:40:37,328 | INFO | 123e4567-e89b-12d3-a456-426614174004 | N/A | NextAttribute_Response | Received | Received NextAttribute response
+2025-06-05 12:40:37,390 | INFO | 123e4567-e89b-12d3-a456-426614174004 | 52f89d46-ff38-42f0-a362-c621870d03c9 | Atr | Init | Saved new Atr action
+2025-06-05 12:40:37,391 | INFO | 123e4567-e89b-12d3-a456-426614174004 | N/A | GenerateAction_NextAttributeSuccess | Pending | Next attribute successful
+2025-06-05 12:40:37,408 | INFO | 123e4567-e89b-12d3-a456-426614174004 | ea60b447-7eb9-4805-b757-7f58040033fe | Atr | Init | Saved new Atr action
+2025-06-05 12:40:37,408 | INFO | N/A | ea60b447-7eb9-4805-b757-7f58040033fe | GenerateAction_Response | Completed | Sending response
+2025-06-05 12:53:08,428 | INFO | N/A | N/A | GenerateAction_Request | Init | Received GenerateAction request
+2025-06-05 12:53:08,429 | INFO | 123e4567-e89b-12d3-a456-426614174006 | N/A | None | Init | Start processing generate action
+2025-06-05 12:53:08,436 | INFO | 123e4567-e89b-12d3-a456-426614174006 | N/A | GenerateAction_TryAdviser | Init | Trying to get adviser recommendation
+2025-06-05 12:53:08,471 | INFO | 123e4567-e89b-12d3-a456-426614174006 | N/A | GetAttributes | Processing | Collecting attributes
+2025-06-05 12:53:08,492 | INFO | 123e4567-e89b-12d3-a456-426614174006 | N/A | GetAdvisers | Processing | Collecting advisers
+2025-06-05 12:53:08,492 | INFO | 123e4567-e89b-12d3-a456-426614174006 | N/A | PreparePayload | Completed | Prepared API payload
+2025-06-05 12:53:08,493 | INFO | 123e4567-e89b-12d3-a456-426614174006 | N/A | Adviser_Request | Init | Calling Adviser API
+2025-06-05 12:53:08,755 | INFO | 123e4567-e89b-12d3-a456-426614174006 | N/A | Adviser_Response | Received | Received Adviser API response
+2025-06-05 12:53:08,763 | INFO | 123e4567-e89b-12d3-a456-426614174006 | 4a9eea10-c9a3-45a3-9764-c82b69deed99 | Adv | Init | Saved new Adv action
+2025-06-05 12:53:08,763 | INFO | 123e4567-e89b-12d3-a456-426614174006 | N/A | GenerateAction_AdviserSuccess | Pending | Adviser recommendation successful
+2025-06-05 12:53:08,773 | INFO | 123e4567-e89b-12d3-a456-426614174006 | 1ec70e6b-a6d0-478e-93be-38418108e3f4 | Adv | Init | Saved new Adv action
+2025-06-05 12:53:08,774 | INFO | N/A | 1ec70e6b-a6d0-478e-93be-38418108e3f4 | GenerateAction_Response | Completed | Sending response
+2025-06-05 18:25:32,903 | INFO | N/A | N/A | GenerateAction_Request | Init | Received GenerateAction request
+2025-06-05 18:25:32,904 | INFO | 123e4567-e89b-12d3-a456-426614174008 | N/A | None | Init | Start processing generate action
+2025-06-05 18:25:32,911 | INFO | 123e4567-e89b-12d3-a456-426614174008 | N/A | GenerateAction_TryAdviser | Init | Trying to get adviser recommendation
+2025-06-05 18:25:32,917 | INFO | 123e4567-e89b-12d3-a456-426614174008 | N/A | GetAttributes | Processing | Collecting attributes
+2025-06-05 18:25:32,933 | INFO | 123e4567-e89b-12d3-a456-426614174008 | N/A | GetAdvisers | Processing | Collecting advisers
+2025-06-05 18:25:32,933 | INFO | 123e4567-e89b-12d3-a456-426614174008 | N/A | PreparePayload | Completed | Prepared API payload
+2025-06-05 18:25:32,934 | INFO | 123e4567-e89b-12d3-a456-426614174008 | N/A | Adviser_Request | Init | Calling Adviser API
+2025-06-05 18:25:33,309 | INFO | 123e4567-e89b-12d3-a456-426614174008 | N/A | Adviser_Response | Received | Received Adviser API response
+2025-06-05 18:25:33,320 | INFO | 123e4567-e89b-12d3-a456-426614174008 | 937919bb-17ec-477c-bec0-5aa104ef8094 | Adv | Init | Saved new Adv action
+2025-06-05 18:25:33,321 | INFO | 123e4567-e89b-12d3-a456-426614174008 | N/A | GenerateAction_AdviserSuccess | Pending | Adviser recommendation successful
+2025-06-05 18:25:33,327 | INFO | 123e4567-e89b-12d3-a456-426614174008 | 259582c6-88fd-4565-b5d4-f57b825398c7 | Adv | Init | Saved new Adv action
+2025-06-05 18:25:33,330 | INFO | N/A | 259582c6-88fd-4565-b5d4-f57b825398c7 | GenerateAction_Response | Completed | Sending response
+2025-06-05 18:27:31,601 | INFO | N/A | N/A | GenerateAction_Request | Init | Received GenerateAction request
+2025-06-05 18:27:31,603 | INFO | 123e4567-e89b-12d3-a456-426614174004 | N/A | None | Init | Start processing generate action
+2025-06-05 18:27:31,612 | INFO | 123e4567-e89b-12d3-a456-426614174004 | None | GenerateAction_RemoveNoVal | Deleted | Removed last NoVal record
+2025-06-05 18:27:31,612 | INFO | 123e4567-e89b-12d3-a456-426614174004 | N/A | GenerateAction_TryAdviser | Init | Trying to get adviser recommendation
+2025-06-05 18:27:31,616 | INFO | 123e4567-e89b-12d3-a456-426614174004 | N/A | GetAttributes | Processing | Collecting attributes
+2025-06-05 18:27:31,633 | INFO | 123e4567-e89b-12d3-a456-426614174004 | N/A | GetAdvisers | Processing | Collecting advisers
+2025-06-05 18:27:31,633 | INFO | 123e4567-e89b-12d3-a456-426614174004 | N/A | PreparePayload | Completed | Prepared API payload
+2025-06-05 18:27:31,634 | INFO | 123e4567-e89b-12d3-a456-426614174004 | N/A | Adviser_Request | Init | Calling Adviser API
+2025-06-05 18:27:31,889 | INFO | 123e4567-e89b-12d3-a456-426614174004 | N/A | Adviser_Response | Received | Received Adviser API response
+2025-06-05 18:27:31,896 | INFO | 123e4567-e89b-12d3-a456-426614174004 | a87015f7-5e38-4858-81dc-dcbada18f9be | Adv | Init | Saved new Adv action
+2025-06-05 18:27:31,897 | INFO | 123e4567-e89b-12d3-a456-426614174004 | N/A | GenerateAction_AdviserSuccess | Pending | Adviser recommendation successful
+2025-06-05 18:27:31,904 | INFO | 123e4567-e89b-12d3-a456-426614174004 | e652dcbc-2424-4e4e-96c1-7b32dbf887a6 | Adv | Init | Saved new Adv action
+2025-06-05 18:27:31,913 | INFO | N/A | e652dcbc-2424-4e4e-96c1-7b32dbf887a6 | GenerateAction_Response | Completed | Sending response
+2025-06-05 18:28:50,696 | INFO | N/A | N/A | SetActionValue_Request | Init | Received SetActionValue request
+2025-06-05 18:29:24,242 | INFO | N/A | N/A | SetActionValue_Request | Init | Received SetActionValue request
+2025-06-05 18:29:24,243 | INFO | 123e4567-e89b-12d3-a456-426614174004 | ea60b447-7eb9-4805-b757-7f58040033fe | SetActionValue_Processing | Init | Start processing action value
+2025-06-05 18:29:24,248 | INFO | 123e4567-e89b-12d3-a456-426614174004 | ea60b447-7eb9-4805-b757-7f58040033fe | SetActionValue_InvalidAction | Init | Action is not the latest record

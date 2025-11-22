@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}سیستم مالی هوشمند{% endblock %}</title>
+    
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    
+    <style>
+        :root {
+        --primary-color: #2c3e50;
+        --secondary-color: #3498db;
+        --success-color: #27ae60;
+        --warning-color: #f39c12;
+        --danger-color: #e74c3c;
+        }
+        
+        body {
+            font-family: 'Vazirmatn', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            line-height: 1.6;
+            padding-top: 0; /* حذف padding-top */
+        }
+        
+        .sidebar {
+            background: var(--primary-color);
+            color: white;
+            min-height: 100vh;
+            position: fixed;
+            right: 0; /* تغییر از left به right برای RTL */
+            top: 0;
+            width: 280px;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1); /* سایه در سمت چپ */
+            z-index: 1000; /* اضافه کردن z-index */
+            overflow-y: auto; /* اسکرول اگر محتوا زیاد شد */
+        }
+        
+        .main-content {
+            margin-right: 280px; /* فاصله از راست */
+            padding: 20px;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1; /* z-index کمتر از سایدبار */
+        }
+        
+        /* اگر کاربر لاگین نکرده یا شرکت انتخاب نکرده */
+        .full-width-content {
+            margin-right: 0 !important;
+        }
+        
+        .navbar-custom {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            position: relative;
+            z-index: 1001; /* نویگیشن بالاتر از سایدبار */
+        }
+        .company-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border-right: 4px solid var(--secondary-color);
+        }
+        
+        .company-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .btn-primary-custom {
+            background: var(--secondary-color);
+            border: none;
+            border-radius: 8px;
+            padding: 10px 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary-custom:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border-right: 4px solid var(--success-color);
+        }
+        
+        .role-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .role-owner { background: #ffeaa7; color: #e17055; }
+        .role-admin { background: #a29bfe; color: white; }
+        .role-accountant { background: #74b9ff; color: white; }
+        .role-auditor { background: #55efc4; color: #00b894; }
+        .role-viewer { background: #dfe6e9; color: #636e72; }
+
+        /* استایل‌های ریسپانسیو */
+        @media (max-width: 767.98px) {
+            .sidebar {
+                position: fixed;
+                right: -280px; /* مخفی شدن در موبایل */
+                transition: right 0.3s ease;
+                z-index: 1050;
+            }
+            
+            .sidebar.show {
+                right: 0; /* نمایش در موبایل */
+            }
+            
+            .main-content {
+                margin-right: 0 !important;
+            }
+            
+            /* overlay برای وقتی سایدبار باز است */
+            .sidebar-overlay {
+                position: fixed;
+                top: 0;
+                right: 0;
+                left: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.5);
+                z-index: 1040;
+                display: none;
+            }
+            
+            .sidebar-overlay.show {
+                display: block;
+            }
+}
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    {% include 'base/navigation.html' %}
+    
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            {% if user.is_authenticated and request.session.current_company_id %}
+            <div class="sidebar col-md-3 col-lg-2 d-md-block">
+                {% include 'users/components/sidebar.html' %}
+            </div>
+            {% endif %}
+            
+            <!-- Main Content -->
+            <main class="{% if user.is_authenticated and request.session.current_company_id %}col-md-9 col-lg-10 ms-sm-auto px-4 main-content{% else %}col-12 full-width-content{% endif %}">
+                <!-- Messages -->
+                {% include 'users/components/messages.html' %}
+                
+                <!-- Page Content -->
+                <div class="container-fluid py-4">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- اضافه کردن فونت Vazirmatn برای فارسی -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
+    
+    <script>
+        // Auto-hide messages after 5 seconds
+        setTimeout(function() {
+            var messages = document.querySelectorAll('.alert');
+            messages.forEach(function(message) {
+                var bsAlert = new bootstrap.Alert(message);
+                bsAlert.close();
+            });
+        }, 5000);
+
+        // Adjust main content margin on resize
+        window.addEventListener('resize', function() {
+            adjustMainContent();
+        });
+
+        function adjustMainContent() {
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+            
+            if (sidebar && mainContent) {
+                if (window.innerWidth >= 768) { // md breakpoint
+                    mainContent.style.marginRight = '280px';
+                } else {
+                    mainContent.style.marginRight = '0';
+                }
+            }
+        }
+
+        // Run on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            adjustMainContent();
+        });
+    </script>
+    
+    {% block extra_scripts %}
+    <script>
+            // توابع مدیریت سایدبار در موبایل
+            function toggleSidebar() {
+                const sidebar = document.querySelector('.sidebar');
+                const overlay = document.querySelector('.sidebar-overlay');
+                
+                sidebar.classList.toggle('show');
+                if (overlay) {
+                    overlay.classList.toggle('show');
+                }
+            }
+            
+            function closeSidebar() {
+                const sidebar = document.querySelector('.sidebar');
+                const overlay = document.querySelector('.sidebar-overlay');
+                
+                sidebar.classList.remove('show');
+                if (overlay) {
+                    overlay.classList.remove('show');
+                }
+            }
+            
+            // ایجاد overlay برای موبایل
+            document.addEventListener('DOMContentLoaded', function() {
+                if (window.innerWidth < 768) {
+                    const overlay = document.createElement('div');
+                    overlay.className = 'sidebar-overlay';
+                    overlay.onclick = closeSidebar;
+                    document.body.appendChild(overlay);
+                }
+            });
+        </script>
+    {% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,103 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}انتخاب شرکت - سیستم مالی هوشمند{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card border-0 shadow-lg">
+            <div class="card-header bg-primary text-white py-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">
+                        <i class="bi bi-building me-2"></i>
+                        انتخاب شرکت
+                    </h4>
+                    <a href="{% url 'users:create_company' %}" class="btn btn-light btn-sm">
+                        <i class="bi bi-plus-circle me-1"></i>
+                        شرکت جدید
+                    </a>
+                </div>
+            </div>
+            
+            <div class="card-body p-4">
+                {% if user_roles %}
+                <div class="row g-4">
+                    {% for user_role in user_roles %}
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card company-card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    {% if user_role.company.logo %}
+                                    <img src="{{ user_role.company.logo.url }}" 
+                                         alt="{{ user_role.company.name }}" 
+                                         class="rounded-circle" 
+                                         width="60" height="60">
+                                    {% else %}
+                                    <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center" 
+                                         style="width: 60px; height: 60px;">
+                                        <i class="bi bi-building text-white fs-4"></i>
+                                    </div>
+                                    {% endif %}
+                                    
+                                    <span class="role-badge role-{{ user_role.role|lower }}">
+                                        {{ user_role.get_role_display }}
+                                    </span>
+                                </div>
+                                
+                                <h5 class="card-title fw-bold text-dark mb-2">
+                                    {{ user_role.company.name }}
+                                </h5>
+                                
+                                <p class="card-text text-muted small mb-3">
+                                    <i class="bi bi-geo-alt me-1"></i>
+                                    {{ user_role.company.address|truncatewords:10 }}
+                                </p>
+                                
+                                <div class="company-info small text-muted mb-3">
+                                    <div class="mb-1">
+                                        <i class="bi bi-card-text me-1"></i>
+                                        کد اقتصادی: {{ user_role.company.economic_code }}
+                                    </div>
+                                    <div>
+                                        <i class="bi bi-building me-1"></i>
+                                        نوع: {{ user_role.company.get_company_type_display }}
+                                    </div>
+                                </div>
+                                
+                                <div class="d-grid gap-2">
+                                    <a href="{% url 'users:set_current_company' user_role.company.id %}" 
+                                       class="btn btn-primary-custom">
+                                        <i class="bi bi-check-circle me-1"></i>
+                                        انتخاب شرکت
+                                    </a>
+                                    
+                                    <a href="{% url 'users:company_detail' user_role.company.id %}" 
+                                       class="btn btn-outline-secondary btn-sm">
+                                        <i class="bi bi-eye me-1"></i>
+                                        مشاهده جزئیات
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center py-5">
+                    <div class="mb-4">
+                        <i class="bi bi-building text-muted" style="font-size: 4rem;"></i>
+                    </div>
+                    <h4 class="text-muted mb-3">شرکتی پیدا نشد</h4>
+                    <p class="text-muted mb-4">شما به هیچ شرکتی دسترسی ندارید. اولین شرکت خود را ایجاد کنید.</p>
+                    <a href="{% url 'users:create_company' %}" class="btn btn-primary btn-lg">
+                        <i class="bi bi-plus-circle me-2"></i>
+                        ایجاد شرکت جدید
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

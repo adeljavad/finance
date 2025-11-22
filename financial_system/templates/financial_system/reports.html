@@ -1,0 +1,127 @@
+{% extends 'financial_system/base.html' %}
+
+{% block title %}گزارش‌های مالی - {{ company.name }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">
+        <i class="bi bi-file-earmark-bar-graph text-primary"></i>
+        گزارش‌های مالی
+    </h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        {% if company and period %}
+        <div class="btn-group me-2">
+            <span class="btn btn-outline-secondary">
+                <i class="bi bi-building"></i>
+                {{ company.name }}
+            </span>
+            <span class="btn btn-outline-primary">
+                <i class="bi bi-calendar"></i>
+                {{ period.name }}
+            </span>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-white">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-list-ul"></i>
+                    انواع گزارش‌های مالی
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if reports %}
+                <div class="row">
+                    {% for report in reports %}
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <div class="display-4 mb-3">{{ report.icon }}</div>
+                                <h5 class="card-title">{{ report.name }}</h5>
+                                <p class="card-text text-muted">{{ report.description }}</p>
+                            </div>
+                            <div class="card-footer bg-transparent">
+                                <a href="{% url 'financial_system:generate_report' report.slug %}" 
+                                   class="btn btn-primary w-100">
+                                    <i class="bi bi-download"></i>
+                                    تولید گزارش
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center py-5">
+                    <i class="bi bi-file-earmark-x display-1 text-muted"></i>
+                    <h4 class="text-muted mt-3">گزارشی یافت نشد</h4>
+                    <p class="text-muted">در حال حاضر هیچ گزارش مالی برای این شرکت و دوره در دسترس نیست.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- راهنمای استفاده -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-light">
+                <h6 class="card-title mb-0">
+                    <i class="bi bi-info-circle"></i>
+                    راهنمای استفاده از گزارش‌ها
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>📋 تراز آزمایشی</h6>
+                        <p class="small text-muted">
+                            گزارش کلی تمام حساب‌ها با مانده ابتدا و انتهای دوره، گردش بدهکار و بستانکار
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>🏛️ ترازنامه</h6>
+                        <p class="small text-muted">
+                            وضعیت دارایی‌ها، بدهی‌ها و حقوق صاحبان سهام در پایان دوره مالی
+                        </p>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <h6>🔄 گردش حساب‌ها</h6>
+                        <p class="small text-muted">
+                            گردش مالی تفصیلی هر حساب با جزئیات تمام اسناد و آرتیکل‌ها
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>🤖 تحلیل هوشمند</h6>
+                        <p class="small text-muted">
+                            تحلیل‌های پیشرفته AI شامل روندها، انحرافات و پیش‌بینی‌ها
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- نکات فنی -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="alert alert-info">
+            <h6><i class="bi bi-lightbulb"></i> نکات فنی</h6>
+            <ul class="mb-0">
+                <li>تمامی گزارش‌ها از داده‌های واقعی دیتابیس محاسبه می‌شوند</li>
+                <li>گزارش‌ها به صورت آنی و بر اساس آخرین داده‌ها تولید می‌شوند</li>
+                <li>برای تولید گزارش‌های دقیق، ابتدا داده‌های مالی را ایمپورت کنید</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نتیجه اجرای ابزار - سیستم مالی هوشمند</title>
+    
+    <!-- Financial Data Grid Styles -->
+    <link rel="stylesheet" href="/static/css/financial_data_grid.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%23ffffff" opacity="0.1"><polygon points="50,0 100,50 50,100 0,50"/></svg>');
+            background-size: 60px 60px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .tool-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+        }
+        
+        .tool-info h2 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .metadata {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .metadata-item {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            border-right: 4px solid #3498db;
+        }
+        
+        .metadata-item strong {
+            color: #2c3e50;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .metadata-item span {
+            color: #34495e;
+            font-weight: 600;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #7f8c8d;
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #219a52;
+            transform: translateY(-2px);
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+        
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            color: #6c757d;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .metadata {
+                grid-template-columns: 1fr;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        .timestamp {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        /* Result display modes */
+        .result-display-mode {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            justify-content: center;
+        }
+
+        .display-mode-btn {
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .display-mode-btn.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .result-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-right: 5px solid #3498db;
+        }
+
+        .result-section h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .result-section h3::before {
+            content: '📊';
+            font-size: 1.2em;
+        }
+
+        .result-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            max-height: 500px;
+            overflow-y: auto;
+            line-height: 1.8;
+        }
+
+        .json-highlight {
+            color: #2c3e50;
+        }
+
+        .json-key {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .json-string {
+            color: #27ae60;
+        }
+
+        .json-number {
+            color: #3498db;
+        }
+
+        .json-boolean {
+            color: #9b59b6;
+        }
+
+        .json-null {
+            color: #95a5a6;
+        }
+
+        .copy-btn {
+            background: #34495e;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            transition: background 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛠️ نتیجه اجرای ابزار مالی</h1>
+            <div class="subtitle">سیستم مالی هوشمند - تحلیل‌های پیشرفته</div>
+            
+            <div class="tool-info">
+                <h2>{{ tool_name|default:"ابزار مالی" }}</h2>
+                <p>{{ tool_description|default:"تحلیل مالی هوشمند با استفاده از تکنولوژی‌های پیشرفته" }}</p>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- اطلاعات متادیتا -->
+            <div class="metadata">
+                {% if company %}
+                <div class="metadata-item">
+                    <strong>🏢 شرکت</strong>
+                    <span>{{ company.name }}</span>
+                </div>
+                {% endif %}
+                
+                {% if period %}
+                <div class="metadata-item">
+                    <strong>📅 دوره مالی</strong>
+                    <span>{{ period.name }}</span>
+                </div>
+                {% endif %}
+                
+                <div class="metadata-item">
+                    <strong>🕐 زمان اجرا</strong>
+                    <span class="timestamp">{{ executed_at|date:"Y/m/d H:i" }}</span>
+                </div>
+                
+                <div class="metadata-item">
+                    <strong>📊 وضعیت</strong>
+                    <span class="status-badge status-success">✅ موفق</span>
+                </div>
+            </div>
+
+            <!-- Display Mode Selector -->
+            <div class="result-display-mode">
+                <button class="display-mode-btn active" onclick="switchDisplayMode('grid')">📊 نمایش گرید</button>
+                <button class="display-mode-btn" onclick="switchDisplayMode('json')">📄 نمایش JSON</button>
+                <button class="display-mode-btn" onclick="switchDisplayMode('raw')">📝 نمایش متن</button>
+            </div>
+            
+            <!-- بخش نتیجه - گرید -->
+            <div id="grid-display" class="result-section" style="display: block;">
+                <h3>نتیجه تحلیل (نمایش گرید)</h3>
+                <div id="financial-grid-container"></div>
+            </div>
+            
+            <!-- بخش نتیجه - JSON -->
+            <div id="json-display" class="result-section" style="display: none;">
+                <h3>نتیجه تحلیل (نمایش JSON)</h3>
+                <div class="result-content" id="result-content-json">
+                    {{ result|default:"هیچ نتیجه‌ای نمایش داده نشد" }}
+                </div>
+                <button class="copy-btn" onclick="copyResult('json')">📋 کپی JSON</button>
+            </div>
+            
+            <!-- بخش نتیجه - متن -->
+            <div id="raw-display" class="result-section" style="display: none;">
+                <h3>نتیجه تحلیل (نمایش متن)</h3>
+                <div class="result-content" id="result-content-raw">
+                    {{ result|default:"هیچ نتیجه‌ای نمایش داده نشد" }}
+                </div>
+                <button class="copy-btn" onclick="copyResult('raw')">📋 کپی متن</button>
+            </div>
+            
+            <!-- دکمه‌های عملیاتی -->
+            <div class="actions">
+                <a href="{% url 'financial_system:langchain_tools' %}" class="btn btn-primary">
+                    🔙 بازگشت به ابزارها
+                </a>
+                
+                <a href="{% url 'financial_system:dashboard' %}" class="btn btn-secondary">
+                    🏠 داشبورد اصلی
+                </a>
+                
+                <button class="btn btn-success" onclick="printResult()">
+                    🖨️ چاپ نتیجه
+                </button>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>سیستم مالی هوشمند - توسعه‌یافته با Django & LangChain</p>
+            <p class="timestamp">تولید شده در {{ executed_at|date:"Y/m/d ساعت H:i" }}</p>
+        </div>
+    </div>
+
+    <!-- Financial Data Grid Script -->
+    <script src="/static/js/financial_data_grid.js"></script>
+    
+    <script>
+        // Parse result data
+        let resultData = null;
+        let parsedResult = null;
+        let hasValidData = false;
+        
+        try {
+            const resultText = `{{ result|safe }}`;
+            console.log('Original result text:', resultText);
+            
+            if (resultText && resultText !== 'هیچ نتیجه‌ای نمایش داده نشد') {
+                // Clean the result text - remove any extra quotes or escaping
+                let cleanText = resultText.trim();
+                if (cleanText.startsWith('"') && cleanText.endsWith('"')) {
+                    cleanText = cleanText.slice(1, -1);
+                }
+                cleanText = cleanText.replace(/\\"/g, '"').replace(/\\n/g, '');
+                
+                console.log('Cleaned result text:', cleanText);
+                
+                parsedResult = JSON.parse(cleanText);
+                console.log('Parsed result:', parsedResult);
+                
+                resultData = extractGridData(parsedResult);
+                console.log('Extracted grid data:', resultData);
+                
+                if (resultData && resultData.data && resultData.data.length > 0) {
+                    hasValidData = true;
+                }
+            }
+        } catch (e) {
+            console.log('نتایج قابل تجزیه نیستند:', e);
+            console.log('Error details:', e.message);
+        }
+
+        console.log('Has valid data for grid:', hasValidData);
+
+        // Initialize grid immediately when data is available
+        if (hasValidData) {
+            console.log('Initializing FinancialDataGrid with data:', resultData);
+            
+            // Use setTimeout to ensure DOM is ready
+            setTimeout(function() {
+                try {
+                    const gridContainer = document.getElementById('financial-grid-container');
+                    if (gridContainer) {
+                        initFinancialDataGrid('financial-grid-container', {
+                            data: resultData.data,
+                            columns: resultData.columns,
+                            title: '{{ tool_name|default:"گزارش مالی" }}',
+                            exportEnabled: true,
+                            filterEnabled: true,
+                            paginationEnabled: true,
+                            pageSize: 25,
+                            rtl: true
+                        });
+                        console.log('FinancialDataGrid initialized successfully');
+                        
+                        // Ensure grid is visible
+                        document.getElementById('grid-display').style.display = 'block';
+                    } else {
+                        console.error('Grid container not found');
+                        fallbackToJSON();
+                    }
+                } catch (error) {
+                    console.error('Error initializing FinancialDataGrid:', error);
+                    fallbackToJSON();
+                }
+            }, 100);
+        } else {
+            // No valid data for grid
+            console.log('No valid data for grid, falling back to JSON');
+            fallbackToJSON();
+        }
+
+        function fallbackToJSON() {
+            document.getElementById('grid-display').style.display = 'none';
+            const gridButton = document.querySelector('.display-mode-btn[onclick="switchDisplayMode(\'grid\')"]');
+            if (gridButton) {
+                gridButton.style.display = 'none';
+            }
+            // Ensure JSON mode is active
+            switchDisplayMode('json');
+        }
+
+        // Function to extract grid data from parsed result
+        function extractGridData(parsedData) {
+            if (!parsedData) return null;
+
+            // Handle different response formats
+            if (parsedData.data && parsedData.data.sections) {
+                // Balance sheet format
+                return extractBalanceSheetData(parsedData);
+            } else if (parsedData.accounts) {
+                // Trial balance format
+                return extractTrialBalanceData(parsedData);
+            } else if (Array.isArray(parsedData)) {
+                // Simple array format
+                return {
+                    data: parsedData,
+                    columns: autoGenerateColumns(parsedData)
+                };
+            } else if (typeof parsedData === 'object') {
+                // Single object - wrap in array
+                return {
+                    data: [parsedData],
+                    columns: autoGenerateColumns([parsedData])
+                };
+            }
+            
+            return null;
+        }
+
+        // Extract balance sheet data
+        function extractBalanceSheetData(parsedData) {
+            const gridData = [];
+            
+            if (parsedData.data && parsedData.data.sections) {
+                parsedData.data.sections.forEach(section => {
+                    if (section.items && Array.isArray(section.items)) {
+                        section.items.forEach(item => {
+                            gridData.push({
+                                'بخش': section.title,
+                                'گروه حساب': item.account_group,
+                                'مبلغ': item.amount,
+                                'مبلغ فرمت شده': item.formatted_amount,
+                                'درصد': item.percentage
+                            });
+                        });
+                    }
+                });
+            }
+
+            const columns = [
+                { field: 'بخش', title: 'بخش', filterable: true, sortable: true },
+                { field: 'گروه حساب', title: 'گروه حساب', filterable: true, sortable: true },
+                { field: 'مبلغ', title: 'مبلغ', filterable: true, sortable: true },
+                { field: 'مبلغ فرمت شده', title: 'مبلغ فرمت شده', filterable: true, sortable: true },
+                { field: 'درصد', title: 'درصد', filterable: true, sortable: true }
+            ];
+
+            return { data: gridData, columns: columns };
+        }
+
+        // Extract trial balance data
+        function extractTrialBalanceData(parsedData) {
+            if (!parsedData.accounts || !Array.isArray(parsedData.accounts)) {
+                return null;
+            }
+
+            const columns = [
+                { field: 'account_code', title: 'کد حساب', filterable: true, sortable: true },
+                { field: 'account_name', title: 'نام حساب', filterable: true, sortable: true },
+                { field: 'debit', title: 'گردش بدهکار', filterable: true, sortable: true },
+                { field: 'credit', title: 'گردش بستانکار', filterable: true, sortable: true },
+                { field: 'balance', title: 'مانده', filterable: true, sortable: true },
+                { field: 'transaction_count', title: 'تعداد تراکنش', filterable: true, sortable: true }
+            ];
+
+            return { data: parsedData.accounts, columns: columns };
+        }
+
+        // Auto-generate columns from data
+        function autoGenerateColumns(data) {
+            if (!data || data.length === 0) return [];
+            
+            const sample = data[0];
+            return Object.keys(sample).map(key => ({
+                field: key,
+                title: formatColumnTitle(key),
+                filterable: true,
+                sortable: true
+            }));
+        }
+
+        // Format column title
+        function formatColumnTitle(key) {
+            return key
+                .replace(/([A-Z])/g, ' $1')
+                .replace(/_/g, ' ')
+                .replace(/^./, str => str.toUpperCase())
+                .trim();
+        }
+
+        // Display mode switching
+        function switchDisplayMode(mode) {
+            // Hide all displays
+            document.getElementById('grid-display').style.display = 'none';
+            document.getElementById('json-display').style.display = 'none';
+            document.getElementById('raw-display').style.display = 'none';
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.display-mode-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected display and activate button
+            document.getElementById(mode + '-display').style.display = 'block';
+            document.querySelector('.display-mode-btn[onclick="switchDisplayMode(\'' + mode + '\')"]').classList.add('active');
+            
+            // Format JSON display if needed
+            if (mode === 'json' && parsedResult) {
+                document.getElementById('result-content-json').textContent = JSON.stringify(parsedResult, null, 2);
+                highlightJSON('result-content-json');
+            }
+        }
+
+        // Copy result function
+        function copyResult(mode) {
+            let content = '';
+            
+            if (mode === 'json') {
+                content = document.getElementById('result-content-json').textContent;
+            } else if (mode === 'raw') {
+                content = document.getElementById('result-content-raw').textContent;
+            }
+            
+            const textArea = document.createElement('textarea');
+            textArea.value = content;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            alert('نتیجه با موفقیت کپی شد!');
+        }
+
+        // Print function
+        function printResult() {
+            window.print();
+        }
+
+        // JSON highlighting function
+        function highlightJSON(elementId) {
+            const resultContent = document.getElementById(elementId);
+            const content = resultContent.textContent;
+            
+            try {
+                const jsonObj = JSON.parse(content);
+                const formattedJSON = JSON.stringify(jsonObj, null, 2);
+                
+                let highlighted = formattedJSON
+                    .replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?)/g, function(match) {
+                        let cls = 'json-number';
+                        if (/^"/.test(match)) {
+                            if (/:$/.test(match)) {
+                                cls = 'json-key';
+                            } else {
+                                cls = 'json-string';
+                            }
+                        } else if (/true|false/.test(match)) {
+                            cls = 'json-boolean';
+                        } else if (/null/.test(match)) {
+                            cls = 'json-null';
+                        }
+                        return '<span class="' + cls + '">' + match + '</span>';
+                    });
+                
+                resultContent.innerHTML = highlighted;
+            } catch (e) {
+                console.log('نتیجه JSON نیست، از هایلایت کردن صرف‌نظر شد');
+            }
+        }
+
+        // Auto-highlight JSON on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            highlightJSON('result-content-json');
+            highlightJSON('result-content-raw');
+        });
+    </script>
+</body>
+</html>

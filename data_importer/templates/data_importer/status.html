@@ -1,0 +1,148 @@
+<!-- data_importer/templates/data_importer/status.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}وضعیت ایمپورت - {{ job_id }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">وضعیت عملیات ایمپورت</h3>
+                <small class="text-muted">شناسه: {{ job_id }}</small>
+            </div>
+            <div class="card-body">
+                <!-- نوار پیشرفت -->
+                <div class="progress-group">
+                    <div class="progress-group-header">
+                        <i class="fas fa-sync-alt progress-group-icon"></i>
+                        <span>پیشرفت عملیات</span>
+                        <span class="ml-auto font-weight-bold" id="progressPercent">
+                            {{ job_status.progress }}%
+                        </span>
+                    </div>
+                    <div class="progress-group-bars">
+                        <div class="progress progress-sm">
+                            <div class="progress-bar bg-primary" 
+                                 style="width: {{ job_status.progress }}%"
+                                 id="progressBar"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- اطلاعات جاری -->
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-info"><i class="fas fa-info-circle"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">مرحله جاری</span>
+                                <span class="info-box-number" id="currentStep">
+                                    {{ job_status.current_step }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-warning"><i class="fas fa-clock"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">زمان باقی‌مانده تخمینی</span>
+                                <span class="info-box-number" id="estimatedTime">
+                                    {% if job_status.estimated_time_remaining %}
+                                        {{ job_status.estimated_time_remaining }} ثانیه
+                                    {% else %}
+                                        در حال محاسبه...
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- جزئیات -->
+                {% if job_status.details %}
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">جزئیات پردازش</h5>
+                            </div>
+                            <div class="card-body">
+                                <pre class="bg-light p-3" style="max-height: 200px; overflow-y: auto;">
+{{ job_status.details|pprint }}
+                                </pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- دکمه‌های اقدام -->
+                <div class="row mt-4">
+                    <div class="col-12 text-center">
+                        {% if not is_completed %}
+                        <a href="{% url 'data_importer:cancel' job_id %}" 
+                           class="btn btn-danger"
+                           onclick="return confirm('آیا از لغو این عملیات مطمئن هستید؟')">
+                            <i class="fas fa-times"></i> لغو عملیات
+                        </a>
+                        {% endif %}
+                        
+                        <a href="{% url 'data_importer:dashboard' %}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-right"></i> بازگشت به داشبورد
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// به‌روزرسانی خودکار وضعیت
+{% if not is_completed %}
+function updateProgress() {
+    fetch("{% url 'data_importer:get_progress' job_id %}")
+        .then(response => response.json())
+        .then(data => {
+            // به‌روزرسانی نوار پیشرفت
+            document.getElementById('progressBar').style.width = data.progress + '%';
+            document.getElementById('progressPercent').textContent = data.progress + '%';
+            
+            // به‌روزرسانی مرحله جاری
+            if (data.current_step) {
+                document.getElementById('currentStep').textContent = data.current_step;
+            }
+            
+            // به‌روزرسانی زمان تخمینی
+            if (data.estimated_time_remaining) {
+                document.getElementById('estimatedTime').textContent = 
+                    data.estimated_time_remaining + ' ثانیه';
+            }
+            
+            // اگر عملیات تمام شد، رفرش صفحه
+            if (data.progress === 100) {
+                setTimeout(() => {
+                    location.reload();
+                }, 2000);
+            } else {
+                // ادامه به‌روزرسانی
+                setTimeout(updateProgress, 3000);
+            }
+        })
+        .catch(error => {
+            console.error('Error updating progress:', error);
+            setTimeout(updateProgress, 5000);
+        });
+}
+
+// شروع به‌روزرسانی
+setTimeout(updateProgress, 3000);
+{% endif %}
+</script>
+{% endblock %}

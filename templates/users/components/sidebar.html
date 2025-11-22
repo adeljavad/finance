@@ -1,0 +1,194 @@
+<div class="sidebar-sticky pt-3">
+    <!-- Company Info -->
+    <div class="company-info text-center mb-4">
+        {% if request.session.current_company_id %}
+            {% with company=request.session.current_company_name %}
+            <div class="company-logo bg-white rounded-circle d-inline-flex align-items-center justify-content-center mb-2" 
+                 style="width: 80px; height: 80px;">
+                <i class="bi bi-building fs-2 text-primary"></i>
+            </div>
+            <h6 class="text-white mb-1">{{ company }}</h6>
+            <small class="text-light opacity-75">
+                {{ request.session.user_role }}
+            </small>
+            {% endwith %}
+        {% endif %}
+    </div>
+
+    <!-- Selected Pages Menu Group -->
+    <div class="menu-group menu-group--plain">
+        <h4>صفحات منتخب</h4>
+        <ul data-level="0">
+            <li data-level="0" class="">
+                <a href="{% url 'users:dashboard' %}" class="" draggable="true" title="داشبورد اصلی">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>داشبورد</span>
+                </a>
+                <span></span>
+            </li>
+            <li data-level="0" class="">
+                <a href="#" class="" draggable="true" title="مدیریت تراکنش‌ها">
+                    <i class="bi bi-currency-exchange"></i>
+                    <span>تراکنش‌ها</span>
+                </a>
+                <span></span>
+            </li>
+            <li data-level="0" class="">
+                <a href="{% url 'financial_system:financial_chatbot' %}" class="" draggable="true" title="دستیار مالی هوشمند">
+                    <i class="bi bi-robot"></i>
+                    <span>دستیار مالی</span>
+                </a>
+                <span></span>
+            </li>
+            <li data-level="0" class="">
+                <a href="{% url 'financial_system:reports' %}" class="" draggable="true" title="گزارش‌های مالی">
+                    <i class="bi bi-graph-up"></i>
+                    <span>گزارش‌ها</span>
+                </a>
+                <span></span>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Financial Operations Menu Group -->
+    <div class="menu-group menu-group--plain">
+        <h4>عملیات مالی</h4>
+        <ul data-level="0">
+            <li data-level="0" class="">
+                <a href="#" class="" draggable="true" title="دفتر کل / گزارش ها / مرور حساب ها">
+                    <i class="bi bi-journal-text"></i>
+                    <span>مرور حساب ها</span>
+                </a>
+                <span></span>
+            </li>
+            <li data-level="0" class="">
+                <a href="#" class="" draggable="true" title="دریافت و پرداخت / گزارش ها / مرور اسناد دریافتی">
+                    <i class="bi bi-file-earmark-arrow-down"></i>
+                    <span>مرور اسناد دریافتی</span>
+                </a>
+                <span></span>
+            </li>
+            <li data-level="0" class="">
+                <a href="#" class="" draggable="true" title="دریافت و پرداخت / گزارش ها / مرور اسناد پرداختی">
+                    <i class="bi bi-file-earmark-arrow-up"></i>
+                    <span>مرور اسناد پرداختی</span>
+                </a>
+                <span></span>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Company Management Menu Group -->
+    <div class="menu-group menu-group--plain">
+        <h4>مدیریت شرکت</h4>
+        <ul data-level="0">
+            <li data-level="0" class="">
+                <a href="{% url 'users:company_list' %}" class="" draggable="true" title="لیست شرکت‌های من">
+                    <i class="bi bi-building"></i>
+                    <span>شرکت‌های من</span>
+                </a>
+                <span></span>
+            </li>
+            <li data-level="0" class="">
+                <a href="{% url 'users:company_selection' %}" class="" draggable="true" title="تغییر شرکت فعال">
+                    <i class="bi bi-arrow-left-right"></i>
+                    <span>تغییر شرکت</span>
+                </a>
+                <span></span>
+            </li>
+            {% if request.session.user_role in 'OWNER,ADMIN' %}
+            <li data-level="0" class="">
+                <a href="{% url 'users:manage_company_members' request.session.current_company_id %}" class="" draggable="true" title="مدیریت اعضای شرکت">
+                    <i class="bi bi-people"></i>
+                    <span>مدیریت اعضا</span>
+                </a>
+                <span></span>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+
+    <!-- User Section -->
+    <div class="user-section position-absolute bottom-0 start-0 end-0 p-3 border-top border-light">
+        <div class="user-info d-flex align-items-center text-white">
+            <i class="bi bi-person-circle fs-4 me-2"></i>
+            <div class="user-details flex-grow-1">
+                <small class="d-block">{{ user.get_full_name|default:user.username }}</small>
+                <small class="text-light opacity-75">{{ user.email }}</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.menu-group {
+    margin-bottom: 25px;
+}
+
+.menu-group--plain h4 {
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.menu-group ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-group li {
+    margin-bottom: 4px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.menu-group li:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+.menu-group li a {
+    display: flex;
+    align-items: center;
+    padding: 8px 10px;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.menu-group li a:hover {
+    background-color: rgba(255,255,255,0.15);
+    text-decoration: none;
+    color: white;
+}
+
+.menu-group li a i {
+    width: 16px;
+    height: 16px;
+    margin-left: 8px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.menu-group li a span {
+    flex: 1;
+    font-size: 13px;
+}
+
+.company-info {
+    text-align: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.user-section {
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+}
+</style>

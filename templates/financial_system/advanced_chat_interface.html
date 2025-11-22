@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>چت مالی پیشرفته - سیستم مالی هوشمند</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .chat-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .chat-header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .chat-header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .chat-body {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .welcome-message {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-right: 4px solid #4facfe;
+        }
+
+        .welcome-message h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .capabilities {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .capability {
+            background: #e3f2fd;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #1976d2;
+            text-align: center;
+        }
+
+        .chat-messages {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            line-height: 1.4;
+            position: relative;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .bot-message {
+            align-self: flex-start;
+            background: white;
+            color: #2c3e50;
+            border: 1px solid #e0e0e0;
+            border-bottom-left-radius: 5px;
+        }
+
+        .chat-footer {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            outline: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input:focus {
+            border-color: #4facfe;
+        }
+
+        .send-button {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 24px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .send-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+        }
+
+        .send-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin: 10px 0;
+        }
+
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-right: 4px solid #c62828;
+        }
+
+        @media (max-width: 768px) {
+            .chat-container {
+                height: 500px;
+            }
+            
+            .message {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>💼 دستیار مالی پیشرفته</h1>
+            <p>سیستم هوشمند تحلیل و مشاوره مالی</p>
+        </div>
+
+        <div class="chat-body" id="chatBody">
+            <div class="welcome-message">
+                <h3>👋 به دستیار مالی پیشرفته خوش آمدید!</h3>
+                <p>من یک سیستم هوشمند مالی هستم که می‌توانم در زمینه‌های زیر به شما کمک کنم:</p>
+                <div class="capabilities">
+                    <div class="capability">📊 تحلیل نسبت‌های مالی</div>
+                    <div class="capability">📈 تولید گزارش‌های مالی</div>
+                    <div class="capability">🔍 شناسایی انحرافات</div>
+                    <div class="capability">💼 مشاوره مالیاتی</div>
+                    <div class="capability">⚖️ تحلیل ریسک‌های مالی</div>
+                    <div class="capability">📋 استانداردهای حسابداری</div>
+                </div>
+                <p style="margin-top: 15px; color: #666; font-size: 13px;">
+                    سوال مالی خود را در کادر زیر تایپ کنید...
+                </p>
+            </div>
+            <div class="chat-messages" id="chatMessages"></div>
+            <div class="loading" id="loading">در حال پردازش سوال...</div>
+        </div>
+
+        <div class="chat-footer">
+            <div class="input-group">
+                <input type="text" 
+                       class="chat-input" 
+                       id="chatInput" 
+                       placeholder="سوال مالی خود را اینجا تایپ کنید..." 
+                       autocomplete="off">
+                <button class="send-button" id="sendButton">ارسال</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chatInput = document.getElementById('chatInput');
+        const sendButton = document.getElementById('sendButton');
+        const chatMessages = document.getElementById('chatMessages');
+        const loading = document.getElementById('loading');
+        const chatBody = document.getElementById('chatBody');
+
+        function addMessage(message, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+            messageDiv.textContent = message;
+            chatMessages.appendChild(messageDiv);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        function showError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.textContent = message;
+            chatMessages.appendChild(errorDiv);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const question = chatInput.value.trim();
+            if (!question) return;
+
+            // نمایش سوال کاربر
+            addMessage(question, true);
+            chatInput.value = '';
+            sendButton.disabled = true;
+            loading.style.display = 'block';
+
+            try {
+                const response = await fetch('/financial/api/advanced-chat/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({
+                        question: question,
+                        company_id: 1,
+                        period_id: 1
+                    })
+                });
+
+                const data = await response.json();
+                console.log('API Response:', data); // برای دیباگ
+
+                if (data.success) {
+                    // بررسی ساختارهای مختلف پاسخ
+                    let responseText = 'پاسخ دریافت شد';
+                    
+                    // بررسی ساختار پیچیده با data.content
+                    if (data.data && data.data.content) {
+                        responseText = data.data.content;
+                    } else if (data.response) {
+                        responseText = data.response;
+                    } else if (data.answer) {
+                        responseText = data.answer;
+                    } else if (data.result) {
+                        responseText = data.result;
+                    } else if (data.message) {
+                        responseText = data.message;
+                    } else if (data.content) {
+                        responseText = data.content;
+                    } else if (typeof data === 'string') {
+                        responseText = data;
+                    } else {
+                        // اگر هیچ کدام از فیلدها وجود نداشت، کل پاسخ را نمایش بده
+                        responseText = JSON.stringify(data, null, 2);
+                    }
+                    
+                    addMessage(responseText);
+                } else {
+                    showError(data.error || 'خطا در دریافت پاسخ');
+                }
+            } catch (error) {
+                showError('خطا در ارتباط با سرور');
+                console.error('Error:', error);
+            } finally {
+                sendButton.disabled = false;
+                loading.style.display = 'none';
+            }
+        }
+
+        // تابع برای دریافت CSRF token
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // رویدادهای صفحه
+        sendButton.addEventListener('click', sendMessage);
+        
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // فوکوس روی اینپوت
+        chatInput.focus();
+    </script>
+</body>
+</html>

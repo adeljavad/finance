@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load socialaccount %}
+
+{% block title %}ثبت‌نام - Financial AI{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0 text-center">
+                    <i class="bi bi-person-plus"></i> ثبت‌نام در سیستم
+                </h4>
+            </div>
+            <div class="card-body p-4">
+                <!-- ثبت‌نام با جیمیل -->
+                <div class="d-grid gap-2 mb-4">
+                    <a href="{% provider_login_url 'google' %}" class="btn btn-danger btn-lg">
+                        <i class="bi bi-google"></i> ثبت‌نام با حساب Google
+                    </a>
+                </div>
+
+                <div class="text-center text-muted mb-4">یا</div>
+
+                <!-- ثبت‌نام با ایمیل و رمزعبور -->
+                <form method="POST" action="{% url 'account_signup' %}">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="id_email" class="form-label">ایمیل</label>
+                        <input type="email" name="email" id="id_email" class="form-control" 
+                               placeholder="example@gmail.com" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_password1" class="form-label">رمز عبور</label>
+                        <input type="password" name="password1" id="id_password1" 
+                               class="form-control" required>
+                        <div class="form-text">حداقل ۸ کاراکتر</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_password2" class="form-label">تکرار رمز عبور</label>
+                        <input type="password" name="password2" id="id_password2" 
+                               class="form-control" required>
+                    </div>
+
+                    {% if form.errors %}
+                        <div class="alert alert-danger">
+                            {% for field, errors in form.errors.items %}
+                                {% for error in errors %}
+                                    {{ error }}<br>
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success btn-lg">ثبت‌نام</button>
+                    </div>
+                </form>
+
+                <div class="text-center mt-4">
+                    <p class="mb-2">قبلاً ثبت‌نام کرده‌اید؟</p>
+                    <a href="{% url 'account_login' %}" class="btn btn-outline-primary">
+                        ورود به سیستم
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

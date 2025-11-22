@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدیریت توازن اسناد مالی - سیستم مالی هوشمند</title>
+    <style>
+        :root {
+            --primary-color: #2c5aa0;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --info-color: #17a2b8;
+            --light-bg: #f8f9fa;
+            --border-color: #dee2e6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tahoma', 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), #1e3a8a);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            text-align: center;
+            opacity: 0.9;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            text-align: center;
+            border-right: 4px solid var(--primary-color);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-card.success {
+            border-right-color: var(--success-color);
+        }
+        
+        .stat-card.warning {
+            border-right-color: var(--warning-color);
+        }
+        
+        .stat-card.danger {
+            border-right-color: var(--danger-color);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            color: #666;
+        }
+        
+        .actions-bar {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-success {
+            background: var(--success-color);
+            color: white;
+        }
+        
+        .btn-warning {
+            background: var(--warning-color);
+            color: #212529;
+        }
+        
+        .btn-danger {
+            background: var(--danger-color);
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .documents-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        
+        .section-header {
+            background: var(--light-bg);
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .documents-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .documents-table th,
+        .documents-table td {
+            padding: 15px;
+            text-align: right;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .documents-table th {
+            background: var(--light-bg);
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .documents-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .status-balanced {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-unbalanced {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .difference-positive {
+            color: var(--danger-color);
+            font-weight: 600;
+        }
+        
+        .difference-negative {
+            color: var(--success-color);
+            font-weight: 600;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--success-color);
+            transition: width 0.3s ease;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .documents-table {
+                font-size: 0.9rem;
+            }
+            
+            .documents-table th,
+            .documents-table td {
+                padding: 10px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧮 مدیریت توازن اسناد مالی</h1>
+            <p>بررسی و اصلاح خودکار عدم توازن در اسناد مالی</p>
+        </div>
+
+        <!-- آمار کلی -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">{{ balance_status.total_documents }}</div>
+                <div class="stat-label">کل اسناد</div>
+            </div>
+            <div class="stat-card success">
+                <div class="stat-number">{{ balance_status.balanced_documents }}</div>
+                <div class="stat-label">اسناد متوازن</div>
+            </div>
+            <div class="stat-card danger">
+                <div class="stat-number">{{ balance_status.unbalanced_documents }}</div>
+                <div class="stat-label">اسناد نامتوازن</div>
+            </div>
+            <div class="stat-card warning">
+                <div class="stat-number">{{ "%.1f"|format(balance_ratio) }}%</div>
+                <div class="stat-label">نسبت توازن</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: {{ balance_ratio }}%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- نوار عملیات -->
+        <div class="actions-bar">
+            <div class="action-buttons">
+                <button class="btn btn-success" onclick="applyBulkCorrection()">
+                    🔧 اصلاح دسته‌ای خودکار
+                </button>
+                <button class="btn btn-primary" onclick="generateReport()">
+                    📊 تولید گزارش تحلیل
+                </button>
+                <button class="btn btn-warning" onclick="refreshData()">
+                    🔄 بروزرسانی داده‌ها
+                </button>
+                <a href="{% url 'financial_system:dashboard' %}" class="btn">
+                    🏠 بازگشت به داشبورد
+                </a>
+            </div>
+        </div>
+
+        <!-- لیست اسناد نامتوازن -->
+        <div class="documents-section">
+            <div class="section-header">
+                <h2 class="section-title">اسناد نامتوازن نیازمند توجه</h2>
+                <span class="badge">{{ total_unbalanced }} سند</span>
+            </div>
+
+            {% if unbalanced_documents %}
+            <div class="table-responsive">
+                <table class="documents-table">
+                    <thead>
+                        <tr>
+                            <th>شماره سند</th>
+                            <th>تاریخ سند</th>
+                            <th>شرح سند</th>
+                            <th>جمع بدهکار</th>
+                            <th>جمع بستانکار</th>
+                            <th>تفاوت توازن</th>
+                            <th>وضعیت</th>
+                            <th>عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for document in unbalanced_documents %}
+                        <tr>
+                            <td>
+                                <strong>{{ document.document_number }}</strong>
+                            </td>
+                            <td>{{ document.document_date|date:"Y/m/d" }}</td>
+                            <td>{{ document.description|default:"بدون شرح"|truncatewords:5 }}</td>
+                            <td>{{ document.total_debit|floatformat:0 }} ریال</td>
+                            <td>{{ document.total_credit|floatformat:0 }} ریال</td>
+                            <td class="difference-positive">
+                                {{ document.total_debit|subtract:document.total_credit|floatformat:0 }} ریال
+                            </td>
+                            <td>
+                                <span class="status-badge status-unbalanced">نامتوازن</span>
+                            </td>
+                            <td>
+                                <button class="btn btn-primary btn-sm" 
+                                        onclick="viewDocumentDetail({{ document.id }})">
+                                    🔍 جزئیات
+                                </button>
+                                <button class="btn btn-success btn-sm" 
+                                        onclick="applyCorrection({{ document.id }})">
+                                    ⚡ اصلاح خودکار
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <div>🎉</div>
+                <h3>هیچ سند نامتوازنی وجود ندارد</h3>
+                <p>تمام اسناد مالی متوازن هستند. وضعیت خوبی دارید!</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        // تابع برای مشاهده جزئیات سند
+        function viewDocumentDetail(documentId) {
+            window.location.href = `/data-importer/balance/document/${documentId}/`;
+        }
+
+        // تابع برای اصلاح خودکار یک سند
+        function applyCorrection(documentId) {
+            if (!confirm('آیا از اعمال اصلاح خودکار بر روی این سند اطمینان دارید؟')) {
+                return;
+            }
+
+            showLoading('در حال اعمال اصلاح خودکار...');
+            
+            fetch(`/data-importer/balance/document/${documentId}/apply-correction/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({
+                    correction_type: 'auto_adjustment'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                hideLoading();
+                if (data.success) {
+                    alert('✅ ' + data.message);
+                    location.reload();
+                } else {
+                    alert('❌ ' + data.message);
+                }
+            })
+            .catch(error => {
+                hideLoading();
+                alert('❌ خطا در ارتباط با سرور');
+                console.error('Error:', error);
+            });
+        }
+
+        // تابع برای اصلاح دسته‌ای
+        function applyBulkCorrection() {
+            if (!confirm('آیا از اعمال اصلاح خودکار بر روی تمام اسناد نامتوازن اطمینان دارید؟')) {
+                return;
+            }
+
+            showLoading('در حال اعمال اصلاح دسته‌ای...');
+            
+            fetch('/data-importer/balance/bulk-correction/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                hideLoading();
+                if (data.success) {
+                    const results = data.results;
+                    alert(`✅ ${data.message}\n\nاصلاح شده: ${results.corrected_documents} سند\nناموفق: ${results.failed_documents} سند`);
+                    location.reload();
+                } else {
+                    alert('❌ ' + data.message);
+                }
+            })
+            .catch(error => {
+                hideLoading();
+                alert('❌ خطا در ارتباط با سرور');
+                console.error('Error:', error);
+            });
+        }
+
+        // تابع برای تولید گزارش
+        function generateReport() {
+            window.location.href = '/data-importer/balance/analysis-report/';
+        }
+
+        // تابع برای بروزرسانی داده‌ها
+        function refreshData() {
+            showLoading('در حال بروزرسانی داده‌ها...');
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
+        }
+
+        // تابع برای نمایش وضعیت لودینگ
+        function showLoading(message = 'در حال پردازش...') {
+            let loadingEl = document.createElement('div');
+            loadingEl.className = 'loading';
+            loadingEl.innerHTML = `
+                <div class="spinner"></div>
+                <div>${message}</div>
+            `;
+            loadingEl.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(255,255,255,0.9);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                z-index: 9999;
+            `;
+            document.body.appendChild(loadingEl);
+        }
+
+        function hideLoading() {
+            const loadingEl = document.querySelector('.loading');
+            if (loadingEl) {
+                loadingEl.remove();
+            }
+        }
+
+        // تابع برای دریافت کوکی CSRF
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // نمایش نوتیفیکیشن در صورت وجود
+        {% if messages %}
+            {% for message in messages %}
+                setTimeout(() => {
+                    alert('{{ message }}');
+                }, 500);
+            {% endfor %}
+        {% endif %}
+    </script>
+</body>
+</html>

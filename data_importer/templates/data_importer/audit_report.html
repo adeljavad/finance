@@ -1,0 +1,123 @@
+<!-- data_importer/templates/data_importer/audit_report.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}گزارش حسابرسی ایمپورت{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">گزارش کامل فعالیت‌های ایمپورت</h3>
+            </div>
+            <div class="card-body">
+                <!-- آمار کلی -->
+                <div class="row mb-4">
+                    <div class="col-md-3 col-sm-6">
+                        <div class="info-box bg-info">
+                            <span class="info-box-icon"><i class="fas fa-tasks"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">کل عملیات</span>
+                                <span class="info-box-number">
+                                    {{ audit_report.summary.total_actions }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3 col-sm-6">
+                        <div class="info-box bg-success">
+                            <span class="info-box-icon"><i class="fas fa-check-circle"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">موفق</span>
+                                <span class="info-box-number">
+                                    {{ audit_report.summary.successful_actions }}
+                                </span>
+                                <div class="progress">
+                                    <div class="progress-bar bg-light" 
+                                         style="width: {{ audit_report.summary.success_rate }}%"></div>
+                                </div>
+                                <span class="progress-description">
+                                    {{ audit_report.summary.success_rate|floatformat:1 }}%
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3 col-sm-6">
+                        <div class="info-box bg-danger">
+                            <span class="info-box-icon"><i class="fas fa-exclamation-circle"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">خطا</span>
+                                <span class="info-box-number">
+                                    {{ audit_report.summary.error_actions }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- جدول زمانی فعالیت‌ها -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">جدول زمانی فعالیت‌ها</h5>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>زمان</th>
+                                                <th>نوع عمل</th>
+                                                <th>شرح</th>
+                                                <th>وضعیت</th>
+                                                <th>سطح شدت</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for activity in audit_report.recent_activities %}
+                                            <tr>
+                                                <td>{{ activity.timestamp }}</td>
+                                                <td>
+                                                    <span class="badge badge-info">{{ activity.action_type }}</span>
+                                                </td>
+                                                <td>{{ activity.description }}</td>
+                                                <td>
+                                                    {% if activity.success %}
+                                                    <span class="badge badge-success">موفق</span>
+                                                    {% else %}
+                                                    <span class="badge badge-danger">خطا</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if activity.severity == 'CRITICAL' %}
+                                                    <span class="badge badge-danger">بحرانی</span>
+                                                    {% elif activity.severity == 'ERROR' %}
+                                                    <span class="badge badge-warning">خطا</span>
+                                                    {% elif activity.severity == 'WARNING' %}
+                                                    <span class="badge badge-info">هشدار</span>
+                                                    {% else %}
+                                                    <span class="badge badge-secondary">اطلاعات</span>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                            {% empty %}
+                                            <tr>
+                                                <td colspan="5" class="text-center">هیچ فعالیتی یافت نشد</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

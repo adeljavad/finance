@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دستیار هوشمند مالی - Financial AI Assistant</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Persian Font -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+    
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <!-- Marked.js برای Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <!-- Highlight.js برای سینتکس -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    
+    <!-- استایل‌های اختصاصی -->
+    <link rel="stylesheet" href="/static/assistant/chat.css">
+    
+    <style>
+        .bg-gradient-user {
+            background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+            width: 40px;
+            height: 40px;
+        }
+        
+        .bg-gradient-bot {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            width: 40px;
+            height: 40px;
+        }
+        
+        .btn-purple {
+            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+            border: none;
+            color: white;
+        }
+        
+        .btn-purple:hover {
+            background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%);
+            color: white;
+        }
+    </style>
+</head>
+<body class="min-vh-100">
+    <!-- CSRF Token -->
+    {% csrf_token %}
+    
+    <!-- Header Django Template -->
+    {% include 'assistant/header.html' %}
+    
+    <!-- سایدبار تاریخچه چت -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="text-white mb-0">
+                    <i class="fas fa-history ml-2"></i>
+                    تاریخچه چت
+                </h5>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-sm btn-light" onclick="clearChatHistory()" title="پاک کردن تاریخچه">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    <button class="btn btn-sm btn-light d-md-none" onclick="toggleSidebar()" title="بستن">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar-body">
+            <div id="chatHistoryContainer" class="chat-history-container">
+                <!-- محتوای تاریخچه چت توسط JavaScript پر می‌شود -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay برای موبایل -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- محتوای اصلی -->
+    <div class="main-content">
+        <div class="container-fluid py-4">
+            <div class="row justify-content-center">
+                <div class="col-12 col-xxl-10">
+                    <!-- هدر جمع و جور -->
+                    <div class="compact-header mb-4">
+                        <div class="header-content">
+                            <div class="logo-section">
+                                <i class="fas fa-robot pulse-glow"></i>
+                                <span class="app-name">دستیار هوشمند مالی</span>
+                            </div>
+                            <div class="header-actions">
+                                <button class="header-btn sidebar-toggle-mobile" onclick="toggleSidebar()">
+                                    <i class="fas fa-history"></i>
+                                    تاریخچه چت
+                                </button>
+                                <button class="header-btn" onclick="toggleAllPanels()" id="panelsToggleBtn">
+                                    <i class="fas fa-bars"></i>
+                                    نمایش پانل‌ها
+                                </button>
+                                <button class="header-btn" onclick="toggleFullscreen()">
+                                    <i class="fas fa-expand"></i>
+                                    تمام صفحه
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- پانل‌های جمع‌شونده -->
+                    <div class="collapsible-panels mb-4 responsive-section" style="display: none;">
+                        <!-- پانل خوشامدگویی -->
+                        <div class="panel collapsed" id="headerPanel">
+                            <div class="panel-header" onclick="togglePanel('headerPanel')">
+                                <h3>
+                                    <i class="fas fa-gem"></i>
+                                    دستیار مالی هوشمند
+                                </h3>
+                                <button class="collapse-btn">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <div class="panel-content">
+                                <div class="welcome-content">
+                                    <div class="welcome-badge">
+                                        متخصص مالی
+                                    </div>
+                                    <p class="welcome-text">
+                                        سلام! 👋 به دستیار هوشمند مالی خوش آمدید<br>
+                                        من یک دستیار AI هستم که می‌توانم در زمینه‌های زیر به شما کمک کنم:
+                                    </p>
+                                    
+                                    <div class="feature-list">
+                                        <div class="feature-item">
+                                            <i class="fas fa-chart-line text-primary ml-2"></i>
+                                            تحلیل ترازنامه و صورت‌های مالی
+                                        </div>
+                                        <div class="feature-item">
+                                            <i class="fas fa-file-invoice-dollar text-success ml-2"></i>
+                                            تهیه گزارش‌های مالی دوره‌ای
+                                        </div>
+                                        <div class="feature-item">
+                                            <i class="fas fa-calculator text-purple ml-2"></i>
+                                            محاسبه نسبت‌های مالی و نقدینگی
+                                        </div>
+                                        <div class="feature-item">
+                                            <i class="fas fa-search text-warning ml-2"></i>
+                                            پاسخ به سوالات تخصصی حسابداری
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mt-4 p-3 bg-light rounded border">
+                                        <p class="text-primary mb-2">
+                                            <i class="fas fa-lightbulb ml-2"></i>
+                                            <strong>نکته:</strong>
+                                        </p>
+                                        <p class="text-muted mb-0">می‌توانید اسناد مالی خود را آپلود کنید تا بر اساس آن‌ها تحلیل دقیق‌تری ارائه دهم.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- پانل ابزارهای تحلیل سریع -->
+                        <div class="panel collapsed" id="toolsPanel">
+                            <div class="panel-header" onclick="togglePanel('toolsPanel')">
+                                <h3>
+                                    <i class="fas fa-tools"></i>
+                                    ابزارهای تحلیل سریع
+                                </h3>
+                                <button class="collapse-btn">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <div class="panel-content">
+                                <div class="tools-grid">
+                                    <button class="tool-btn" onclick="analyzeBalanceSheet()">
+                                        <i class="fas fa-balance-scale"></i>
+                                        تحلیل ترازنامه
+                                    </button>
+                                    <button class="tool-btn" onclick="generateFinancialReport()">
+                                        <i class="fas fa-file-invoice-dollar"></i>
+                                        گزارش مالی
+                                    </button>
+                                    <button class="tool-btn" onclick="calculateFinancialRatios()">
+                                        <i class="fas fa-calculator"></i>
+                                        نسبت‌های مالی
+                                    </button>
+                                    <button class="tool-btn" onclick="analyzeCashFlow()">
+                                        <i class="fas fa-money-bill-wave"></i>
+                                        جریان نقدی
+                                    </button>
+                                    <button class="tool-btn" onclick="quickAction('تحلیل سودآوری و بازدهی سرمایه گذاری')">
+                                        <i class="fas fa-trend-up"></i>
+                                        تحلیل سودآوری
+                                    </button>
+                                    <button class="tool-btn" onclick="quickAction('بررسی وضعیت بدهی و اهرم مالی')">
+                                        <i class="fas fa-chart-pie"></i>
+                                        تحلیل بدهی
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Chat Container -->
+                    <div class="card shadow-lg glass-effect responsive-card">
+                        <div class="card-body p-3 p-md-4">
+                            <!-- Chat Header -->
+                            <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-gradient-bot rounded-2 p-2 ml-3">
+                                        <i class="fas fa-robot text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="card-title mb-1 text-dark">مکالمه مالی</h5>
+                                        <div class="d-flex align-items-center">
+                                            <span class="badge bg-success me-2">
+                                                <i class="fas fa-circle fa-xs"></i>
+                                            </span>
+                                            <small class="text-muted" id="systemStatus">آنلاین - آماده پاسخگویی</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex gap-2 action-buttons">
+                                    <button onclick="clearChat()" class="btn btn-outline-secondary btn-sm" title="پاک کردن چت">
+                                        <i class="fas fa-broom"></i>
+                                    </button>
+                                    <button onclick="toggleTheme()" class="btn btn-outline-secondary btn-sm" title="تغییر تم">
+                                        <i class="fas fa-palette"></i>
+                                    </button>
+                                    <button onclick="showSystemInfo()" class="btn btn-outline-secondary btn-sm" title="اطلاعات سیستم">
+                                        <i class="fas fa-info-circle"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Chat Messages Container -->
+                            <div class="main-chat-area">
+                                <div id="chatMessages" class="chat-messages custom-scrollbar">
+                                    <!-- Welcome Message -->
+                                    <div class="message-bot p-4 fade-in">
+                                        <div class="d-flex align-items-start gap-3">
+                                            <div class="bg-gradient-bot rounded-2 p-2 flex-shrink-0">
+                                                <i class="fas fa-robot text-white"></i>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <div class="d-flex align-items-center gap-2 mb-2">
+                                                    <h6 class="mb-0 fw-bold text-dark">دستیار مالی</h6>
+                                                    <span class="badge bg-success">آماده خدمات</span>
+                                                </div>
+                                                <div class="text-muted">
+                                                    <p class="mb-2">سلام! 👋 من آماده پاسخگویی به سوالات مالی شما هستم.</p>
+                                                    <p class="mb-0">می‌توانید سوال خود را تایپ کنید یا از ابزارهای تحلیل سریع استفاده نمایید.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Input Area -->
+                                <div class="chat-input-area responsive-input">
+                                    <div class="row g-2 g-md-3 align-items-end">
+                                        <div class="col-12 col-md-8">
+                                            <div class="input-group input-group-lg">
+                                                <input 
+                                                    type="text" 
+                                                    id="messageInput"
+                                                    placeholder="سوال مالی خود را اینجا تایپ کنید... (برای مثال: تحلیل مالی شرکت با دارایی ۲۰۰ میلیارد)"
+                                                    class="form-control form-control-lg border-2 responsive-input"
+                                                    onkeypress="handleKeyPress(event)"
+                                                >
+                                                <button class="btn btn-outline-secondary" type="button" onclick="showSampleData()" title="داده نمونه">
+                                                    <i class="fas fa-database"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-4 mt-2 mt-md-0">
+                                            <button 
+                                                onclick="sendMessage()"
+                                                id="sendButton"
+                                                class="btn btn-primary btn-lg w-100 responsive-btn btn-custom-primary"
+                                            >
+                                                <i class="fas fa-paper-plane ml-2"></i>
+                                                ارسال پیام
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Upload Section -->
+                                    <div class="mt-4 bg-light rounded-3 p-4 border upload-section">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-6">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="bg-primary rounded-2 p-2 ml-3">
+                                                        <i class="fas fa-file-excel text-white"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="mb-1 text-primary">آپلود اسناد حسابداری</h6>
+                                                        <p class="text-muted small mb-0">فایل‌های Excel یا CSV دفتر روزنامه و اسناد مالی</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="d-flex gap-2 justify-content-md-end flex-wrap">
+                                                    <input 
+                                                        type="file" 
+                                                        id="fileUpload"
+                                                        accept=".xlsx,.xls,.csv"
+                                                        class="d-none"
+                                                        onchange="uploadFile()"
+                                                    >
+                                                    <button 
+                                                        onclick="document.getElementById('fileUpload').click()"
+                                                        class="btn btn-primary"
+                                                    >
+                                                        <i class="fas fa-cloud-upload-alt ml-2"></i>
+                                                        انتخاب فایل
+                                                    </button>
+                                                    <button 
+                                                        onclick="showTemplateInfo()"
+                                                        class="btn btn-success"
+                                                    >
+                                                        <i class="fas fa-info-circle ml-2"></i>
+                                                        راهنما
+                                                    </button>
+                                                    <button 
+                                                        onclick="downloadTemplate()"
+                                                        class="btn btn-purple"
+                                                    >
+                                                        <i class="fas fa-download ml-2"></i>
+                                                        تمپلیت
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="uploadStatus" class="mt-3"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer Info -->
+                    <div class="text-center mt-4 text-white-70">
+                        <div class="d-flex flex-wrap justify-content-center gap-4 mb-2">
+                            <span class="d-flex align-items-center">
+                                <i class="fas fa-shield-alt text-success ml-2"></i>
+                                امنیت بالا
+                            </span>
+                            <span class="d-flex align-items-center">
+                                <i class="fas fa-bolt text-warning ml-2"></i>
+                                پردازش سریع
+                            </span>
+                            <span class="d-flex align-items-center">
+                                <i class="fas fa-brain text-purple ml-2"></i>
+                                هوش مصنوعی
+                            </span>
+                        </div>
+                        <p class="small mb-0">ساخته شده با ❤️ برای متخصصان مالی | نسخه ۱.۰</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Django Template -->
+    {% include 'assistant/footer.html' %}
+
+    <!-- Template Info Modal -->
+    <div class="modal fade" id="templateInfoModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">راهنمای آپلود اسناد حسابداری</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-4">
+                        <div class="col-12">
+                            <div class="alert alert-info">
+                                <h6 class="alert-heading">
+                                    <i class="fas fa-file-alt ml-2"></i>
+                                    فرمت فایل مورد پذیرش
+                                </h6>
+                                <ul class="mb-0">
+                                    <li>فایل Excel (.xlsx, .xls) - ترجیحاً</li>
+                                    <li>فایل CSV (.csv)</li>
+                                    <li>حداکثر حجم: ۱۰ مگابایت</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="alert alert-success">
+                                <h6 class="alert-heading">
+                                    <i class="fas fa-table ml-2"></i>
+                                    ساختار ستون‌های مورد نیاز
+                                </h6>
+                                <div class="table-responsive mt-2">
+                                    <table class="table table-bordered">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>ستون</th>
+                                                <th>توضیح</th>
+                                                <th>نمونه</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>شماره سند</strong></td>
+                                                <td>شناسه یکتای سند مالی</td>
+                                                <td>15</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>تاریخ سند</strong></td>
+                                                <td>تاریخ ثبت سند</td>
+                                                <td>1404/01/24</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>بدهکار</strong></td>
+                                                <td>مبلغ بدهکار</td>
+                                                <td>0</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>بستانکار</strong></td>
+                                                <td>مبلغ بستانکار</td>
+                                                <td>2,000,000,000</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>توضیحات</strong></td>
+                                                <td>شرح عملیات مالی</td>
+                                                <td>بابت واگذار به غیر چک شماره 385640</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>معین</strong></td>
+                                                <td>کد معین حساب</td>
+                                                <td>5</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="alert alert-warning">
+                                <h6 class="alert-heading">
+                                    <i class="fas fa-database ml-2"></i>
+                                    نمونه داده قابل قبول
+                                </h6>
+                                <pre class="mt-2 p-3 bg-dark text-light rounded small" style="direction: ltr; text-align: left;">
+شماره سند,تاریخ سند,بدهکار,بستانکار,توضیحات,معین
+15,1404/01/24,0,2000000000,"بابت واگذار به غیر چک شماره 385640",5
+15,1404/01/24,0,500000000,"بابت واگذار به غیر چک شماره 757431",5
+15,1404/01/24,0,200000000,"بابت واگذار به غیر چک شماره 948939",5
+16,1404/01/25,1500000000,0,"دریافت وجه از صندوق",1
+16,1404/01/25,0,1500000000,"واریز به بانک",2</pre>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="alert alert-secondary">
+                                <h6 class="alert-heading">
+                                    <i class="fas fa-lightbulb ml-2"></i>
+                                    نکات مهم
+                                </h6>
+                                <ul class="mb-0">
+                                    <li>ستون‌های ضروری: <strong>شماره سند، تاریخ سند، بدهکار، بستانکار، توضیحات</strong></li>
+                                    <li>مقادیر عددی بدون کاما وارد شوند (مثال: 2000000)</li>
+                                    <li>تاریخ‌ها به فرمت شمسی (1404/01/24)</li>
+                                    <li>فایل باید دارای header (عنوان ستون‌ها) باشد</li>
+                                    <li>از کاراکترهای خاص در توضیحات خودداری کنید</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button onclick="downloadTemplate()" class="btn btn-primary">
+                        <i class="fas fa-download ml-2"></i>
+                        دانلود تمپلیت
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- System Info Modal -->
+    <div class="modal fade" id="systemInfoModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">اطلاعات سیستم</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="systemInfoContent">
+                        <div class="text-center py-4">
+                            <div class="spinner-border text-primary mb-3"></div>
+                            <p class="text-muted">در حال بارگذاری اطلاعات سیستم...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap & JavaScript Files -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/assistant/chat.js"></script>
+
+    <script>
+        // اضافه کردن استایل‌های داینامیک برای gradient
+        document.addEventListener('DOMContentLoaded', function() {
+            const style = document.createElement('style');
+            style.textContent = `
+                .bg-gradient-user {
+                    background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%) !important;
+                }
+                .bg-gradient-bot {
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+                }
+                .btn-purple {
+                    background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%) !important;
+                    border: none !important;
+                    color: white !important;
+                }
+                .btn-purple:hover {
+                    background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%) !important;
+                    color: white !important;
+                }
+            `;
+            document.head.appendChild(style);
+
+            // مقداردهی اولیه layout manager
+            if (typeof layoutManager !== 'undefined') {
+                layoutManager.init();
+            }
+        });
+
+        // مدیریت پانل‌ها
+        let panelsVisible = false;
+
+        function toggleAllPanels() {
+            const panelsContainer = document.querySelector('.collapsible-panels');
+            const toggleBtn = document.getElementById('panelsToggleBtn');
+            
+            panelsVisible = !panelsVisible;
+            
+            if (panelsVisible) {
+                panelsContainer.style.display = 'block';
+                toggleBtn.innerHTML = '<i class="fas fa-times"></i> مخفی کردن پانل‌ها';
+            } else {
+                panelsContainer.style.display = 'none';
+                toggleBtn.innerHTML = '<i class="fas fa-bars"></i> نمایش پانل‌ها';
+            }
+        }
+
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            const content = panel.querySelector('.panel-content');
+            const btn = panel.querySelector('.collapse-btn i');
+            
+            if (panel.classList.contains('collapsed')) {
+                panel.classList.remove('collapsed');
+                content.style.maxHeight = content.scrollHeight + 'px';
+                btn.className = 'fas fa-minus';
+            } else {
+                panel.classList.add('collapsed');
+                content.style.maxHeight = '0';
+                btn.className = 'fas fa-plus';
+            }
+        }
+    </script>
+</body>
+</html>

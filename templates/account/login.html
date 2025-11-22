@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load socialaccount %}
+
+{% block title %}ورود - Financial AI{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0 text-center">
+                    <i class="bi bi-box-arrow-in-right"></i> ورود به سیستم
+                </h4>
+            </div>
+            <div class="card-body p-4">
+                <!-- ورود با جیمیل -->
+                <div class="d-grid gap-2 mb-4">
+                    <a href="{% provider_login_url 'google' %}" class="btn btn-danger btn-lg">
+                        <i class="bi bi-google"></i> ورود با حساب Google
+                    </a>
+                </div>
+
+                <div class="text-center text-muted mb-4">یا</div>
+
+                <!-- ورود با ایمیل و رمزعبور -->
+                <form method="POST" action="{% url 'account_login' %}">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="id_login" class="form-label">ایمیل</label>
+                        <input type="email" name="login" id="id_login" class="form-control" 
+                               placeholder="example@gmail.com" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="id_password" class="form-label">رمز عبور</label>
+                        <input type="password" name="password" id="id_password" 
+                               class="form-control" required>
+                    </div>
+
+                    {% if form.errors %}
+                        <div class="alert alert-danger">
+                            ایمیل یا رمز عبور اشتباه است.
+                        </div>
+                    {% endif %}
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">ورود به سیستم</button>
+                    </div>
+                </form>
+
+                <div class="text-center mt-4">
+                    <p class="mb-2">حساب کاربری ندارید؟</p>
+                    <a href="{% url 'account_signup' %}" class="btn btn-outline-primary">
+                        ثبت‌نام در سیستم
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

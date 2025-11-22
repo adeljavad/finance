@@ -1,0 +1,235 @@
+    /* آیکون فونت آوسام */
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css'); 
+/* استایل کلی چت باکس */
+.chat-container {
+    max-width: 800px;
+    margin: 20px auto;
+    background: #f8f9fa;
+    border-radius: 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.chat-box {
+    height: 500px;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/*****************************************/
+
+.chatbot-user-message {
+    align-self: flex-end;
+    max-width: 70%;
+    padding: 12px 20px;
+    background: #005f73;
+    color: white;
+    border-radius: 15px 15px 0 15px;
+    position: relative;
+    margin-left: 30%;
+    margin-right: 15px; /* اضافه کردن مارجین راست */
+    animation: slide-in-right 0.3s ease;
+}
+
+.chatbot-user-message::before {
+    content: '👤';
+    position: absolute;
+    right: -20px;
+    bottom: 0;
+    font-size: 24px;
+}
+
+/* استایل پاسخ بات */
+.chatbot-bot-response {
+    align-self: flex-start;
+    max-width: 70%;
+    padding: 12px 20px;
+    background: #e9ecef;
+    color: #212529;
+    border-radius: 15px 15px 15px 0;
+    position: relative;
+    margin-right: 25%;
+    margin-left: 15px; /* اضافه کردن مارجین چپ */
+    animation: slide-in-left 0.3s ease;
+}
+
+.chatbot-bot-response::before {
+    content: '🤖';
+    position: absolute;
+    left: -20px;
+    bottom: 0;
+    font-size: 24px;
+}
+
+/* انیمیشن‌ها */
+@keyframes slide-in-right {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-in-left {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* استایل فرم ارسال */
+#chat-form {
+    display: flex;
+    gap: 10px;
+    padding: 20px;
+    background: #f1f3f5;
+    border-top: 1px solid #dee2e6;
+}
+
+#message {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    resize: none;
+}
+
+button[type="submit"] {
+    padding: 12px 25px;
+    background: #2b8a3e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button[type="submit"]:hover {
+    background: #2f9e44;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #333;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.sidebar button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #444;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.sidebar button:hover {
+    background-color: #555;
+}
+
+.chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.chat-box {
+    flex: 1;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.json-editor-container {
+    direction: ltr;
+    margin-bottom: 15px;
+}
+.json-editor-container textarea {
+    font-family: monospace;
+    direction: ltr;
+    text-align: left;
+}
+.json-actions {
+    direction: rtl;
+}
+
+/* اسپینر سفارشی */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+/* پالت رنگی حرفه‌ای */
+:root {
+    --primary: #4f46e5;  /* آبی سیر */
+    --primary-light: #6366f1;
+    --primary-dark: #4338ca;
+    --secondary: #f59e0b;  /* نارنجی */
+    --text: #1f2937;  /* خاکستری تیره */
+    --text-light: #6b7280;
+    --bg: #f9fafb;  /* خاکستری روشن */
+    --bg-card: #ffffff;
+}
+
+
+/* استایل دکمه کپی */
+.chatbot-user-message {
+    position: relative;
+    padding-right: 40px; /* فضای برای دکمه کپی */
+}
+
+.copy-btn {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    padding: 4px;
+    transition: all 0.3s;
+}
+
+.copy-btn:hover {
+    color: #fff;
+    transform: scale(1.1);
+}
+
+.copy-btn:active {
+    transform: scale(0.9);
+}
+
