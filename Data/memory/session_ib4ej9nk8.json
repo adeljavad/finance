@@ -1,0 +1,19 @@
+{
+  "session_id": "session_ib4ej9nk8",
+  "messages": [
+    {
+      "role": "user",
+      "content": "سلام",
+      "timestamp": 1765264018.1051195,
+      "metadata": {}
+    },
+    {
+      "role": "assistant",
+      "content": "سلام! من دستیار مالی شما هستم. چطور می‌توانم کمک کنم؟",
+      "timestamp": 1765264018.3133073,
+      "metadata": {}
+    }
+  ],
+  "created_at": 1765264018.102087,
+  "last_activity": 1765264018.3133073
+}

@@ -5,6 +5,9 @@ app_name = 'assistant'
 
 urlpatterns = [
     path('', views.home, name='home'),
+    
+    
+    path('api/chat_django/', views.chat_api_django, name='chat_api_django'),
     path('api/chat/', views.chat_api, name='chat_api'),
     path('api/upload/', views.upload_document, name='upload_document'),
     path('api/system-info/', views.get_system_info, name='system_info'),

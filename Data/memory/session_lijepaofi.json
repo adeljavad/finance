@@ -1,0 +1,19 @@
+{
+  "session_id": "session_lijepaofi",
+  "messages": [
+    {
+      "role": "user",
+      "content": "تراز ۴ ستونی",
+      "timestamp": 1765346924.3256013,
+      "metadata": {}
+    },
+    {
+      "role": "assistant",
+      "content": "متأسفانه در حال حاضر امکان پاسخگویی وجود ندارد.",
+      "timestamp": 1765346956.4840758,
+      "metadata": {}
+    }
+  ],
+  "created_at": 1765346923.5697486,
+  "last_activity": 1765346956.4840758
+}

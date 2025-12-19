@@ -11,6 +11,7 @@ from langchain.schema import BaseOutputParser
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.memory import ConversationBufferMemory
+from langchain.memory import ConversationBufferWindowMemory
 
 from financial_system.services.balance_sheet_analyzer import BalanceSheetAnalyzer
 from financial_system.services.cash_bank_analyzer import CashBankAnalyzer

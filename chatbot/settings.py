@@ -15,7 +15,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-fallback-key-for-dev-only')
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*','localhost', '127.0.0.1']
+
 
 # Application definition
 INSTALLED_APPS = [
@@ -36,18 +37,21 @@ INSTALLED_APPS = [
     'django_filters',
     'django_tables2',
     'rest_framework',
-    'django_celery_beat',
-    
+    # 'django_celery_beat',
+    'corsheaders',
     # Local apps
     'users',
     'financial_system',
     'data_importer',
     'coding_manager',
     'assistant',
+    'pages',
+    'financial_ai_core',
 ]
 
 # Middleware
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -57,6 +61,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
     'users.middleware.CompanyAccessMiddleware',  # اضافه کردن میدلور دسترسی شرکت
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
 ]
 
 # URL Configuration
@@ -133,6 +142,8 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 AUTH_USER_MODEL = 'users.CustomUser'
+# در settings.py خود، این خط را اضافه کنید
+SUPABASE_JWT_SECRET = 'Sc50YKxKL8c8LpmG4j001ujExNPDD700iZblgUwNtYLiw3w3iUeRQLfMNlhmIhkM5U7f0uMCoUnLanp3PQ12pA=='
 
 # Allauth Settings
 SITE_ID = 1
@@ -254,7 +265,7 @@ LOGGING = {
     },
 }
 # Custom Settings
-INTERNAL_API_BASE_URL = "http://eit-undwriting:20220/"
+# INTERNAL_API_BASE_URL = "http://eit-undwriting:20220/"
 
 # Security settings for production (اختیاری - فعلاً غیرفعال)
 if not DEBUG:

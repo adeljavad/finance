@@ -1,0 +1,19 @@
+{
+  "session_id": "session_c8nwl9zte",
+  "messages": [
+    {
+      "role": "user",
+      "content": "تراز کل چهار ستونی بده",
+      "timestamp": 1764595287.763026,
+      "metadata": {}
+    },
+    {
+      "role": "assistant",
+      "content": "متأسفانه در حال حاضر امکان پاسخگویی وجود ندارد.",
+      "timestamp": 1764595318.4963748,
+      "metadata": {}
+    }
+  ],
+  "created_at": 1764595287.7606287,
+  "last_activity": 1764595318.4963748
+}

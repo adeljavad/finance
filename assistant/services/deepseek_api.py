@@ -2,7 +2,6 @@ import os
 import requests
 import json
 from typing import Dict, Any, List
-from django.conf import settings
 
 
 class DeepSeekLLM:
@@ -11,11 +10,15 @@ class DeepSeekLLM:
     """
 
     def __init__(self):
-        self.api_key = getattr(settings, 'DEEPSEEK_API_KEY', os.getenv('DEEPSEEK_API_KEY'))
+        # در حالت standalone از environment variable استفاده می‌کنیم
+        self.api_key = os.getenv('DEEPSEEK_API_KEY')
         self.base_url = "https://api.deepseek.com/v1/chat/completions"
         
         if not self.api_key:
-            raise ValueError("DEEPSEEK_API_KEY not found in settings or environment variables")
+            # اگر API_KEY وجود نداشت، از یک مقدار پیش‌فرض استفاده می‌کنیم
+            # (در حالت واقعی باید از فایل .env یا تنظیمات دیگر خوانده شود)
+            self.api_key = "dummy_key_for_testing"
+            print("⚠️  هشدار: DEEPSEEK_API_KEY پیدا نشد. از کلید تست استفاده می‌شود.")
 
     def invoke(self, messages: List[Dict[str, str]]) -> str:
         """

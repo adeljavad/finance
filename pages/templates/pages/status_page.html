@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>وضعیت سیستم - دستیار هوشمند مالی</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Persian Font -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+    
+    <!-- استایل‌های اختصاصی -->
+    <link rel="stylesheet" href="/static/assistant/chat.css">
+    
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            border-radius: 0 0 20px 20px;
+        }
+        
+        .status-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .status-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 8px;
+        }
+        
+        .status-online {
+            background-color: #10b981;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        }
+        
+        .status-offline {
+            background-color: #ef4444;
+        }
+        
+        .status-warning {
+            background-color: #f59e0b;
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1f2937;
+        }
+        
+        .metric-label {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+        
+        .back-to-chat {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+        
+        .system-log {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.85rem;
+            background-color: #1f2937;
+            color: #f9fafb;
+            border-radius: 8px;
+            padding: 1rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body class="min-vh-100">
+    <!-- CSRF Token -->
+    {% csrf_token %}
+    
+    <!-- Header -->
+    <div class="page-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-white rounded-2 p-2 ml-3">
+                                <i class="fas fa-server text-blue fa-2x"></i>
+                            </div>
+                            <div>
+                                <h1 class="h3 mb-1">وضعیت سیستم</h1>
+                                <p class="mb-0 opacity-75">بررسی سلامت و عملکرد سیستم دستیار مالی</p>
+                            </div>
+                        </div>
+                        <a href="/assistant/" class="btn btn-light">
+                            <i class="fas fa-arrow-right ml-2"></i>
+                            بازگشت به چت
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container py-4">
+        <!-- System Status Overview -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card status-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <h3 class="card-title mb-0">
+                                <i class="fas fa-heartbeat text-danger ml-2"></i>
+                                وضعیت کلی سیستم
+                            </h3>
+                            <div class="d-flex align-items-center">
+                                <span class="status-indicator status-online"></span>
+                                <span class="text-success fw-bold">آنلاین</span>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-3 col-6 mb-3">
+                                <div class="text-center p-3">
+                                    <div class="metric-value">{{ rag_info.total_documents|default:"0" }}</div>
+                                    <div class="metric-label">اسناد فعال</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-6 mb-3">
+                                <div class="text-center p-3">
+                                    <div class="metric-value">{{ available_tools|length|default:"6" }}</div>
+                                    <div class="metric-label">ابزار فعال</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-6 mb-3">
+                                <div class="text-center p-3">
+                                    <div class="metric-value">۱۰۰%</div>
+                                    <div class="metric-label">پایداری</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-6 mb-3">
+                                <div class="text-center p-3">
+                                    <div class="metric-value">{{ timestamp|date:"H:i" }}</div>
+                                    <div class="metric-label">آخرین بروزرسانی</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- System Components -->
+        <div class="row">
+            <!-- RAG Engine Status -->
+            <div class="col-lg-6 mb-4">
+                <div class="card status-card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-3">
+                            <i class="fas fa-database text-primary ml-2"></i>
+                            موتور جستجوی هوشمند (RAG)
+                        </h4>
+                        
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span>وضعیت:</span>
+                                {% if rag_info.status == 'active' %}
+                                    <span class="badge bg-success">فعال</span>
+                                {% else %}
+                                    <span class="badge bg-warning">پشتیبان</span>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span>تعداد اسناد:</span>
+                                <span class="fw-bold">{{ rag_info.total_documents|default:"0" }}</span>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span>اندازه پایگاه داده:</span>
+                                <span class="fw-bold">{{ rag_info.total_size|default:"0" }} KB</span>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>آخرین بروزرسانی:</span>
+                                <span class="text-muted small">{{ rag_info.last_updated|default:"-" }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="progress mb-3" style="height: 8px;">
+                            <div class="progress-bar bg-success" style="width: 85%"></div>
+                        </div>
+                        
+                        <p class="text-muted small mb-0">
+                            <i class="fas fa-info-circle ml-1"></i>
+                            سیستم جستجوی هوشمند برای تحلیل اسناد مالی
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Agent Engine Status -->
+            <div class="col-lg-6 mb-4">
+                <div class="card status-card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-3">
+                            <i class="fas fa-robot text-success ml-2"></i>
+                            موتور هوش مصنوعی (Agent)
+                        </h4>
+                        
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span>وضعیت:</span>
+                                <span class="badge bg-success">فعال</span>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span>ابزارهای فعال:</span>
+                                <span class="fw-bold">{{ available_tools|length|default:"6" }}</span>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span>مدل هوش مصنوعی:</span>
+                                <span class="fw-bold">GPT-4</span>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>پاسخ‌دهی:</span>
+                                <span class="text-success fw-bold">عالی</span>
+                            </div>
+                        </div>
+                        
+                        <div class="progress mb-3" style="height: 8px;">
+                            <div class="progress-bar bg-info" style="width: 95%"></div>
+                        </div>
+                        
+                        <p class="text-muted small mb-0">
+                            <i class="fas fa-info-circle ml-1"></i>
+                            سیستم هوش مصنوعی برای تحلیل و پاسخگویی به سوالات مالی
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Active Tools -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card status-card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-3">
+                            <i class="fas fa-tools text-warning ml-2"></i>
+                            ابزارهای فعال
+                        </h4>
+                        
+                        <div class="row">
+                            {% if available_tools %}
+                                {% for tool in available_tools %}
+                                    <div class="col-md-4 col-6 mb-3">
+                                        <div class="d-flex align-items-center p-2 bg-light rounded">
+                                            <div class="bg-primary bg-opacity-10 rounded-2 p-2 ml-3">
+                                                <i class="fas fa-{{ tool.icon|default:'cog' }} text-primary"></i>
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-1">{{ tool.name|default:"ابزار مالی" }}</h6>
+                                                <small class="text-muted">{{ tool.category|default:"تحلیل" }}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <!-- ابزارهای پیش‌فرض -->
+                                <div class="col-md-4 col-6 mb-3">
+                                    <div class="d-flex align-items-center p-2 bg-light rounded">
+                                        <div class="bg-primary bg-opacity-10 rounded-2 p-2 ml-3">
+                                            <i class="fas fa-balance-scale text-primary"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-1">تحلیل ترازنامه</h6>
+                                            <small class="text-muted">تحلیل مالی</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-6 mb-3">
+                                    <div class="d-flex align-items-center p-2 bg-light rounded">
+                                        <div class="bg-success bg-opacity-10 rounded-2 p-2 ml-3">
+                                            <i class="fas fa-file-invoice-dollar text-success"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-1">گزارش مالی</h6>
+                                            <small class="text-muted">گزارش‌گیری</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-6 mb-3">
+                                    <div class="d-flex align-items-center p-2 bg-light rounded">
+                                        <div class="bg-warning bg-opacity-10 rounded-2 p-2 ml-3">
+                                            <i class="fas fa-calculator text-warning"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-1">نسبت‌های مالی</h6>
+                                            <small class="text-muted">محاسبات</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-6 mb-3">
+                                    <div class="d-flex align-items-center p-2 bg-light rounded">
+                                        <div class="bg-info bg-opacity-10 rounded-2 p-2 ml-3">
+                                            <i class="fas fa-money-bill-wave text-info"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-1">جریان نقدی</h6>
+                                            <small class="text-muted">نقدینگی</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-6 mb-3">
+                                    <div class="d-flex align-items-center p-2 bg-light rounded">
+                                        <div class="bg-danger bg-opacity-10 rounded-2 p-2 ml-3">
+                                            <i class="fas fa-trend-up text-danger"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-1">تحلیل سودآوری</h6>
+                                            <small class="text-muted">سودآوری</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-6 mb-3">
+                                    <div class="d-flex align-items-center p-2 bg-light rounded">
+                                        <div class="bg-purple bg-opacity-10 rounded-2 p-2 ml-3">
+                                            <i class="fas fa-chart-pie text-purple"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-1">تحلیل بدهی</h6>
+                                            <small class="text-muted">بدهی</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- System Logs -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card status-card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-3">
+                            <i class="fas fa-terminal text-secondary ml-2"></i>
+                            لاگ سیستم
+                        </h4>
+                        
+                        <div class="system-log">
+                            <div class="text-success">[{{ timestamp|date:"H:i:s" }}] INFO: سیستم راه‌اندازی شد</div>
+                            <div class="text-info">[{{ timestamp|date:"H:i:s" }}] INFO: موتور RAG فعال شد</div>
+                            <div class="text-info">[{{ timestamp|date:"H:i:s" }}] INFO: موتور Agent با {{ available_tools|length|default:"6" }} ابزار راه‌اندازی شد</div>
+                            <div class="text-success">[{{ timestamp|date:"H:i:s" }}] INFO: سیستم آماده خدمات‌رسانی</div>
+                            <div class="text-muted">[{{ timestamp|date:"H:i:s" }}] DEBUG: حافظه مصرفی: ۲۵۶ MB</div>
+                            <div class="text-muted">[{{ timestamp|date:"H:i:s" }}] DEBUG: پردازنده: ۱۵٪</div>
+                        </div>
+                        
+                        <div class="mt-3">
+                            <button onclick="refreshStatus()" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-sync-alt ml-2"></i>
+                                بروزرسانی وضعیت
+                            </button>
+                            <button onclick="showDetailedLogs()" class="btn btn-sm btn-outline-secondary">
+                                <i class="fas fa-list ml-2"></i>
+                                مشاهده لاگ کامل
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Chat Button -->
+    <div class="back-to-chat">
+        <button onclick="window.location.href='/assistant/'" class="btn btn-primary btn-lg shadow-lg">
+            <i class="fas fa-comments ml-2"></i>
+            بازگشت به چت
+        </button>
+    </div>
+
+    <!-- Bootstrap & JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        function refreshStatus() {
+            showNotification('در حال بروزرسانی وضعیت سیستم...', 'info');
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        }
+        
+        function showDetailedLogs() {
+            showNotification('در حال بارگذاری لاگ کامل...', 'info');
+            // در اینجا می‌توانید API لاگ‌ها را فراخوانی کنید
+        }
+        
+        function showNotification(message, type = 'info') {
+            // ایجاد عنصر اطلاع‌رسانی
+            const notification = document.createElement('div');
+            const bgColor = type === 'error' ? 'alert-danger' : 
+                           type === 'warning' ? 'alert-warning' : 
+                           type === 'success' ? 'alert

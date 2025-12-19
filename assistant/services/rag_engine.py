@@ -1,13 +1,22 @@
 import os
-import json  # اضافه کردن این خط
-from django.conf import settings
+import json
 from typing import List, Dict, Any, Optional
 import uuid
 import logging
 
 logger = logging.getLogger(__name__)
 
-CHROMA_DIR = getattr(settings, 'CHROMA_DIR', os.path.join(os.getcwd(), "data", "chroma"))
+# مسیر پیش‌فرض برای ذخیره‌سازی داده‌های RAG
+CHROMA_DIR = os.path.join(os.getcwd(), "data", "chroma")
+
+# تلاش برای استفاده از تنظیمات Django اگر موجود باشد
+try:
+    from django.conf import settings
+    CHROMA_DIR = getattr(settings, 'CHROMA_DIR', CHROMA_DIR)
+except ImportError:
+    pass
+except Exception as e:
+    logger.warning(f"خطا در بارگیری تنظیمات Django: {e}")
 
 try:
     import chromadb

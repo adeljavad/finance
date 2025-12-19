@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آپلود اسناد مالی - دستیار هوشمند مالی</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Persian Font -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+    
+    <!-- استایل‌های اختصاصی -->
+    <link rel="stylesheet" href="/static/assistant/chat.css">
+    
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            border-radius: 0 0 20px 20px;
+        }
+        
+        .feature-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 15px;
+            padding: 3rem;
+            text-align: center;
+            background: rgba(102, 126, 234, 0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-area:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: #764ba2;
+        }
+        
+        .back-to-chat {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body class="min-vh-100">
+    <!-- CSRF Token -->
+    {% csrf_token %}
+    
+    <!-- Header -->
+    <div class="page-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-white rounded-2 p-2 ml-3">
+                                <i class="fas fa-cloud-upload-alt text-purple fa-2x"></i>
+                            </div>
+                            <div>
+                                <h1 class="h3 mb-1">آپلود اسناد مالی</h1>
+                                <p class="mb-0 opacity-75">بارگذاری و پردازش هوشمند اسناد حسابداری</p>
+                            </div>
+                        </div>
+                        <a href="/assistant/" class="btn btn-light">
+                            <i class="fas fa-arrow-right ml-2"></i>
+                            بازگشت به چت
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container py-4">
+        <div class="row">
+            <!-- Left Column - Upload Area -->
+            <div class="col-lg-8 mb-4">
+                <div class="card feature-card">
+                    <div class="card-body">
+                        <h3 class="card-title mb-4">
+                            <i class="fas fa-file-upload text-primary ml-2"></i>
+                            بارگذاری فایل
+                        </h3>
+                        
+                        <div class="upload-area" onclick="document.getElementById('fileUpload').click()">
+                            <i class="fas fa-cloud-upload-alt fa-4x text-primary mb-3"></i>
+                            <h4 class="mb-3">فایل خود را اینجا رها کنید یا کلیک کنید</h4>
+                            <p class="text-muted mb-3">فایل‌های Excel یا CSV دفتر روزنامه و اسناد مالی</p>
+                            <div class="d-flex justify-content-center gap-3">
+                                <span class="badge bg-primary p-2">
+                                    <i class="fas fa-file-excel ml-1"></i>
+                                    Excel (.xlsx, .xls)
+                                </span>
+                                <span class="badge bg-success p-2">
+                                    <i class="fas fa-file-csv ml-1"></i>
+                                    CSV (.csv)
+                                </span>
+                            </div>
+                            <p class="text-muted small mt-3">حداکثر حجم: ۱۰ مگابایت</p>
+                        </div>
+                        
+                        <input 
+                            type="file" 
+                            id="fileUpload"
+                            accept=".xlsx,.xls,.csv" 
+                            class="d-none"
+                            onchange="handleFileUpload()"
+                        >
+                        
+                        <div id="uploadStatus" class="mt-4"></div>
+                    </div>
+                </div>
+                
+                <!-- Uploaded Files List -->
+                <div class="card feature-card mt-4">
+                    <div class="card-body">
+                        <h3 class="card-title mb-4">
+                            <i class="fas fa-history text-success ml-2"></i>
+                            فایل‌های آپلود شده
+                        </h3>
+                        <div id="uploadedFilesList" class="text-center py-4">
+                            <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">هنوز فایلی آپلود نکرده‌اید</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Column - Info & Features -->
+            <div class="col-lg-4">
+                <!-- Features -->
+                <div class="card feature-card mb-4">
+                    <div class="card-body">
+                        <h3 class="card-title mb-4">
+                            <i class="fas fa-star text-warning ml-2"></i>
+                            ویژگی‌ها
+                        </h3>
+                        
+                        <div class="feature-list">
+                            <div class="feature-item mb-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-primary bg-opacity-10 rounded-2 p-2 ml-3">
+                                        <i class="fas fa-brain text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-1">تشخیص هوشمند ستون‌ها</h6>
+                                        <p class="text-muted small mb-0">سیستم به صورت خودکار ساختار فایل را تشخیص می‌دهد</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="feature-item mb-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-success bg-opacity-10 rounded-2 p-2 ml-3">
+                                        <i class="fas fa-chart-bar text-success"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-1">تحلیل خودکار</h6>
+                                        <p class="text-muted small mb-0">پس از آپلود، تحلیل مالی انجام می‌شود</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="feature-item mb-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-purple bg-opacity-10 rounded-2 p-2 ml-3">
+                                        <i class="fas fa-shield-alt text-purple"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-1">امنیت بالا</h6>
+                                        <p class="text-muted small mb-0">فایل‌ها به صورت امن پردازش و ذخیره می‌شوند</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="card feature-card">
+                    <div class="card-body">
+                        <h3 class="card-title mb-4">
+                            <i class="fas fa-bolt text-danger ml-2"></i>
+                            اقدامات سریع
+                        </h3>
+                        
+                        <div class="d-grid gap-2">
+                            <button onclick="showTemplateInfo()" class="btn btn-outline-primary">
+                                <i class="fas fa-info-circle ml-2"></i>
+                                راهنمای فرمت فایل
+                            </button>
+                            <button onclick="downloadTemplate()" class="btn btn-outline-success">
+                                <i class="fas fa-download ml-2"></i>
+                                دانلود تمپلیت
+                            </button>
+                            <button onclick="openChatWithUpload()" class="btn btn-purple">
+                                <i class="fas fa-robot ml-2"></i>
+                                گفتگو با دستیار
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Chat Button -->
+    <div class="back-to-chat">
+        <button onclick="window.location.href='/assistant/'" class="btn btn-primary btn-lg shadow-lg">
+            <i class="fas fa-comments ml-2"></i>
+            بازگشت به چت
+        </button>
+    </div>
+
+    <!-- Bootstrap & JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // توابع آپلود
+        function handleFileUpload() {
+            const fileInput = document.getElementById('fileUpload');
+            const file = fileInput.files[0];
+            const uploadStatus = document.getElementById('uploadStatus');
+            
+            if (!file) return;
+            
+            // اعتبارسنجی فرمت فایل
+            const allowedExtensions = ['.xlsx', '.xls', '.csv'];
+            const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+            
+            if (!allowedExtensions.includes(fileExtension)) {
+                uploadStatus.innerHTML = `
+                    <div class="alert alert-danger d-flex align-items-center">
+                        <i class="fas fa-times-circle ml-2"></i>
+                        <span>فرمت فایل مجاز نیست. فقط فایل‌های Excel و CSV قابل قبول هستند.</span>
+                    </div>
+                `;
+                return;
+            }
+            
+            // اعتبارسنجی حجم فایل
+            if (file.size > 10 * 1024 * 1024) {
+                uploadStatus.innerHTML = `
+                    <div class="alert alert-danger d-flex align-items-center">
+                        <i class="fas fa-times-circle ml-2"></i>
+                        <span>حجم فایل نباید بیشتر از ۱۰ مگابایت باشد.</span>
+                    </div>
+                `;
+                return;
+            }
+            
+            // نمایش وضعیت آپلود
+            uploadStatus.innerHTML = `
+                <div class="alert alert-info d-flex align-items-center">
+                    <i class="fas fa-spinner fa-spin ml-2"></i>
+                    <span>در حال آپلود "${file.name}" ...</span>
+                </div>
+            `;
+            
+            // ارسال فایل به سرور
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('title', file.name);
+            formData.append('file_type', 'accounting_document');
+            
+            fetch('/assistant/api/upload/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCsrfToken()
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    uploadStatus.innerHTML = `
+                        <div class="alert alert-success">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle ml-2"></i>
+                                <div>
+                                    <strong>فایل با موفقیت آپلود شد</strong>
+                                    <div class="mt-1">${data.message}</div>
+                                    ${data.file_size ? `<small>حجم: ${(data.file_size / 1024).toFixed(2)} KB</small>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // اضافه کردن به لیست فایل‌ها
+                    addToUploadedFilesList(file.name, data);
+                    
+                    showNotification('سند حسابداری با موفقیت افزوده شد', 'success');
+                    
+                } else {
+                    uploadStatus.innerHTML = `
+                        <div class="alert alert-danger">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-times-circle ml-2"></i>
+                                <div>
+                                    <strong>خطا در آپلود فایل</strong>
+                                    <div class="mt-1">${data.error}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            })
+            .catch(error => {
+                console.error('Upload error:', error);
+                uploadStatus.innerHTML = `
+                    <div class="alert alert-danger d-flex align-items-center">
+                        <i class="fas fa-times-circle ml-2"></i>
+                        <span>خطا در ارتباط با سرور. لطفاً مجدداً تلاش کنید.</span>
+                    </div>
+                `;
+            })
+            .finally(() => {
+                fileInput.value = '';
+            });
+        }
+        
+        function addToUploadedFilesList(fileName, data) {
+            const filesList = document.getElementById('uploadedFilesList');
+            
+            const fileItem = document.createElement('div');
+            fileItem.className = 'card mb-2';
+            fileItem.innerHTML = `
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-file-excel text-success fa-2x ml-3"></i>
+                            <div>
+                                <h6 class="mb-1">${fileName}</h6>
+                                <small class="text-muted">
+                                    ${new Date().toLocaleDateString('fa-IR')} - 
+                                    ${data.dataframe_info ? `${data.dataframe_info.rows} ردیف` : 'پردازش شده'}
+                                </small>
+                            </div>
+                        </div>
+                        <button class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-eye ml-1"></i>
+                            مشاهده
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // اگر لیست خالی است، محتوای اولیه را حذف کن
+            if (filesList.querySelector('.fa-folder-open')) {
+                filesList.innerHTML = '';
+            }
+            
+            filesList.prepend(fileItem);
+        }
+        
+        function showTemplateInfo() {
+            // باز کردن modal راهنما
+            window.location.href = '/assistant/#templateInfoModal';
+        }
+        
+        function downloadTemplate() {
+            // دانلود تمپلیت
+            const templateData = `شماره سند,تاریخ سند,بدهکار,بستانکار,توضیحات,معین
+15,1404/01/24,0,2000000000,"بابت واگذار به غیر چک شماره 385640",5
+15,1404/01/24,0,500000000,"بابت واگذار به غیر چک شماره 757431",5
+15,1404/01/24,0,200000000,"بابت واگذار به غیر چک شماره 948939",5
+16,1404/01/25,1500000000,0,"دریافت وجه از صندوق",1
+16,1404/01/25,0,1500000000,"واریز به بانک",2`;
+            
+            const blob = new Blob([templateData], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'تمپلیت_اسناد_حسابداری.csv');
+            link.style.visibility = 'hidden';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showNotification('تمپلیت با موفقیت دانلود شد', 'success');
+        }
+        
+        function openChatWithUpload() {
+            window.location.href = '/assistant/';
+        }
+        
+        function getCsrfToken() {
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]');
+            return csrfToken ? csrfToken.value : '';
+        }
+        
+        function showNotification(message, type = 'info') {
+            // ایجاد عنصر اطلاع‌رسانی
+            const notification = document.createElement('div');
+            const bgColor = type === 'error' ? 'alert-danger' : 
+                           type === 'warning' ? 'alert-warning' : 
+                           type === 'success' ? 'alert-success' : 'alert-info';
+            
+            notification.className = `alert ${bgColor} alert-dismissible fade show position-fixed`;
+            notification.style.cssText = 'top: 20px; left: 20px; right: 20px; z-index: 1060; max-width: 400px; margin: 0 auto;';
+            notification.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : type === 'warning' ? 'exclamation-circle' : type === 'success' ? 'check-circle' : 'info-circle'} ml-2"></i>
+                    <span class="flex-grow-1">${message}</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // حذف خودکار پس از 5 ثانیه
+            setTimeout(() => {
+                if (document.body.contains

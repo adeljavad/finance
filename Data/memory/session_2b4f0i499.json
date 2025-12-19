@@ -1,0 +1,19 @@
+{
+  "session_id": "session_2b4f0i499",
+  "messages": [
+    {
+      "role": "user",
+      "content": "تراز ۴ ستونی",
+      "timestamp": 1765367935.823449,
+      "metadata": {}
+    },
+    {
+      "role": "assistant",
+      "content": "متأسفانه در حال حاضر امکان پاسخگویی وجود ندارد.",
+      "timestamp": 1765367967.7430863,
+      "metadata": {}
+    }
+  ],
+  "created_at": 1765367935.816811,
+  "last_activity": 1765367967.7451117
+}

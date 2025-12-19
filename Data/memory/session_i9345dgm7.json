@@ -1,0 +1,31 @@
+{
+  "session_id": "session_i9345dgm7",
+  "messages": [
+    {
+      "role": "user",
+      "content": "سلام وقت بخیر",
+      "timestamp": 1765443394.3268185,
+      "metadata": {}
+    },
+    {
+      "role": "assistant",
+      "content": "سلام! من دستیار مالی شما هستم. چطور می‌توانم کمک کنم؟",
+      "timestamp": 1765443395.056598,
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "تحلیل کامل ترازنامه و صورت‌های مالی را انجام بده",
+      "timestamp": 1765443418.757727,
+      "metadata": {}
+    },
+    {
+      "role": "assistant",
+      "content": "متأسفانه در حال حاضر امکان پاسخگویی وجود ندارد.",
+      "timestamp": 1765443450.3509746,
+      "metadata": {}
+    }
+  ],
+  "created_at": 1765443394.319873,
+  "last_activity": 1765443450.3509746
+}

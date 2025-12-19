@@ -154,6 +154,29 @@ class DynamicToolManager:
             logger.error(f"خطا در ایجاد تعریف ابزار جدید: {e}")
             return None
     
+    def _prepare_dataframe_info(self, df: pd.DataFrame) -> str:
+        """آماده‌سازی اطلاعات دیتافریم برای LLM"""
+        if df is None or df.empty:
+            return "دیتافریم خالی است"
+        
+        info = f"""
+        ستون‌های موجود: {list(df.columns)}
+        تعداد سطرها: {len(df)}
+        نمونه داده‌ها (۳ سطر اول):
+        {df.head(3).to_string()}
+        """
+        
+        # اضافه کردن اطلاعات مالی اگر ستون‌های مربوطه وجود دارند
+        if 'بدهکار' in df.columns and 'بستانکار' in df.columns:
+            info += f"""
+        اطلاعات مالی:
+        - مجموع بدهکار: {df['بدهکار'].sum():,.0f}
+        - مجموع بستانکار: {df['بستانکار'].sum():,.0f}
+        - مانده: {df['بدهکار'].sum() - df['بستانکار'].sum():,.0f}
+        """
+        
+        return info
+    
     def _generate_tool_specification(self, query: str, df: pd.DataFrame) -> Optional[Dict]:
         """تولید مشخصات کامل ابزار با LLM"""
         df_info = self._prepare_dataframe_info(df)
@@ -449,4 +472,4 @@ class DynamicToolManager:
             
         except Exception as e:
             logger.error(f"خطا در دریافت کد ابزار: {e}")
-            return None        
+            return None

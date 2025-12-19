@@ -1,0 +1,19 @@
+{
+  "session_id": "session_qpo5l4qhm",
+  "messages": [
+    {
+      "role": "user",
+      "content": "سلام وقت بخیر",
+      "timestamp": 1763921675.558146,
+      "metadata": {}
+    },
+    {
+      "role": "assistant",
+      "content": "متأسفانه در حال حاضر امکان پاسخگویی وجود ندارد.",
+      "timestamp": 1763921677.9603105,
+      "metadata": {}
+    }
+  ],
+  "created_at": 1763921675.5551445,
+  "last_activity": 1763921677.9603105
+}

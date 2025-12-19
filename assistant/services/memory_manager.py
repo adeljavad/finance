@@ -2,7 +2,6 @@ import json
 import os
 import logging
 from typing import Dict, List, Any, Optional
-from django.conf import settings
 import uuid
 import time
 
@@ -14,7 +13,14 @@ class MemoryManager:
     """
     
     def __init__(self, storage_dir: str = None):
-        self.storage_dir = storage_dir or os.path.join(settings.BASE_DIR, "data", "memory")
+        # در حالت standalone از مسیر پیش‌فرض استفاده می‌کنیم
+        if storage_dir:
+            self.storage_dir = storage_dir
+        else:
+            # مسیر پیش‌فرض برای ذخیره memory
+            base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+            self.storage_dir = os.path.join(base_dir, "data", "memory")
+        
         os.makedirs(self.storage_dir, exist_ok=True)
         
         # ذخیره sessionهای فعال در memory

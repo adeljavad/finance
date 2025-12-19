@@ -1,0 +1,43 @@
+{
+  "session_id": "session_tqulvp5s6",
+  "messages": [
+    {
+      "role": "user",
+      "content": "سلام",
+      "timestamp": 1763921538.5599813,
+      "metadata": {}
+    },
+    {
+      "role": "assistant",
+      "content": "متأسفانه در حال حاضر امکان پاسخگویی وجود ندارد.",
+      "timestamp": 1763921540.9778707,
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "مالیات چیست؟",
+      "timestamp": 1763921604.7323656,
+      "metadata": {}
+    },
+    {
+      "role": "assistant",
+      "content": "متأسفانه در حال حاضر امکان پاسخگویی وجود ندارد.",
+      "timestamp": 1763921606.3563118,
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "سلام وقت بخیر",
+      "timestamp": 1763921660.8803904,
+      "metadata": {}
+    },
+    {
+      "role": "assistant",
+      "content": "متأسفانه در حال حاضر امکان پاسخگویی وجود ندارد.",
+      "timestamp": 1763921662.3234053,
+      "metadata": {}
+    }
+  ],
+  "created_at": 1763921538.557984,
+  "last_activity": 1763921662.3234053
+}

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ابزارهای تحلیل مالی - دستیار هوشمند مالی</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Persian Font -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+    
+    <!-- استایل‌های اختصاصی -->
+    <link rel="stylesheet" href="/static/assistant/chat.css">
+    
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            border-radius: 0 0 20px 20px;
+        }
+        
+        .tool-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .tool-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        .category-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 0.75rem;
+        }
+        
+        .back-to-chat {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+        
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+    </style>
+</head>
+<body class="min-vh-100">
+    <!-- CSRF Token -->
+    {% csrf_token %}
+    
+    <!-- Header -->
+    <div class="page-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-white rounded-2 p-2 ml-3">
+                                <i class="fas fa-tools text-success fa-2x"></i>
+                            </div>
+                            <div>
+                                <h1 class="h3 mb-1">ابزارهای تحلیل مالی</h1>
+                                <p class="mb-0 opacity-75">مجموعه ابزارهای تخصصی برای تحلیل‌های مالی پیشرفته</p>
+                            </div>
+                        </div>
+                        <a href="/assistant/" class="btn btn-light">
+                            <i class="fas fa-arrow-right ml-2"></i>
+                            بازگشت به چت
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container py-4">
+        <!-- Quick Stats -->
+        <div class="row mb-4">
+            <div class="col-md-3 col-6 mb-3">
+                <div class="card bg-primary bg-opacity-10 border-0">
+                    <div class="card-body text-center">
+                        <i class="fas fa-calculator fa-2x text-primary mb-2"></i>
+                        <h3 class="mb-1">{{ tools|length|default:"6" }}</h3>
+                        <p class="text-muted small mb-0">ابزار فعال</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="card bg-success bg-opacity-10 border-0">
+                    <div class="card-body text-center">
+                        <i class="fas fa-chart-line fa-2x text-success mb-2"></i>
+                        <h3 class="mb-1">۴</h3>
+                        <p class="text-muted small mb-0">دسته‌بندی</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="card bg-warning bg-opacity-10 border-0">
+                    <div class="card-body text-center">
+                        <i class="fas fa-bolt fa-2x text-warning mb-2"></i>
+                        <h3 class="mb-1">۱۰+</h3>
+                        <p class="text-muted small mb-0">تحلیل روزانه</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="card bg-purple bg-opacity-10 border-0">
+                    <div class="card-body text-center">
+                        <i class="fas fa-users fa-2x text-purple mb-2"></i>
+                        <h3 class="mb-1">۱۰۰%</h3>
+                        <p class="text-muted small mb-0">رضایت کاربران</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tools Grid -->
+        <div class="tool-grid">
+            <!-- تحلیل ترازنامه -->
+            <div class="tool-card" onclick="runTool('analyzeBalanceSheet')">
+                <div class="card-body">
+                    <span class="badge bg-primary category-badge">تحلیل مالی</span>
+                    <div class="tool-icon bg-primary bg-opacity-10">
+                        <i class="fas fa-balance-scale fa-2x text-primary"></i>
+                    </div>
+                    <h5 class="card-title mb-2">تحلیل ترازنامه</h5>
+                    <p class="card-text text-muted small">
+                        تحلیل کامل ترازنامه و صورت‌های مالی با بررسی دارایی‌ها، بدهی‌ها و سرمایه
+                    </p>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <small class="text-muted">
+                            <i class="fas fa-clock ml-1"></i>
+                            ~۲ دقیقه
+                        </small>
+                        <span class="badge bg-success">پیشرفته</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- گزارش مالی -->
+            <div class="tool-card" onclick="runTool('generateFinancialReport')">
+                <div class="card-body">
+                    <span class="badge bg-success category-badge">گزارش‌گیری</span>
+                    <div class="tool-icon bg-success bg-opacity-10">
+                        <i class="fas fa-file-invoice-dollar fa-2x text-success"></i>
+                    </div>
+                    <h5 class="card-title mb-2">گزارش مالی</h5>
+                    <p class="card-text text-muted small">
+                        تهیه گزارش‌های مالی دوره‌ای با تحلیل روندها و مقایسه دوره‌های مختلف
+                    </p>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <small class="text-muted">
+                            <i class="fas fa-clock ml-1"></i>
+                            ~۳ دقیقه
+                        </small>
+                        <span class="badge bg-warning">متوسط</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- نسبت‌های مالی -->
+            <div class="tool-card" onclick="runTool('calculateFinancialRatios')">
+                <div class="card-body">
+                    <span class="badge bg-warning category-badge">محاسبات</span>
+                    <div class="tool-icon bg-warning bg-opacity-10">
+                        <i class="fas fa-calculator fa-2x text-warning"></i>
+                    </div>
+                    <h5 class="card-title mb-2">نسبت‌های مالی</h5>
+                    <p class="card-text text-muted small">
+                        محاسبه و تحلیل نسبت‌های مالی مهم شامل نقدینگی، سودآوری و اهرم مالی
+                    </p>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <small class="text-muted">
+                            <i class="fas fa-clock ml-1"></i>
+                            ~۱ دقیقه
+                        </small>
+                        <span class="badge bg-success">پیشرفته</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- جریان نقدی -->
+            <div class="tool-card" onclick="runTool('analyzeCashFlow')">
+                <div class="card-body">
+                    <span class="badge bg-info category-badge">نقدینگی</span>
+                    <div class="tool-icon bg-info bg-opacity-10">
+                        <i class="fas fa-money-bill-wave fa-2x text-info"></i>
+                    </div>
+                    <h5 class="card-title mb-2">جریان نقدی</h5>
+                    <p class="card-text text-muted small">
+                        تحلیل جریان نقدینگی و وضعیت نقدی با بررسی ورودی و خروجی‌های نقدی
+                    </p>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <small class="text-muted">
+                            <i class="fas fa-clock ml-1"></i>
+                            ~۲ دقیقه
+                        </small>
+                        <span class="badge bg-primary">متوسط</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- تحلیل سودآوری -->
+            <div class="tool-card" onclick="runTool('analyzeProfitability')">
+                <div class="card-body">
+                    <span class="badge bg-danger category-badge">سودآوری</span>
+                    <div class="tool-icon bg-danger bg-opacity-10">
+                        <i class="fas fa-trend-up fa-2x text-danger"></i>
+                    </div>
+                    <h5 class="card-title mb-2">تحلیل سودآوری</h5>
+                    <p class="card-text text-muted small">
+                        تحلیل سودآوری و بازدهی سرمایه‌گذاری با بررسی حاشیه سود و ROI
+                    </p>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <small class="text-muted">
+                            <i class="fas fa-clock ml-1"></i>
+                            ~۲ دقیقه
+                        </small>
+                        <span class="badge bg-warning">متوسط</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- تحلیل بدهی -->
+            <div class="tool-card" onclick="runTool('analyzeDebt')">
+                <div class="card-body">
+                    <span class="badge bg-purple category-badge">بدهی</span>
+                    <div class="tool-icon bg-purple bg-opacity-10">
+                        <i class="fas fa-chart-pie fa-2x text-purple"></i>
+                    </div>
+                    <h5 class="card-title mb-2">تحلیل بدهی</h5>
+                    <p class="card-text text-muted small">
+                        بررسی وضعیت بدهی و اهرم مالی با تحلیل نسبت‌های بدهی و ساختار سرمایه
+                    </p>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <small class="text-muted">
+                            <i class="fas fa-clock ml-1"></i>
+                            ~۱.۵ دقیقه
+                        </small>
+                        <span class="badge bg-success">پیشرفته</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- تحلیل ریسک -->
+            <div class="tool-card" onclick="runTool('analyzeRisk')">
+                <div class="card-body">
+                    <span class="badge bg-dark category-badge">ریسک</span>
+                    <div class="tool-icon bg-dark bg-opacity-10">
+                        <i class="fas fa-exclamation-triangle fa-2x text-dark"></i>
+                    </div>
+                    <h5 class="card-title mb-2">تحلیل ریسک</h5>
+                    <p class="card-text text-muted small">
+                        ارزیابی ریسک‌های مالی و ارائه راهکارهای مدیریت ریسک
+                    </p>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <small class="text-muted">
+                            <i class="fas fa-clock ml-1"></i>
+                            ~۳ دقیقه
+                        </small>
+                        <span class="badge bg-danger">تخصصی</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- پیش‌بینی مالی -->
+            <div class="tool-card" onclick="runTool('financialForecast')">
+                <div class="card-body">
+                    <span class="badge bg-secondary category-badge">پیش‌بینی</span>
+                    <div class="tool-icon bg-secondary bg-opacity-10">
+                        <i class="fas fa-crystal-ball fa-2x text-secondary"></i>
+                    </div>
+                    <h5 class="card-title mb-2">پیش‌بینی مالی</h5>
+                    <p class="card-text text-muted small">
+                        پیش‌بینی وضعیت مالی آینده بر اساس داده‌های تاریخی و روندها
+                    </p>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <small class="text-muted">
+                            <i class="fas fa-clock ml-1"></i>
+                            ~۴ دقیقه
+                        </small>
+                        <span class="badge bg-danger">تخصصی</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- How to Use -->
+        <div class="card mt-4 border-0 shadow-sm">
+            <div class="card-body">
+                <h4 class="card-title mb-3">
+                    <i class="fas fa-info-circle text-primary ml-2"></i>
+                    نحوه استفاده از ابزارها
+                </h4>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="d-flex align-items-start">
+                            <div class="bg-primary bg-opacity-10 rounded-2 p-2 ml-3">
+                                <i class="fas fa-mouse-pointer text-primary"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1">انتخاب ابزار</h6>
+                                <p class="text-muted small mb-0">روی ابزار مورد نظر کلیک کنید</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="d-flex align-items-start">
+                            <div class="bg-success bg-opacity-10 rounded-2 p-2 ml-3">
+                                <i class="fas fa-cogs text-success"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1">پردازش خودکار</h6>
+                                <p class="text-muted small mb-0">سیستم به صورت خودکار تحلیل را انجام می‌دهد</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="d-flex align-items-start">
+                            <div class="bg-warning bg-opacity-10 rounded-2 p-2 ml-3">
+                                <i class="fas fa-chart-bar text-warning"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1">دریافت نتیجه</h6>
+                                <p class="text-muted small mb-0">نتایج تحلیل در چت نمایش داده می‌شود</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Chat Button -->
+    <div class="back-to-chat">
+        <button onclick="window.location.href='/assistant/'" class="btn btn-primary btn-lg shadow-lg">
+            <i class="fas fa-comments ml-2"></i>
+            بازگشت به چت
+        </button>
+    </div>
+
+    <!-- Bootstrap & JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // توابع اجرای ابزارها
+        function runTool(toolName) {
+            showNotification('در حال اجرای ابزار...', 'info');
+            
+            // انتقال به صفحه چت با پیام مربوطه
+            let message = '';
+            
+            switch(toolName) {
+                case 'analyzeBalanceSheet':
+                    message = 'تحلیل کامل ترازنامه و صورت‌های مالی را انجام بده';
+                    break;
+                case 'generateFinancialReport':
+                    message = 'یک گزارش مالی جامع تهیه کن';
+                    break;
+                case 'calculateFinancialRatios':
+                    message = 'نسبت‌های مالی مهم را محاسبه و تحلیل کن';
+                    break;
+                case 'analyzeCashFlow':
+                    message = 'جریان نقدینگی و وضعیت نقدی را تحلیل کن';
+                    break;
+                case 'analyzeProfitability':
+                    message = 'تحلیل سودآوری و بازدهی سرمایه گذاری';
+                    break;
+                case 'analyzeDebt':
+                    message = 'بررسی وضعیت بدهی و اهرم مالی';
+                    break;
+                case 'analyzeRisk':
+                    message = 'تحلیل ریسک‌های مالی و ارائه راهکارهای مدیریت ریسک';
+                    break;
+                case 'financialForecast':
+                    message = 'پیش‌بینی وضعیت مالی آینده بر اساس داده‌های تاریخی';
+                    break;
+                default:
+                    message = 'تحلیل مالی پیشرفته';
+            }
+            
+            // ذخیره پیام در localStorage و انتقال به صفحه چت
+            localStorage.setItem('quickToolMessage', message);
+            window.location.href = '/assistant/';
+        }
+        
+        function showNotification(message, type = 'info') {
+            // ایجاد عنصر اطلاع‌رسانی
+            const notification = document.createElement('div');
+            const bgColor = type === 'error' ? 'alert-danger' : 
+                           type === 'warning' ? 'alert-warning' : 
+                           type === 'success' ? 'alert-success' : 'alert-info';
+            
+            notification.className = `alert ${bgColor} alert-dismissible fade show position-fixed`;
+            notification.style.cssText = 'top: 20px; left: 20px; right: 20px; z-index: 1060; max-width: 400px; margin: 0 auto;';
+            notification.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : type === 'warning' ? 'exclamation-circle' : type === 'success' ? 'check-circle' : 'info-circle'} ml-2"></i>
+                    <span class="flex-grow-1">${message}</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // حذف خودکار پس از 5 ثانیه
+            setTimeout(() => {
+                if (document.body.contains(notification)) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+        
+        // بارگذاری پیام از localStorage هنگام بازگشت به چت
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedMessage = localStorage.getItem('quickToolMessage');
+            if (savedMessage) {
+                // می‌توانید اینجا عملیات دیگری انجام دهید
+                localStorage.removeItem('quickToolMessage');
+            }
+        });
+    </script>
+</body>
+</html>
