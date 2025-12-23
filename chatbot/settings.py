@@ -5,9 +5,15 @@ Django settings for chatbot project.
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+from .redis_config import REDIS_HOST, REDIS_PORT
 
 # بارگذاری متغیرهای محیطی
 load_dotenv()
+
+# غیرفعال کردن PostHog برای جلوگیری از خطای اتصال
+import os
+os.environ['POSTHOG_DISABLED'] = 'True'
+os.environ['POSTHOG_API_KEY'] = ''
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -35,18 +41,18 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'django_filters',
-    'django_tables2',
+    # 'django_tables2',
     'rest_framework',
     # 'django_celery_beat',
     'corsheaders',
     # Local apps
     'users',
-    'financial_system',
+    # 'financial_system',
     'data_importer',
-    'coding_manager',
+    # 'coding_manager',
     'assistant',
-    'pages',
-    'financial_ai_core',
+    # 'pages',
+    # 'financial_ai_core',
 ]
 
 # Middleware
@@ -197,26 +203,32 @@ REST_FRAMEWORK = {
 
 # settings.py
 
-# Cache configuration
+import os
+from .redis_config import REDIS_HOST, REDIS_PORT
+
+# تنظیمات Redis
 CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/1',  # استفاده از 127.0.0.1 نه localhost
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-            'SOCKET_CONNECT_TIMEOUT': 5,
-            'SOCKET_TIMEOUT': 5,
-            'RETRY_ON_TIMEOUT': True,
-            'CONNECTION_POOL_KWARGS': {
-                'max_connections': 100,
-                'retry_on_timeout': True
-            }
-        },
-        'KEY_PREFIX': 'finance_app'
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": f"redis://{REDIS_HOST}:{REDIS_PORT}/0",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "SOCKET_CONNECT_TIMEOUT": 5,  # ثانیه
+            "SOCKET_TIMEOUT": 5,  # ثانیه
+        }
     }
 }
 
+# یا فایل redis_config.py
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+REDIS_HOST = os.getenv('REDIS_HOST', 'localhost')
+REDIS_PORT = int(os.getenv('REDIS_PORT', 6379))
 # Session Configuration
+
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_CACHE_ALIAS = 'default'
 SESSION_COOKIE_AGE = 3600 * 24 * 7  # 1 week

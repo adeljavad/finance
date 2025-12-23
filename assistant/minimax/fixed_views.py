@@ -5,10 +5,15 @@ from django.views.decorators.http import require_http_methods
 import json
 import logging
 import uuid
+import sys
+import os
 
-from .services.agent_engine import AgentEngine
-from .services.rag_engine import StableRAGEngine
-from .services.data_manager import UserDataManager
+# Add parent directory to path to import from assistant.services
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
+
+from assistant.services.agent_engine import AgentEngine
+from assistant.services.rag_engine import StableRAGEngine
+from assistant.services.data_manager import UserDataManager
 
 logger = logging.getLogger(__name__)
 

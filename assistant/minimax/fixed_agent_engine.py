@@ -1,33 +1,39 @@
 import json
 import logging
 import re
+import sys
+import os
 from typing import Dict, Any, List, Optional
 from langchain_core.tools import BaseTool
 
+# Add parent directory to path to import from assistant.services
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
+
+# Import DeepSeekLLM from local wrapper that adds generate method
 from .deepseek_api import DeepSeekLLM
-from .rag_engine import StableRAGEngine
-from .memory_manager import MemoryManager
-from .data_manager import UserDataManager
+from assistant.services.rag_engine import StableRAGEngine
+from assistant.services.memory_manager import MemoryManager
+from assistant.services.data_manager import UserDataManager
 
 logger = logging.getLogger(__name__)
 
 # تلاش برای import کردن optional tools
 try:
-    from .tools.search_tools import DocumentSearchTool, AdvancedFilterTool
+    from assistant.services.tools.search_tools import DocumentSearchTool, AdvancedFilterTool
     SEARCH_TOOLS_AVAILABLE = True
 except ImportError as e:
     logger.warning(f"Search tools not available: {e}")
     SEARCH_TOOLS_AVAILABLE = False
 
 try:
-    from .tools.calculation_tools import DataCalculatorTool
+    from assistant.services.tools.calculation_tools import DataCalculatorTool
     CALCULATION_TOOLS_AVAILABLE = True
 except ImportError as e:
     logger.warning(f"Calculation tools not available: {e}")
     CALCULATION_TOOLS_AVAILABLE = False
 
 try:
-    from .tools.analytical_tools import PatternAnalysisTool
+    from assistant.services.tools.analytical_tools import PatternAnalysisTool
     ANALYTICAL_TOOLS_AVAILABLE = True
 except ImportError as e:
     logger.warning(f"Analytical tools not available: {e}")
@@ -35,7 +41,7 @@ except ImportError as e:
 
 # تلاش برای import کردن optional dynamic tool manager
 try:
-    from .dynamic_tool_manager import DynamicToolManager
+    from assistant.services.dynamic_tool_manager import DynamicToolManager
     DYNAMIC_TOOLS_AVAILABLE = True
 except ImportError as e:
     logger.warning(f"Dynamic tools manager not available: {e}")

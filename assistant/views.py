@@ -9,6 +9,7 @@ import uuid
 from .services.agent_engine import AgentEngine
 from .services.rag_engine import StableRAGEngine
 from .services.data_manager import UserDataManager
+from .services.data_importer_wrapper import DataImporterWrapper
 
 logger = logging.getLogger(__name__)
 
@@ -33,6 +34,13 @@ try:
 except Exception as e:
     logger.error(f"❌ Failed to initialize DataManager: {e}")
     data_manager = None
+
+try:
+    data_importer_wrapper = DataImporterWrapper()
+    logger.info("✅ DataImporterWrapper initialized in views")
+except Exception as e:
+    logger.error(f"❌ Failed to initialize DataImporterWrapper: {e}")
+    data_importer_wrapper = None
 
 def home(request):
     """صفحه اصلی چت با مدیریت خطا"""
@@ -144,8 +152,8 @@ def chat_api(request):
             user_id = str(request.user.id)
             user_type = 'authenticated'
         else:
-            # برای کاربران ناشناس، از session_id استفاده می‌کنیم
-            user_id = f"anon_{session_id}"
+            # برای کاربران ناشناس، از session_id به عنوان user_id استفاده می‌کنیم
+            user_id = session_id
             user_type = 'anonymous'
         
         logger.info(f"💬 Chat request - Session: {session_id}, User ID: {user_id}, Type: {user_type}")
@@ -208,7 +216,7 @@ def chat_api(request):
 @csrf_exempt
 @require_http_methods(["POST"])
 def upload_document(request):
-    """آپلود و پردازش فایل حسابداری با مدیریت خطا بهبود یافته"""
+    """آپلود و پردازش فایل حسابداری با استفاده از data_importer"""
     try:
         logger.info(f"📁 Document upload request received")
         
@@ -252,74 +260,22 @@ def upload_document(request):
         session_id = post_data.get('session_id', '').strip()
         
         if not user_id and session_id:
-            user_id = f"anon_{session_id}"
+            # از session_id به عنوان user_id استفاده می‌کنیم
+            user_id = session_id
         elif not user_id:
             user_id = str(uuid.uuid4())
         
         logger.info(f"🔍 Upload processing - User: {user_id}, Session: {session_id}")
         
-        # بررسی دسترسی به data manager
+        # استفاده مستقیم از data_manager (به دلیل مشکلات data_importer)
         if not data_manager:
-            logger.error("❌ Data manager not available")
             return JsonResponse({
                 'success': False,
                 'error': 'سرویس پردازش فایل در دسترس نیست'
             }, status=503)
         
-        # پردازش فایل
-        try:
-            # خواندن محتوای فایل
-            if filename.lower().endswith('.csv'):
-                file_content = uploaded_file.read().decode('utf-8')
-            else:
-                file_content = uploaded_file.read()
-            
-            # پردازش فایل
-            dataframe = data_manager.process_accounting_file(user_id, file_content, filename)
-            
-            # دریافت خلاصه داده‌ها
-            summary = data_manager.get_accounting_summary(user_id)
-            mapping_history = data_manager.get_mapping_history(user_id)
-            
-            # آماده‌سازی پاسخ
-            response_data = {
-                'success': True,
-                'message': f'فایل {filename} با موفقیت پردازش شد',
-                'user_id': user_id,
-                'session_id': session_id,
-                'filename': filename,
-                'file_size': file_size,
-                'dataframe_info': {
-                    'rows': len(dataframe),
-                    'columns': list(dataframe.columns)
-                },
-                'mapping_info': {
-                    'confidence': 'high',  # می‌تواند از column_mapper بیاید
-                    'original_columns': list(dataframe.columns),
-                    'mapped_columns': list(dataframe.columns),
-                    'notes': 'Columns detected and mapped successfully'
-                },
-                'summary': summary,
-                'has_data': summary.get('has_data', False)
-            }
-            
-            # اضافه کردن mapping_history اگر موجود باشد
-            if mapping_history:
-                response_data['mapping_history'] = mapping_history[-1]  # آخرین مپینگ
-            
-            logger.info(f"✅ File processed successfully - Rows: {len(dataframe)}, Columns: {len(dataframe.columns)}")
-            logger.info(f"📊 Data summary: {summary}")
-            
-            return JsonResponse(response_data)
-            
-        except Exception as e:
-            logger.error(f"❌ Error processing file: {e}")
-            return JsonResponse({
-                'success': False,
-                'error': f'خطا در پردازش فایل: {str(e)}',
-                'details': 'لطفاً مطمئن شوید که فایل حاوی ستون‌های مورد نیاز است',
-                'filename': filename
-            }, status=500)
+        logger.info("🔄 Using data_manager for file processing")
+        return _upload_with_data_manager(request, uploaded_file, filename, file_size, user_id, session_id)
             
     except Exception as e:
         logger.error(f"❌ Unexpected error in upload: {e}")
@@ -327,6 +283,60 @@ def upload_document(request):
             'success': False,
             'error': 'خطای غیرمنتظره در آپلود فایل',
             'details': str(e)
+        }, status=500)
+
+def _upload_with_data_manager(request, uploaded_file, filename, file_size, user_id, session_id):
+    """آپلود با استفاده از data_manager قدیمی (fallback)"""
+    try:
+        # خواندن محتوای فایل
+        if filename.lower().endswith('.csv'):
+            file_content = uploaded_file.read().decode('utf-8')
+        else:
+            file_content = uploaded_file.read()
+        
+        # پردازش فایل
+        dataframe = data_manager.process_accounting_file(user_id, file_content, filename)
+        
+        # دریافت خلاصه داده‌ها
+        summary = data_manager.get_accounting_summary(user_id)
+        mapping_history = data_manager.get_mapping_history(user_id)
+        
+        # آماده‌سازی پاسخ
+        response_data = {
+            'success': True,
+            'message': f'فایل {filename} با موفقیت پردازش شد (با data_manager قدیمی)',
+            'user_id': user_id,
+            'session_id': session_id,
+            'filename': filename,
+            'file_size': file_size,
+            'dataframe_info': {
+                'rows': len(dataframe),
+                'columns': list(dataframe.columns)
+            },
+            'mapping_info': {
+                'confidence': 'high',
+                'original_columns': list(dataframe.columns),
+                'mapped_columns': list(dataframe.columns),
+                'notes': 'Columns detected and mapped successfully'
+            },
+            'summary': summary,
+            'has_data': summary.get('has_data', False)
+        }
+        
+        # اضافه کردن mapping_history اگر موجود باشد
+        if mapping_history:
+            response_data['mapping_history'] = mapping_history[-1]
+        
+        logger.info(f"✅ File processed successfully with data_manager - Rows: {len(dataframe)}, Columns: {len(dataframe.columns)}")
+        return JsonResponse(response_data)
+        
+    except Exception as e:
+        logger.error(f"❌ Error processing file with data_manager: {e}")
+        return JsonResponse({
+            'success': False,
+            'error': f'خطا در پردازش فایل: {str(e)}',
+            'details': 'لطفاً مطمئن شوید که فایل حاوی ستون‌های مورد نیاز است',
+            'filename': filename
         }, status=500)
 
 @require_http_methods(["GET"])
@@ -498,8 +508,8 @@ def get_session_info(request):
         
         if data_manager and agent_engine:
             try:
-                # استخراج user_id از session_id
-                user_id = f"anon_{session_id}" if not session_id.startswith('anon_') else session_id
+                # از session_id به عنوان user_id استفاده می‌کنیم
+                user_id = session_id
                 user_dataframes = data_manager.get_user_dataframes_info(user_id)
                 user_files = data_manager.get_uploaded_files_info(user_id)
             except Exception as e:

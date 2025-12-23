@@ -7,11 +7,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path('users/', include('users.urls')),
-    path('financial/', include('financial_system.urls')),
+    # path('financial/', include('financial_system.urls')),
     # صفحه اصلی
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('assistant/', include('assistant.urls')),
-    path('pages/', include('pages.urls')),
+    # path('pages/', include('pages.urls')),
     # path('ai/', include('financial_ai_core.urls')),  # موقتاً غیرفعال به دلیل مشکل import
     # مسیرهای موجود شما
     # path('chatbot/', views.chatbot_view, name='chatbot'),

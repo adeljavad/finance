@@ -82,9 +82,9 @@ class AgentEngine:
 
         # Dynamic Tools Manager (optional)
         self.dynamic_manager = None
-        if DYNAMIC_TOOLS_AVAILABLE:
+        if DYNAMIC_TOOLS_AVAILABLE and self.data_manager and self.llm:
             try:
-                self.dynamic_manager = DynamicToolManager()
+                self.dynamic_manager = DynamicToolManager(self.data_manager, self.llm)
                 logger.info("✅ Dynamic Tool Manager initialized")
             except Exception as e:
                 logger.error(f"❌ Failed to initialize Dynamic Tool Manager: {e}")
@@ -141,7 +141,8 @@ class AgentEngine:
         if user_id and user_id != "default":
             return str(user_id)
         elif session_id:
-            return f"session_{session_id}"
+            # از session_id به عنوان user_id استفاده می‌کنیم
+            return session_id
         else:
             return "anonymous"
 

@@ -66,3 +66,27 @@ class DeepSeekLLM:
     def __call__(self, messages: List[Dict[str, str]]) -> str:
         """پشتیبانی از callable برای سازگاری"""
         return self.invoke(messages)
+
+    def generate(self, prompt: str, system_prompt: str = None) -> str:
+        """
+        متد generate برای سازگاری با کد موجود
+        این متد دو الگوی فراخوانی را پشتیبانی می‌کند:
+        1. generate(prompt)
+        2. generate(prompt, system_prompt)
+        
+        Args:
+            prompt: متن سوال کاربر
+            system_prompt: متن دستور سیستم (اختیاری)
+            
+        Returns:
+            پاسخ مدل به صورت متن
+        """
+        # ساخت پیام‌ها بر اساس پارامترها
+        messages = []
+        
+        if system_prompt:
+            messages.append({"role": "system", "content": system_prompt})
+        
+        messages.append({"role": "user", "content": prompt})
+        
+        return self.invoke(messages)

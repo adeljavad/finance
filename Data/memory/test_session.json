@@ -1,0 +1,19 @@
+{
+  "session_id": "test_session",
+  "messages": [
+    {
+      "role": "user",
+      "content": "سلام",
+      "timestamp": 1766162310.571374,
+      "metadata": {}
+    },
+    {
+      "role": "assistant",
+      "content": "متأسفانه خطایی در پردازش سوال شما رخ داد: 'DeepSeekLLM' object has no attribute 'generate'",
+      "timestamp": 1766162310.9919906,
+      "metadata": {}
+    }
+  ],
+  "created_at": 1766162310.5633261,
+  "last_activity": 1766162310.991996
+}

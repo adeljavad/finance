@@ -118,7 +118,7 @@ class UserDataManager:
             
         return deleted
 
-    def create_user_session(self, user_id: str = None) -> str:
+    def create_user_session(self, user_id: str = None) -> Dict[str, Any]:
         """ایجاد session جدید برای کاربر با مدیریت خطا"""
         if not user_id:
             user_id = str(uuid.uuid4())
@@ -134,10 +134,10 @@ class UserDataManager:
         session_key = self._get_session_data_key(user_id)
         if self._save_to_redis(session_key, json.dumps(session_data, default=str)):
             logger.info(f"✅ User session created: {user_id}")
-            return user_id
+            return session_data
         else:
             logger.error(f"❌ Failed to create session for user: {user_id}")
-            return user_id  # Still return the ID for backward compatibility
+            return session_data  # Return session data even if save fails
 
     def get_user_session(self, user_id: str) -> Dict[str, Any]:
         """دریافت session کاربر با مدیریت خطا"""
@@ -146,8 +146,13 @@ class UserDataManager:
         
         if session_data:
             try:
-                return json.loads(session_data)
-            except json.JSONDecodeError as e:
+                # اگر session_data یک رشته است، آن را parse کن
+                if isinstance(session_data, str):
+                    return json.loads(session_data)
+                else:
+                    # اگر از قبل dict است، برگردان
+                    return session_data
+            except (json.JSONDecodeError, TypeError) as e:
                 logger.error(f"JSON decode error for user {user_id}: {e}")
                 
         # ایجاد session جدید در صورت عدم وجود
@@ -180,8 +185,7 @@ class UserDataManager:
             df_json = cleaned_df.to_json(
                 orient='split', 
                 date_format='iso',
-                force_ascii=False,
-                default=str
+                force_ascii=False
             )
             
             # ذخیره در Redis/Fallback
@@ -215,7 +219,21 @@ class UserDataManager:
             
             if df_json:
                 # بازخوانی JSON به DataFrame
-                dataframe = pd.read_json(df_json, orient='split', dtype=False)
+                try:
+                    # استفاده از StringIO برای جلوگیری از FutureWarning
+                    import io
+                    dataframe = pd.read_json(io.StringIO(df_json), orient='split', dtype=False)
+                except Exception as json_error:
+                    # Fallback: try to parse as dict first
+                    import json as json_module
+                    data_dict = json_module.loads(df_json)
+                    # Ensure it's a valid split format
+                    if 'data' in data_dict and 'columns' in data_dict:
+                        dataframe = pd.DataFrame(data_dict['data'], columns=data_dict['columns'])
+                    else:
+                        # Try other orientations
+                        dataframe = pd.read_json(io.StringIO(df_json), orient='records', dtype=False)
+                
                 logger.info(f"✅ DataFrame loaded successfully for user {user_id}: {df_name} (Shape: {dataframe.shape})")
                 return dataframe
             else:
@@ -358,10 +376,11 @@ class UserDataManager:
                     dataframe = pd.read_csv(io.StringIO(file_content))
             elif filename.lower().endswith(('.xlsx', '.xls')):
                 # برای Excel
+                engine = 'openpyxl' if filename.lower().endswith('.xlsx') else 'xlrd'
                 if hasattr(file_content, 'read'):
-                    dataframe = pd.read_excel(file_content)
+                    dataframe = pd.read_excel(file_content, engine=engine)
                 else:
-                    dataframe = pd.read_excel(io.BytesIO(file_content))
+                    dataframe = pd.read_excel(io.BytesIO(file_content), engine=engine)
             else:
                 raise ValueError("فرمت فایل پشتیبانی نمی‌شود. فقط CSV و Excel مجاز هستند.")
 
@@ -388,16 +407,9 @@ class UserDataManager:
 
             # تبدیل انواع داده
             if 'تاریخ سند' in dataframe.columns:
-                try:
-                    dataframe['تاریخ سند'] = pd.to_datetime(
-                        dataframe['تاریخ سند'],
-                        errors='coerce',
-                        infer_datetime_format=True
-                    )
-                    # تبدیل به string برای ذخیره‌سازی
-                    dataframe['تاریخ سند'] = dataframe['تاریخ سند'].astype(str)
-                except Exception as e:
-                    logger.warning(f"Date conversion warning: {e}")
+                # تاریخ‌های فارسی به صورت رشته‌های ۱۰ کاراکتری هستند و نیاز به تبدیل ندارند
+                # فقط اطمینان از نوع string
+                dataframe['تاریخ سند'] = dataframe['تاریخ سند'].astype(str)
                     
             if 'بدهکار' in dataframe.columns:
                 dataframe['بدهکار'] = pd.to_numeric(dataframe['بدهکار'], errors='coerce').fillna(0)
@@ -454,12 +466,13 @@ class UserDataManager:
             # محدوده تاریخ
             if 'تاریخ سند' in df.columns:
                 try:
-                    # تاریخ‌ها را به datetime تبدیل کنیم برای محاسبه
-                    date_col = pd.to_datetime(df['تاریخ سند'], errors='coerce')
-                    if not date_col.isna().all():
+                    # تاریخ‌های فارسی به صورت رشته‌های ۱۰ کاراکتری هستند
+                    # استفاده از مقادیر رشته‌ای برای محدوده تاریخ
+                    date_series = df['تاریخ سند'].astype(str)
+                    if not date_series.empty:
                         summary['date_range'] = {
-                            'start': date_col.min().strftime('%Y/%m/%d'),
-                            'end': date_col.max().strftime('%Y/%m/%d')
+                            'start': date_series.min(),
+                            'end': date_series.max()
                         }
                 except Exception as e:
                     logger.warning(f"خطا در پردازش تاریخ: {e}")
