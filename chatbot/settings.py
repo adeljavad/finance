@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'corsheaders',
     # Local apps
     'users',
-    # 'financial_system',
+    'financial_system',
     'data_importer',
     # 'coding_manager',
     'assistant',

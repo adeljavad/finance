@@ -1,8 +1,16 @@
 # data_importer/urls.py
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 from . import views
+from .api_views import FinancialFileViewSet, ImportJobViewSet, DataImporterAPIView
+from .api_views.flexible_upload import FlexibleFileUploadView, AnalyzeOnlyView
 
 app_name = 'data_importer'
+
+# Create router for API views
+router = DefaultRouter()
+router.register(r'api/files', FinancialFileViewSet, basename='financialfile')
+router.register(r'api/jobs', ImportJobViewSet, basename='importjob')
 
 urlpatterns = [
     # داشبورد و صفحه اصلی
@@ -29,6 +37,14 @@ urlpatterns = [
     
     # استخراج کدینگ
     path('extract-chart-of-accounts/', views.extract_chart_of_accounts, name='extract_chart_of_accounts'),
+    
+    # API Routes
+    path('api/', include(router.urls)),
+    path('api/dashboard/', DataImporterAPIView.as_view(), name='api_dashboard'),
+    
+    # APIهای جدید برای سیستم پیشرفته
+    path('api/flexible-upload/', FlexibleFileUploadView.as_view(), name='flexible_upload'),
+    path('api/analyze-only/', AnalyzeOnlyView.as_view(), name='analyze_only'),
     
     # گزارش‌ها (فعلاً غیرفعال)
     # path('audit-report/', views.audit_report, name='audit_report'),
