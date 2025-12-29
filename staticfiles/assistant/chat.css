@@ -1,0 +1,2435 @@
+:root {
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --primary: #6c5ce7;
+    --primary-light: #a29bfe;
+    --secondary: #00cec9;
+    --success: #00b894;
+    --danger: #d63031;
+    --warning: #fdcb6e;
+    --info: #00cec9;
+    --light: #f8f9fa;
+    --dark: #2d3436;
+    --sidebar-width: 320px;
+    --sidebar-collapsed-width: 70px;
+    --transition-speed: 0.3s;
+}
+
+body {
+    font-family: 'Vazirmatn', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.message-user {
+    background: var(--primary-gradient);
+    color: white;
+    border-radius: 15px 15px 5px 15px;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.25);
+    max-width: 85%;
+    margin-right: auto;
+    margin-left: 0;
+    margin-bottom: 8px;
+    padding: 10px 14px;
+}
+
+.message-bot {
+    background: white;
+    color: #2d3748;
+    border-radius: 15px 15px 15px 5px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+    max-width: 85%;
+    margin-bottom: 8px;
+    padding: 10px 14px;
+}
+
+.typing-animation {
+    display: inline-block;
+}
+
+.typing-animation span {
+    height: 8px;
+    width: 8px;
+    background: #9ca3af;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 2px;
+    animation: typing 1.5s infinite ease-in-out;
+}
+
+.typing-animation span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-animation span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typing {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.fade-in {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.pulse-glow {
+    animation: pulseGlow 2s infinite;
+}
+
+@keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.4); }
+    50% { box-shadow: 0 0 30px rgba(102, 126, 234, 0.8); }
+}
+
+.floating {
+    animation: floating 3s ease-in-out infinite;
+}
+
+@keyframes floating {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.chat-container {
+    height: 500px;
+    scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--primary-gradient);
+    border-radius: 10px;
+}
+
+.feature-card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.gradient-text {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.shimmer {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+/* استایل‌های Markdown */
+.markdown-content {
+    line-height: 1.5;
+    color: #374151;
+    font-size: 0.95em;
+}
+
+.markdown-content h1, 
+.markdown-content h2, 
+.markdown-content h3, 
+.markdown-content h4 {
+    color: #1f2937;
+    margin-top: 1.2em;
+    margin-bottom: 0.4em;
+    font-weight: 600;
+}
+
+.markdown-content h1 {
+    font-size: 1.3em;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 0.25em;
+}
+
+.markdown-content h2 {
+    font-size: 1.15em;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 0.15em;
+}
+
+.markdown-content h3 {
+    font-size: 1em;
+}
+
+.markdown-content ul, 
+.markdown-content ol {
+    padding-right: 2em;
+    margin: 1em 0;
+}
+
+.markdown-content li {
+    margin-bottom: 0.5em;
+}
+
+.markdown-content strong {
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.markdown-content em {
+    font-style: italic;
+}
+
+.markdown-content code {
+    background-color: #f3f4f6;
+    padding: 0.2em 0.4em;
+    border-radius: 0.25rem;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.9em;
+    color: #dc2626;
+}
+
+.markdown-content pre {
+    background-color: #1f2937;
+    color: #f9fafb;
+    padding: 1em;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin: 1em 0;
+    direction: ltr;
+}
+
+.markdown-content pre code {
+    background: none;
+    padding: 0;
+    color: inherit;
+}
+
+.markdown-content blockquote {
+    border-right: 4px solid #3b82f6;
+    background-color: #eff6ff;
+    padding: 1em;
+    margin: 1em 0;
+    border-radius: 0.5rem;
+}
+
+.markdown-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em 0;
+}
+
+.markdown-content table th,
+.markdown-content table td {
+    border: 1px solid #e5e7eb;
+    padding: 0.75em;
+    text-align: right;
+}
+
+.markdown-content table th {
+    background-color: #f9fafb;
+    font-weight: 600;
+}
+
+.markdown-content table tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+/* استایل برای اعداد و ارقام مالی */
+.financial-number {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    padding: 0.2em 0.5em;
+    border-radius: 0.375rem;
+    font-weight: 600;
+    color: #92400e;
+    direction: ltr;
+    display: inline-block;
+    margin: 0 0.2em;
+}
+
+/* استایل برای هایلایت کلمات کلیدی */
+.keyword-highlight {
+    background-color: #dbeafe;
+    padding: 0.1em 0.3em;
+    border-radius: 0.25rem;
+    color: #1e40af;
+    font-weight: 500;
+}
+
+/* ========== استایل‌های جدید برای سایدبار و پانل‌ها ========== */
+
+/* سایدبار اصلی */
+.sidebar {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    height: 100vh;
+    overflow-y: auto;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+}
+
+/* سایدبار چپ (تاریخچه) - در RTL این سایدبار در سمت راست است */
+.sidebar-left {
+    border-left: 1px solid rgba(255, 255, 255, 0.3);
+    right: -320px;
+    width: 320px;
+}
+
+.sidebar-left.active {
+    right: 0;
+}
+
+/* سایدبار راست (پانل‌ها) - در RTL این سایدبار در سمت چپ است */
+.sidebar-right {
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    left: -320px;
+    width: 320px;
+}
+
+.sidebar-right.active {
+    left: 0;
+}
+
+/* 3. بهبود ساختار سایدبار راست - ChatGPT Style */
+.sidebar-right.collapsed {
+    width: 60px !important;
+    left: -60px !important; /* در RTL سایدبار راست در سمت چپ است */
+}
+
+.sidebar-right.collapsed.active {
+    left: 0 !important;
+}
+
+.sidebar-header {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 1001;
+}
+
+/* 4. ساختار جدید برای آیتم‌های سایدبار در حالت collapsed */
+.sidebar-right.collapsed .sidebar-header h5,
+.sidebar-right.collapsed .sidebar-header .d-flex {
+    display: none !important;
+}
+
+.sidebar-right.collapsed .sidebar-header {
+    padding: 15px 10px;
+    justify-content: center;
+}
+
+.sidebar-right.collapsed .sidebar-header .btn {
+    margin: 0 !important;
+    padding: 8px !important;
+    width: 36px;
+    height: 36px;
+}
+
+.sidebar-body {
+    padding: 1rem;
+    height: calc(100vh - 80px);
+    overflow-y: auto;
+}
+
+/* 2. ساختار اصلی محتوا - حل مشکل فضای خالی */
+.main-content {
+    margin-right: 0;
+    margin-left: 0;
+    transition: margin-right 0.3s ease, margin-left 0.3s ease;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* وقتی سایدبار راست باز است (حالت کامل) - در RTL سایدبار راست در سمت چپ است */
+.sidebar-right.active:not(.collapsed) ~ .main-content {
+    margin-left: 320px;
+}
+
+/* وقتی سایدبار راست کوچک (collapsed) است */
+.sidebar-right.collapsed.active ~ .main-content {
+    margin-left: 60px;
+}
+
+/* وقتی سایدبار چپ باز است - در RTL سایدبار چپ در سمت راست است */
+.sidebar-left.active ~ .main-content {
+    margin-right: 320px;
+}
+
+/* Container اصلی چت */
+.main-chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/* فضای اصلی چت بهینه‌شده */
+.main-chat-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.02);
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* رفع مشکل margin برای chat messages */
+.sidebar-right.active:not(.collapsed) ~ .main-content .main-chat-area,
+.sidebar-right.collapsed.active ~ .main-content .main-chat-area {
+    width: 100%;
+    margin-left: 0;
+}
+
+/* اطمینان از اینکه chat messages به سایدبار نمی‌چسبد */
+.chat-messages {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+/* بهبود responsive برای موبایل */
+@media (max-width: 768px) {
+    .chat-messages {
+        padding: 15px 10px;
+    }
+    
+    .sidebar-right.active:not(.collapsed) ~ .main-content .main-chat-area,
+    .sidebar-right.collapsed.active ~ .main-content .main-chat-area {
+        width: 100%;
+        margin-left: 0;
+    }
+}
+
+/* ========== رفع مشکلات اساسی ========== */
+
+/* 1. حل مشکل overlay و کلیک‌پذیری */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(3px);
+    z-index: 999;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.sidebar-overlay.active {
+    display: block;
+    opacity: 1;
+    /* حذف pointer-events: none تا قابل کلیک باشد */
+}
+
+/* اطمینان از اینکه محتوای اصلی قابل کلیک است */
+.main-content {
+    position: relative;
+    z-index: 1;
+}
+
+/* اطمینان از اینکه ناحیه چت قابل تعامل است */
+.chat-input-area,
+.chat-messages,
+#messageInput,
+#sendButton {
+    position: relative;
+    z-index: 2;
+}
+
+/* تاریخچه چت */
+.chat-history-item {
+    border-right: 3px solid transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.5rem;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+}
+
+.chat-history-item:hover {
+    border-right-color: #667eea;
+    background-color: #e3f2fd;
+    transform: translateX(-5px);
+}
+
+.chat-history-item.active {
+    border-right-color: #667eea;
+    background-color: #e3f2fd;
+}
+
+.history-date {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-bottom: 0.5rem;
+    padding-right: 0.5rem;
+    border-right: 2px solid #667eea;
+    margin-top: 1rem;
+}
+
+.history-date:first-child {
+    margin-top: 0;
+}
+
+/* ========== پانل‌های جمع‌شونده ========== */
+.collapsible-panels {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    display: none; /* پیش‌فرض مخفی */
+}
+
+.panel {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease;
+    overflow: hidden;
+}
+
+.panel.collapsed .panel-content {
+    max-height: 0 !important;
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+}
+
+.panel:not(.collapsed) .panel-content {
+    max-height: 400px;
+    transition: max-height 0.4s ease;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    cursor: pointer;
+    background: var(--primary-gradient);
+    color: white;
+    border-radius: 15px 15px 0 0;
+    transition: all 0.3s ease;
+}
+
+.panel.collapsed .panel-header {
+    border-radius: 15px;
+}
+
+.panel-header:hover {
+    background: var(--secondary-gradient);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.panel-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.panel-header h3 i {
+    font-size: 18px;
+}
+
+.collapse-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.collapse-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+.panel-content {
+    padding: 20px;
+    overflow-y: auto;
+    transition: all 0.4s ease;
+    animation: fadeInUp 0.4s ease-out;
+}
+
+/* استایل برای محتوای پانل */
+.welcome-content {
+    text-align: center;
+}
+
+.welcome-badge {
+    background: var(--success-gradient);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.welcome-text {
+    color: #4a5568;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.feature-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.feature-item {
+    background: rgba(255, 255, 255, 0.5);
+    padding: 10px 15px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+    background: rgba(255, 255, 255, 0.8);
+    transform: translateY(-2px);
+}
+
+/* استایل برای پانل ابزارها */
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+}
+
+.tool-btn {
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    padding: 12px 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.tool-btn:hover {
+    background: var(--secondary-gradient);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.tool-btn i {
+    font-size: 16px;
+}
+
+/* ========== فضای اصلی چت بهینه‌شده ========== */
+.main-chat-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 5px;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* استایل برای دکمه toggle آپلود */
+#uploadToggleBtn {
+    border-radius: 24px !important;
+    padding: 16px 24px !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+    border: 2px solid rgba(102, 126, 234, 0.3) !important;
+}
+
+#uploadToggleBtn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2) !important;
+    border-color: rgba(102, 126, 234, 0.5) !important;
+}
+
+#uploadToggleBtn.btn-primary {
+    background: var(--primary-gradient) !important;
+    border-color: transparent !important;
+    color: white !important;
+}
+
+/* استایل برای upload-section */
+#uploadSection {
+    transition: all 0.3s ease !important;
+    border: 1px solid rgba(102, 126, 234, 0.2) !important;
+    background: rgba(248, 249, 250, 0.95) !important;
+    backdrop-filter: blur(15px);
+}
+
+#uploadSection.show {
+    animation: fadeInUp 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========== Input Area فیکس در پایین ========== */
+.chat-input-area {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(25px);
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 -6px 30px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+/* Container برای input area */
+.chat-input-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* تنظیمات برای زمانی که سایدبار باز است - در RTL سایدبار راست در سمت چپ است */
+.sidebar-right.active ~ .chat-input-area {
+    left: 320px;
+    transition: left 0.3s ease;
+}
+
+.sidebar-right.collapsed.active ~ .chat-input-area {
+    left: 60px;
+    transition: left 0.3s ease;
+}
+
+/* تنظیمات responsive */
+@media (max-width: 991.98px) {
+    .sidebar-right.active ~ .chat-input-area {
+        left: 0;
+    }
+    
+    .chat-input-area {
+        padding: 12px;
+    }
+    
+    .chat-input-container {
+        padding: 0 10px;
+    }
+}
+
+/* استایل input شبیه ChatGPT */
+#messageInput {
+    border-radius: 24px !important;
+    border: 2px solid rgba(102, 126, 234, 0.2) !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px);
+    padding: 16px 20px !important;
+    font-size: 16px !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
+}
+
+#messageInput:focus {
+    border-color: rgba(102, 126, 234, 0.5) !important;
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.15) !important;
+    outline: none !important;
+    background: rgba(255, 255, 255, 1) !important;
+}
+
+#messageInput::placeholder {
+    color: #6c757d !important;
+    opacity: 0.8 !important;
+}
+
+/* دکمه ارسال */
+#sendButton {
+    border-radius: 24px !important;
+    padding: 16px 24px !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+    background: var(--primary-gradient) !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3) !important;
+}
+
+#sendButton:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4) !important;
+}
+
+/* Upload section */
+.upload-section {
+    margin-top: 15px;
+    background: rgba(248, 249, 250, 0.9) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    border-radius: 16px !important;
+    padding: 15px !important;
+}
+
+/* ========== هدر جمع و جور ========== */
+.compact-header {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 12px 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+.compact-header-sidebar {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.compact-header-sidebar .header-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.compact-header-sidebar .logo-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+}
+
+.compact-header-sidebar .logo-section i {
+    font-size: 18px;
+    animation: floating 3s ease-in-out infinite;
+}
+
+.compact-header-sidebar .app-name {
+    font-size: 14px;
+    font-weight: 600;
+    background: linear-gradient(45deg, #fff, #e0e7ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.compact-header-sidebar .header-actions {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.compact-header-sidebar .header-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    flex: 1;
+    min-width: 80px;
+    justify-content: center;
+}
+
+.compact-header-sidebar .header-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-section i {
+    font-size: 24px;
+    animation: floating 3s ease-in-out infinite;
+}
+
+.app-name {
+    font-size: 18px;
+    font-weight: 700;
+    background: linear-gradient(45deg, #fff, #e0e7ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.header-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+}
+
+.header-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+/* هدر ساده برای دسکتاپ */
+.simple-header {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.simple-header .logo-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.simple-header .logo-section i {
+    font-size: 20px;
+}
+
+.simple-header .app-name {
+    font-size: 16px;
+}
+
+.simple-header .header-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.simple-header .header-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+}
+
+.simple-header .header-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+/* ========== استایل‌های Bootstrap سفارشی ========== */
+.btn-custom-primary {
+    background: var(--primary-gradient);
+    border: none;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.btn-custom-primary:hover {
+    background: var(--secondary-gradient);
+    transform: translateY(-2px);
+    color: white;
+}
+
+/* ========== ریسپانسیو - موبایل ========== */
+@media (max-width: 767.98px) {
+    .main-content {
+        margin-right: 0 !important;
+        width: 100%;
+    }
+    
+    .sidebar {
+        width: 280px;
+        right: -280px;
+    }
+    
+    .sidebar.active {
+        right: 0;
+    }
+    
+    .sidebar-toggle-mobile {
+        display: inline-flex !important;
+    }
+    
+    .collapsible-panels {
+        margin: 0 -10px 15px -10px;
+    }
+    
+    .panel {
+        margin-bottom: 10px;
+        border-radius: 10px;
+    }
+    
+    .panel-header {
+        padding: 12px 15px;
+    }
+    
+    .panel-header h3 {
+        font-size: 14px;
+    }
+    
+    .panel-content {
+        padding: 12px;
+        max-height: 200px;
+    }
+    
+    .tools-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+    
+    .tool-btn {
+        padding: 10px 8px;
+        font-size: 12px;
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .tool-btn i {
+        font-size: 14px;
+    }
+    
+    .message-user, 
+    .message-bot {
+        max-width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .chat-input-area {
+        padding: 15px;
+    }
+    
+    .chat-input-area .row {
+        margin: 0 -5px;
+    }
+    
+    .chat-input-area .col-md-8,
+    .chat-input-area .col-md-4 {
+        padding: 0 5px;
+    }
+    
+    #messageInput {
+        font-size: 14px;
+        padding: 12px;
+    }
+    
+    .btn-lg {
+        padding: 12px;
+        font-size: 14px;
+    }
+    
+    .compact-header {
+        padding: 10px 15px;
+        margin: 0 -10px 15px -10px;
+        border-radius: 10px;
+    }
+    
+    .header-content {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    .header-actions {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .main-chat-area {
+        height: calc(100vh - 120px) !important;
+        min-height: 350px;
+    }
+    
+    .feature-list {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .feature-item {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+}
+
+/* ========== ریسپانسیو - تبلت ========== */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .main-content {
+        margin-right: 0;
+    }
+    
+    .sidebar.active ~ .main-content {
+        margin-right: 300px;
+    }
+    
+    .sidebar {
+        width: 300px;
+        right: -300px;
+    }
+    
+    .sidebar.active {
+        right: 0;
+    }
+    
+    .sidebar-toggle-mobile {
+        display: none !important;
+    }
+    
+    .tools-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .main-chat-area {
+        height: calc(100vh - 200px);
+    }
+}
+
+/* ========== ریسپانسیو - دسکتاپ ========== */
+@media (min-width: 992px) {
+    .main-content {
+        margin-right: 0;
+    }
+    
+    .sidebar.active ~ .main-content {
+        margin-right: 320px;
+    }
+    
+    .sidebar {
+        width: 320px;
+        right: -320px;
+    }
+    
+    .sidebar.active {
+        right: 0;
+    }
+    
+    .tools-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .main-chat-area {
+        height: calc(100vh - 220px);
+    }
+}
+
+/* بهبود اسکرول‌بار */
+.chat-messages::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: var(--primary-gradient);
+    border-radius: 10px;
+}
+
+.sidebar-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.sidebar-body::-webkit-scrollbar-thumb {
+    background: var(--primary-gradient);
+    border-radius: 10px;
+}
+
+.panel-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.panel-content::-webkit-scrollbar-track {
+    background: rgba(241, 241, 241, 0.5);
+    border-radius: 10px;
+}
+
+.panel-content::-webkit-scrollbar-thumb {
+    background: var(--primary-gradient);
+    border-radius: 10px;
+}
+
+/* استایل برای دکمه‌های action */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .action-buttons {
+        justify-content: center;
+    }
+    
+    .action-buttons .btn {
+        flex: 1;
+        min-width: 120px;
+    }
+}
+
+/* استایل برای upload section */
+.upload-section {
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .upload-section .row {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .upload-section .col-md-6 {
+        text-align: center;
+    }
+    
+    .upload-section .d-flex.gap-2 {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}
+
+/* انیمیشن‌های جدید */
+@keyframes panelSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.panel {
+    animation: panelSlide 0.5s ease-out;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.chat-history-item {
+    animation: slideInRight 0.3s ease-out;
+}
+
+/* حالت تمام‌صفحه چت */
+.chat-fullscreen .collapsible-panels {
+    display: none;
+}
+
+.chat-fullscreen .main-chat-area {
+    height: 100vh;
+    border-radius: 0;
+}
+
+/* ========== نوار ابزار برای باز کردن سایدبارها ========== */
+.chat-toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.chat-toolbar .btn {
+    font-size: 14px;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.chat-toolbar .btn i {
+    font-size: 16px;
+}
+
+@media (max-width: 768px) {
+    .chat-toolbar {
+        padding: 8px 10px;
+    }
+    
+    .chat-toolbar .btn {
+        font-size: 12px;
+        padding: 5px 8px;
+    }
+    
+    .chat-toolbar .btn span {
+        display: none;
+    }
+    
+    .chat-toolbar .btn i {
+        margin: 0;
+        font-size: 14px;
+    }
+}
+
+/* ========== استایل‌های حالت collapsed برای سایدبار راست ========== */
+.sidebar-right.collapsed {
+    width: 60px !important;
+    transition: width 0.3s ease;
+}
+
+.sidebar-right.collapsed .sidebar-body,
+.sidebar-right.collapsed .compact-header-sidebar,
+.sidebar-right.collapsed .panel-header h3,
+.sidebar-right.collapsed .panel-content,
+.sidebar-right.collapsed .feature-list,
+.sidebar-right.collapsed .welcome-text,
+.sidebar-right.collapsed .tool-btn span,
+.sidebar-right.collapsed .panel-header .collapse-btn,
+.sidebar-right.collapsed .welcome-badge,
+.sidebar-right.collapsed .welcome-content .mt-4,
+.sidebar-right.collapsed .action-buttons,
+.sidebar-right.collapsed .card-title,
+.sidebar-right.collapsed .text-muted,
+.sidebar-right.collapsed .panel-header .d-flex {
+    display: none !important;
+}
+
+.sidebar-right.collapsed .sidebar-header {
+    padding: 15px 10px;
+    justify-content: center;
+}
+
+.sidebar-right.collapsed .sidebar-header h5 {
+    display: none;
+}
+
+.sidebar-right.collapsed .sidebar-header .d-flex {
+    justify-content: center;
+    width: 100%;
+}
+
+.sidebar-right.collapsed .sidebar-header .btn {
+    margin: 0;
+    padding: 8px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar-right.collapsed .sidebar-header .btn i {
+    margin: 0;
+}
+
+.sidebar-right.collapsed .panel {
+    margin-bottom: 10px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.sidebar-right.collapsed .panel-header {
+    background: transparent;
+    padding: 10px;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 8px;
+    margin-bottom: 5px;
+}
+
+.sidebar-right.collapsed .panel-header:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-right.collapsed .panel-header h3 {
+    display: none;
+}
+
+.sidebar-right.collapsed .panel-header i {
+    font-size: 20px;
+    color: white;
+    margin: 0;
+}
+
+.sidebar-right.collapsed .tools-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+}
+
+.sidebar-right.collapsed .tool-btn {
+    justify-content: center;
+    padding: 10px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.sidebar-right.collapsed .tool-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.sidebar-right.collapsed .tool-btn i {
+    font-size: 18px;
+    margin: 0;
+}
+
+.sidebar-right.collapsed .tool-btn span {
+    display: none;
+}
+
+/* تنظیم margin برای محتوای اصلی وقتی سایدبار collapsed است */
+.sidebar-right.collapsed.active ~ .main-content {
+    margin-left: 60px;
+    transition: margin-left 0.3s ease;
+}
+
+/* تنظیم overlay برای حالت collapsed */
+.sidebar-right.collapsed ~ #rightSidebarOverlay {
+    display: none !important;
+}
+
+/* بهبود نمایش در دسکتاپ */
+@media (min-width: 992px) {
+    .sidebar-right.collapsed {
+        left: -60px;
+    }
+    
+    .sidebar-right.collapsed.active {
+        left: 0;
+    }
+    
+    .sidebar-right.collapsed.active ~ .main-content {
+        margin-left: 60px;
+    }
+}
+
+/* ========== استایل‌های حالت collapsed برای سایدبار چپ ========== */
+.sidebar-left.collapsed {
+    width: 60px !important;
+    transition: width 0.3s ease;
+}
+
+.sidebar-left.collapsed .sidebar-body,
+.sidebar-left.collapsed .chat-history-container {
+    display: none !important;
+}
+
+.sidebar-left.collapsed .sidebar-header {
+    padding: 15px 10px;
+    justify-content: center;
+}
+
+.sidebar-left.collapsed .sidebar-header h5 {
+    display: none;
+}
+
+.sidebar-left.collapsed .sidebar-header .d-flex {
+    justify-content: center;
+    width: 100%;
+}
+
+.sidebar-left.collapsed .sidebar-header .btn {
+    margin: 0;
+    padding: 8px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar-left.collapsed .sidebar-header .btn i {
+    margin: 0;
+}
+
+/* تنظیم margin برای محتوای اصلی وقتی سایدبار چپ collapsed است */
+.sidebar-left.collapsed.active ~ .main-content {
+    margin-right: 60px;
+    transition: margin-right 0.3s ease;
+}
+
+/* تنظیم overlay برای حالت collapsed */
+.sidebar-left.collapsed ~ #sidebarOverlay {
+    display: none !important;
+}
+
+/* بهبود نمایش در دسکتاپ */
+@media (min-width: 992px) {
+    .sidebar-left.collapsed {
+        right: -60px;
+    }
+    
+    .sidebar-left.collapsed.active {
+        right: 0;
+    }
+    
+    .sidebar-left.collapsed.active ~ .main-content {
+        margin-right: 60px;
+    }
+}
+
+/* استایل‌های فوتر */
+footer .bg-dark {
+    background-color: #1a1a1a !important;
+    border-top: 3px solid #8b5cf6;
+}
+
+footer a {
+    transition: all 0.3s ease;
+}
+
+footer a:hover {
+    color: #ffffff !important;
+    transform: translateX(-3px);
+}
+
+.hover-opacity-100:hover {
+    opacity: 1 !important;
+    transform: scale(1.1);
+}
+
+.opacity-75 {
+    opacity: 0.75;
+}
+
+.text-purple {
+    color: #8b5cf6 !important;
+}
+
+/* استایل‌های آیکون‌ها در فوتر */
+footer .fa-phone { color: #10b981 !important; }
+footer .fa-envelope { color: #3b82f6 !important; }
+footer .fa-user-tie { color: #f59e0b !important; }
+footer .fa-briefcase { color: #8b5cf6 !important; }
+
+/* ========== استایل‌های جدید برای مدیریت پانل‌ها ========== */
+.collapsible-panels.show {
+    display: block;
+}
+
+/* دکمه مدیریت پانل‌ها */
+#panelsToggleBtn {
+    position: relative;
+    overflow: hidden;
+}
+
+#panelsToggleBtn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+}
+
+#panelsToggleBtn:hover::after {
+    transform: translateX(100%);
+}
+
+/* بهبود نمایش پانل‌ها در حالت فعال */
+.collapsible-panels:not([style*="display: none"]) {
+    animation: slideDown 0.4s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* استایل برای زمانی که سایدبار باز است */
+body.sidebar-open {
+    overflow: hidden;
+}
+
+/* بهبود عملکرد لمسی در موبایل */
+@media (hover: none) and (pointer: coarse) {
+    .panel-header,
+    .tool-btn,
+    .header-btn {
+        cursor: default;
+    }
+    
+    .panel-header:active,
+    .tool-btn:active,
+    .header-btn:active {
+        transform: scale(0.98);
+    }
+}
+
+/* ========== ادامه تغییرات درخواستی ========== */
+
+/* 5. بازسازی پانل‌ها برای نمایش آیکون-only */
+.sidebar-right.collapsed .panel {
+    margin: 0 5px 5px 5px;
+    border-radius: 10px;
+    background: transparent;
+    border: none;
+}
+
+.sidebar-right.collapsed .panel-header {
+    padding: 12px 8px;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    min-height: 48px;
+}
+
+.sidebar-right.collapsed .panel-header:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.sidebar-right.collapsed .panel-header h3,
+.sidebar-right.collapsed .panel-header .collapse-btn {
+    display: none !important;
+}
+
+.sidebar-right.collapsed .panel-header i {
+    font-size: 20px;
+    color: white;
+    margin: 0 !important;
+}
+
+/* نمایش tooltip برای آیکون‌ها - بهبود یافته */
+.sidebar-right.collapsed .panel-header::after {
+    content: attr(data-tooltip);
+    position: fixed;
+    left: 70px;
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: 'Vazirmatn', sans-serif;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.2s ease;
+    z-index: 10050;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transform: translateY(-5px);
+}
+
+.sidebar-right.collapsed .panel-header:hover::after {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* بهبود hover effects برای آیکون‌های collapsed */
+.sidebar-right.collapsed .panel-header:hover {
+    background: rgba(255, 255, 255, 0.25) !important;
+    transform: scale(1.05);
+    transition: all 0.2s ease;
+}
+
+/* بهبود z-index برای جلوگیری از همپوشانی */
+.sidebar {
+    z-index: 1000;
+}
+
+.sidebar-header {
+    z-index: 1001;
+}
+
+.sidebar-overlay {
+    z-index: 999;
+}
+
+.chat-input-area {
+    z-index: 1001;
+}
+
+/* بهبود hover effects برای پانل‌ها در حالت عادی */
+.panel-header:hover {
+    background: var(--secondary-gradient) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+/* بهبود hover effects برای دکمه‌های action */
+.action-buttons .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s ease;
+}
+
+/* بهبود hover effects برای tool-btn */
+.tool-btn:hover {
+    background: var(--secondary-gradient);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+/* 6. حل مشکل chat-input-area در حالت collapsed */
+.sidebar-right.collapsed.active ~ .chat-input-area {
+    left: 60px;
+    transition: left 0.3s ease;
+}
+
+/* 7. بهبود responsive برای موبایل */
+@media (max-width: 768px) {
+    .sidebar-right.collapsed.active ~ .main-content,
+    .sidebar-right.active:not(.collapsed) ~ .main-content {
+        margin-left: 0 !important;
+    }
+    
+    .sidebar-right.collapsed.active ~ .chat-input-area {
+        left: 0 !important;
+    }
+    
+    /* باز کردن سایدبار به صورت overlay در موبایل */
+    .sidebar-right {
+        left: -100% !important;
+        width: 100% !important;
+    }
+    
+    .sidebar-right.active {
+        left: 0 !important;
+    }
+    
+    .sidebar-right.collapsed {
+        left: -60px !important;
+        width: 60px !important;
+    }
+    
+    /* بهبود font-size برای دکمه‌ها در موبایل */
+    .tool-btn, .header-btn, .btn-sm {
+        font-size: 12px !important;
+        padding: 8px 10px !important;
+    }
+    
+    .tool-btn i, .header-btn i {
+        font-size: 14px !important;
+    }
+    
+    /* بهبود layout برای پانل‌ها در موبایل */
+    .panel-header h3 {
+        font-size: 14px !important;
+    }
+    
+    .panel-content {
+        padding: 12px !important;
+    }
+    
+    .tools-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px !important;
+    }
+    
+    /* بهبود input area در موبایل */
+    .chat-input-area {
+        padding: 10px !important;
+    }
+    
+    #messageInput {
+        font-size: 14px !important;
+        padding: 12px !important;
+    }
+    
+    .btn-lg {
+        padding: 12px !important;
+        font-size: 14px !important;
+    }
+}
+
+/* 8. بهبود انیمیشن‌ها برای smooth transition */
+.panel {
+    animation: panelSlide 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes panelSlide {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 9. حل مشکل z-index برای input area */
+.chat-input-area {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(25px);
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 -6px 30px rgba(0, 0, 0, 0.15);
+    z-index: 1001; /* افزایش z-index */
+    transition: all 0.3s ease;
+}
+
+/* 10. بهبود layout برای فضای چت */
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.02);
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* فاصله بین پیام‌ها */
+}
+
+/* 11. استایل جدید برای گروه‌بندی آیتم‌ها در سایدبار کامل */
+.sidebar-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.compact-header-sidebar {
+    background: rgba(102, 126, 234, 0.15);
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+/* 12. قابلیت drag برای تنظیم عرض سایدبار */
+.sidebar-resize-handle {
+    position: absolute;
+    top: 0;
+    right: -5px; /* در RTL سایدبار راست در سمت چپ است، پس handle در سمت راست قرار می‌گیرد */
+    width: 10px;
+    height: 100%;
+    cursor: col-resize;
+    z-index: 1002;
+    background: transparent;
+    transition: background 0.2s ease;
+}
+
+.sidebar-resize-handle:hover,
+.sidebar-resize-handle.resizing {
+    background: rgba(102, 126, 234, 0.3);
+}
+
+.sidebar-resize-handle::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 2px;
+    transform: translateY(-50%);
+    width: 2px;
+    height: 40px;
+    background: rgba(102, 126, 234, 0.5);
+    border-radius: 1px;
+    transition: all 0.2s ease;
+}
+
+.sidebar-resize-handle:hover::after,
+.sidebar-resize-handle.resizing::after {
+    background: rgba(102, 126, 234, 0.8);
+    width: 3px;
+    height: 60px;
+}
+
+/* حالت collapsed - مخفی کردن handle */
+.sidebar-right.collapsed .sidebar-resize-handle {
+    display: none;
+}
+
+/* 13. سیستم ذخیره ترجیح‌های کاربر */
+.preference-badge {
+    background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: 5px;
+}
+
+/* 14. نمایش وضعیت واقعی سیستم */
+.system-status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.system-status-indicator.online {
+    background: rgba(16, 185, 129, 0.15);
+    color: #10b981;
+}
+
+.system-status-indicator.offline {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+}
+
+.system-status-indicator.loading {
+    background: rgba(245, 158, 11, 0.15);
+    color: #f59e0b;
+}
+
+/* 15. قابلیت مخفی/نمایش انتخابی پانل‌ها */
+.panel-visibility-toggle {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 1;
+}
+
+.panel-visibility-toggle:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.panel-visibility-toggle.hidden {
+    opacity: 0.5;
+}
+
+.panel-visibility-toggle.hidden i {
+    transform: rotate(45deg);
+}
+
+/* ========== CSS جدید کاربر برای ساختار سایدبار ========== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Vazirmatn', sans-serif;
+    background-color: #f7f9fc;
+    color: #333;
+    overflow-x: hidden;
+}
+
+/* حالت کامل سایدبار */
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: var(--sidebar-width);
+    background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+    color: white;
+    z-index: 1050;
+    transition: all var(--transition-speed) ease;
+    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* حالت collapsed سایدبار */
+.sidebar.collapsed {
+    width: var(--sidebar-collapsed-width);
+}
+
+.sidebar-header {
+    padding: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: sticky;
+    top: 0;
+    background: rgba(108, 92, 231, 0.9);
+    z-index: 100;
+}
+
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.sidebar-logo i {
+    font-size: 1.5rem;
+}
+
+.sidebar-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.sidebar-actions .btn {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+.sidebar-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    padding-bottom: 2rem;
+}
+
+/* پانل‌های سایدبار */
+.sidebar-panel {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    margin-bottom: 1.25rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-panel:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.panel-header {
+    padding: 1rem 1.25rem;
+    background: rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.panel-header:hover {
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.panel-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 1.05rem;
+}
+
+.panel-title i {
+    font-size: 1.1rem;
+}
+
+.panel-content {
+    padding: 0 1.25rem;
+    max-height: 1000px;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease;
+}
+
+.sidebar.collapsed .panel-content {
+    max-height: 0;
+    padding: 0;
+}
+
+.panel-content-inner {
+    padding: 0.75rem 0 1.25rem;
+}
+
+/* گرید ابزارها */
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 0.75rem;
+}
+
+.tool-item {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 12px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.tool-item:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.tool-item i {
+    display: block;
+    font-size: 1.4rem;
+    margin-bottom: 6px;
+    color: white;
+}
+
+.tool-item span {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* حالت collapsed - نمایش آیکون‌ها */
+.sidebar.collapsed .sidebar-logo span,
+.sidebar.collapsed .sidebar-actions .btn:not(:last-child),
+.sidebar.collapsed .panel-title span,
+.sidebar.collapsed .panel-content,
+.sidebar.collapsed .tool-item span {
+    display: none;
+}
+
+.sidebar.collapsed .sidebar-logo i {
+    margin: 0;
+}
+
+.sidebar.collapsed .tools-grid {
+    grid-template-columns: 1fr;
+}
+
+.sidebar.collapsed .tool-item {
+    padding: 15px 0;
+}
+
+/* tooltip برای حالت collapsed */
+.sidebar.collapsed .panel-header::after,
+.sidebar.collapsed .tool-item::after {
+    content: attr(data-tooltip);
+    position: fixed;
+    left: calc(var(--sidebar-collapsed-width) + 15px);
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-family: 'Vazirmatn', sans-serif;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar.collapsed .panel-header:hover::after,
+.sidebar.collapsed .tool-item:hover::after {
+    opacity: 1;
+}
+
+/* پانل وضعیت */
+.status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    margin-top: 8px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background: #00b894;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* دکمه‌های عملیات سریع */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.action-btn {
+    flex: 1;
+    border-radius: 12px;
+    padding: 8px 0;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+}
+
+/* حالت موبایل */
+@media (max-width: 991.98px) {
+    .sidebar {
+        transform: translateX(var(--sidebar-width));
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .sidebar.collapsed {
+        transform: translateX(var(--sidebar-collapsed-width));
+    }
+    
+    .sidebar.collapsed.active {
+        transform: translateX(0);
+    }
+    
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 1040;
+        display: none;
+    }
+    
+    .sidebar-overlay.active {
+        display: block;
+    }
+}
+
+/* دکمه باز/بسته کردن سایدبار */
+.toggle-sidebar-btn {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    z-index: 1000;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 20px rgba(108, 92, 231, 0.4);
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.toggle-sidebar-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 25px rgba(108, 92, 231, 0.6);
+}
+
+/* انیمیشن‌ها */
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(108, 92, 231, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0); }
+}
+
+.pulse-animation {
+    animation: pulse 2s infinite;
+}
+
+/* کارت ویژگی‌ها */
+.feature-card {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 12px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.feature-card:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateX(-5px);
+}
+
+.feature-icon {
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* آپلود فایل */
+.upload-area {
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    padding: 25px 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 15px 0;
+}
+
+.upload-area:hover {
+    border-color: white;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.upload-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: white;
+}

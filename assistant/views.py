@@ -655,6 +655,70 @@ def docs(request):
         logger.error(f"❌ Error in docs page: {e}")
         return JsonResponse({'error': 'خطا در بارگذاری صفحه مستندات'})
 
+def chat_old(request):
+    """صفحه چت قدیمی"""
+    try:
+        session_id = request.GET.get('session_id')
+        
+        if not session_id:
+            # ایجاد session_id جدید
+            session_id = request.session.session_key or str(uuid.uuid4())
+            if not request.session.session_key:
+                request.session.create()
+                session_id = request.session.session_key
+        
+        logger.info(f"🏠 Chat Old page - Session: {session_id}")
+        
+        context = {
+            'session_id': session_id,
+            'agent_available': agent_engine is not None,
+            'data_manager_available': data_manager is not None
+        }
+        
+        return render(request, 'assistant/chat_old.html', context)
+        
+    except Exception as e:
+        logger.error(f"❌ Error in chat_old view: {e}")
+        context = {
+            'session_id': str(uuid.uuid4()),
+            'agent_available': False,
+            'data_manager_available': False,
+            'error': 'خطا در بارگذاری سیستم'
+        }
+        return render(request, 'assistant/chat_old.html', context)
+
+def chat_mini(request):
+    """صفحه چت مینی"""
+    try:
+        session_id = request.GET.get('session_id')
+        
+        if not session_id:
+            # ایجاد session_id جدید
+            session_id = request.session.session_key or str(uuid.uuid4())
+            if not request.session.session_key:
+                request.session.create()
+                session_id = request.session.session_key
+        
+        logger.info(f"🏠 Chat Mini page - Session: {session_id}")
+        
+        context = {
+            'session_id': session_id,
+            'agent_available': agent_engine is not None,
+            'data_manager_available': data_manager is not None
+        }
+        
+        return render(request, 'assistant/chat_mini.html', context)
+        
+    except Exception as e:
+        logger.error(f"❌ Error in chat_mini view: {e}")
+        context = {
+            'session_id': str(uuid.uuid4()),
+            'agent_available': False,
+            'data_manager_available': False,
+            'error': 'خطا در بارگذاری سیستم'
+        }
+        return render(request, 'assistant/chat_mini.html', context)
+
 # Error Handlers
 def handler404(request, exception):
     """404 Error Handler"""

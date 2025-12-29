@@ -747,7 +747,11 @@
             const files = e.dataTransfer.files;
             if (files.length > 0) {
                 const file = files[0];
-                assistant.dataManager.uploadFile(file);
+                if (window.assistant && window.assistant.dataManager) {
+                    window.assistant.dataManager.uploadFile(file);
+                } else {
+                    console.error('Assistant not initialized yet');
+                }
             }
         });
 
@@ -759,8 +763,9 @@
             this.style.height = 'auto';
             this.style.height = Math.min(this.scrollHeight, 120) + 'px';
             
-            // Enable/disable send button
-            sendButton.disabled = !this.value.trim() || assistant.isProcessing;
+            // Enable/disable send button - check if assistant is defined
+            const isProcessing = window.assistant ? window.assistant.isProcessing : false;
+            sendButton.disabled = !this.value.trim() || isProcessing;
         });
 
         // Send on Ctrl+Enter
@@ -768,8 +773,8 @@
             if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
                 e.preventDefault();
                 const message = this.value.trim();
-                if (message && !assistant.isProcessing) {
-                    assistant.sendMessage(message);
+                if (message && window.assistant && !window.assistant.isProcessing) {
+                    window.assistant.sendMessage(message);
                     this.value = '';
                     this.style.height = 'auto';
                     sendButton.disabled = true;
@@ -783,7 +788,9 @@
             
             // Set focus to input
             setTimeout(() => {
-                messageInput.focus();
+                if (messageInput) {
+                    messageInput.focus();
+                }
             }, 500);
         });
 

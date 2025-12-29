@@ -2,6 +2,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
+from assistant import views as assistant_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -10,6 +11,9 @@ urlpatterns = [
     # صفحه اصلی
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('assistant/', include('assistant.urls')),
+    # مسیرهای جدید برای UIهای مختلف
+    path('assistant1/', assistant_views.chat_old, name='assistant1'),
+    path('assistant2/', assistant_views.chat_mini, name='assistant2'),
     # path('pages/', include('pages.urls')),
     # path('ai/', include('financial_ai_core.urls')),  # موقتاً غیرفعال به دلیل مشکل import
     
@@ -18,7 +22,6 @@ urlpatterns = [
     
     # ✨ اضافه کردن مسیر data_importer
     path('data-importer/', include('data_importer.urls', namespace='data_importer')),
-    # path('api/risk-matrix/', views.risk_levels_matrix, name='risk-levelsmatrix'),
     # path('api/generate-action/', views.generate_action, name='generate-action'),
     # path('api/set-action-value/', views.set_action_value, name='set-action-value'),
     # path('api/remove-action/', views.remove_action, name='remove-action'),

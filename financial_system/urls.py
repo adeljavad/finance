@@ -24,7 +24,7 @@ urlpatterns = [
     
     # چت بات پیشرفته - سیستم جدید
     path('advanced-chat/', advanced_chat_interface, name='advanced_chat'),
-    # path('api/advanced-chat/', AdvancedFinancialChatView.as_view(), name='advanced_chat_api'),
+    path('api/advanced-chat/', AdvancedFinancialChatView.as_view(), name='advanced_chat_api'),
     path("api/financial-chat/", FinancialChatView.as_view()),
 
 ]

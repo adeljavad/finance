@@ -12,5 +12,5 @@ __all__ = [
     'AdvancedFinancialChatView',
     'trial_balance_report',
     'trial_balance_api',
-    'export_trial_balance'
+    'export_trial_balance',
 ]

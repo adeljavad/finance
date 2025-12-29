@@ -47,9 +47,24 @@
                 </div>
                 
                 <div class="input-group">
+                    <!-- نوار ابزار ویرایش ساده -->
+                    <div class="btn-group btn-group-sm mb-2 w-100" role="group" aria-label="ابزارهای ویرایش">
+                        <button type="button" class="btn btn-outline-secondary" onclick="formatText('bold')" title="پررنگ">
+                            <i class="bi bi-type-bold"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" onclick="formatText('italic')" title="کج">
+                            <i class="bi bi-type-italic"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" onclick="formatText('underline')" title="زیرخط">
+                            <i class="bi bi-type-underline"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" onclick="clearText()" title="پاک کردن">
+                            <i class="bi bi-eraser"></i>
+                        </button>
+                    </div>
+                    
                     <textarea id="chat-input" class="form-control" placeholder="سوال مالی خود را بپرسید..." 
-                              rows="4" style="resize: vertical; min-height: 100px;"
-                              {% if not company or not period %}disabled{% endif %}></textarea>
+                              rows="4" style="resize: vertical; min-height: 100px;"></textarea>
                     <button class="btn btn-primary" id="send-btn" {% if not company or not period %}disabled{% endif %}>
                         <i class="bi bi-send"></i>
                         ارسال
@@ -156,19 +171,76 @@ document.addEventListener('DOMContentLoaded', function() {
         chatContainer.scrollTop = chatContainer.scrollHeight;
     }
     
-    // افزودن پیام به چت
-    function addMessage(message, isUser = false) {
+    // افزودن پیام به چت با قابلیت ویرایش
+    function addMessage(message, isUser = false, messageId = null) {
         const messageDiv = document.createElement('div');
         messageDiv.className = `mb-3 ${isUser ? 'text-start' : 'text-end'}`;
+        if (messageId) {
+            messageDiv.dataset.messageId = messageId;
+        }
         
         const bubble = document.createElement('div');
-        bubble.className = `d-inline-block p-3 rounded-3 ${isUser ? 'bg-primary text-white' : 'bg-light border'}`;
+        bubble.className = `d-inline-block p-3 rounded-3 position-relative ${isUser ? 'bg-primary text-white' : 'bg-light border'}`;
         bubble.style.maxWidth = '70%';
-        bubble.textContent = message;
+        
+        // محتوای پیام
+        const messageContent = document.createElement('div');
+        messageContent.className = 'message-content';
+        messageContent.textContent = message;
+        bubble.appendChild(messageContent);
+        
+        // دکمه ویرایش برای پیام‌های کاربر
+        if (isUser) {
+            const editBtn = document.createElement('button');
+            editBtn.className = 'btn btn-sm btn-outline-light border-0 position-absolute top-0 start-0 translate-middle';
+            editBtn.style.transform = 'translate(-50%, -50%)';
+            editBtn.innerHTML = '<i class="bi bi-pencil"></i>';
+            editBtn.title = 'ویرایش پیام';
+            editBtn.addEventListener('click', function() {
+                editMessage(message, messageId);
+            });
+            bubble.appendChild(editBtn);
+            
+            // دکمه حذف
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'btn btn-sm btn-outline-light border-0 position-absolute top-0 end-0 translate-middle';
+            deleteBtn.style.transform = 'translate(50%, -50%)';
+            deleteBtn.innerHTML = '<i class="bi bi-trash"></i>';
+            deleteBtn.title = 'حذف پیام';
+            deleteBtn.addEventListener('click', function() {
+                deleteMessage(messageDiv);
+            });
+            bubble.appendChild(deleteBtn);
+        }
         
         messageDiv.appendChild(bubble);
         chatMessages.appendChild(messageDiv);
         scrollToBottom();
+    }
+    
+    // ویرایش پیام
+    function editMessage(message, messageId) {
+        chatInput.value = message;
+        chatInput.focus();
+        
+        // ذخیره messageId برای به‌روزرسانی
+        if (messageId) {
+            chatInput.dataset.editingMessageId = messageId;
+        }
+        
+        // نمایش پیام اطلاع‌رسانی
+        const infoDiv = document.createElement('div');
+        infoDiv.className = 'alert alert-info alert-dismissible fade show text-center mb-3';
+        infoDiv.innerHTML = '<i class="bi bi-info-circle"></i> در حال ویرایش پیام. پس از ویرایش، دکمه ارسال را بزنید.<button type="button" class="btn-close" data-bs-dismiss="alert"></button>';
+        chatMessages.appendChild(infoDiv);
+        scrollToBottom();
+    }
+    
+    // حذف پیام
+    function deleteMessage(messageDiv) {
+        if (confirm('آیا از حذف این پیام مطمئن هستید؟')) {
+            messageDiv.remove();
+        }
     }
     
     // ارسال پیام
@@ -631,6 +703,38 @@ document.addEventListener('DOMContentLoaded', function() {
             'نامشخص': 'bg-secondary'
         };
         return riskMap[riskLevel] || 'bg-secondary';
+    }
+    
+    // توابع فرمت‌بندی متن
+    function formatText(command) {
+        const textarea = document.getElementById('chat-input');
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const selectedText = textarea.value.substring(start, end);
+        
+        let formattedText = '';
+        switch(command) {
+            case 'bold':
+                formattedText = `**${selectedText}**`;
+                break;
+            case 'italic':
+                formattedText = `*${selectedText}*`;
+                break;
+            case 'underline':
+                formattedText = `__${selectedText}__`;
+                break;
+            default:
+                formattedText = selectedText;
+        }
+        
+        textarea.value = textarea.value.substring(0, start) + formattedText + textarea.value.substring(end);
+        textarea.focus();
+        textarea.setSelectionRange(start + formattedText.length, start + formattedText.length);
+    }
+    
+    function clearText() {
+        document.getElementById('chat-input').value = '';
+        document.getElementById('chat-input').focus();
     }
     
     // اسکرول اولیه به پایین

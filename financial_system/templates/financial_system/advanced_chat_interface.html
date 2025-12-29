@@ -1,0 +1,543 @@
+<!-- financial_system/templates/financial_system/advanced_chat_interface.html -->
+{% extends 'financial_system/base.html' %}
+
+{% block title %}چت پیشرفته مالی - دستیار هوشمند پیشرفته{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">
+        <i class="bi bi-robot text-primary"></i>
+        چت پیشرفته مالی
+    </h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <span class="btn btn-outline-success">
+                <i class="bi bi-stars"></i>
+                نسخه پیشرفته ۲.۰
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <!-- چت باکس پیشرفته -->
+        <div class="card">
+            <div class="card-header bg-white">
+                <h5 class="card-title mb-0">
+                    <i class="bi bi-cpu text-primary"></i>
+                    دستیار مالی هوشمند پیشرفته
+                </h5>
+                <small class="text-muted">سیستم پیشرفته تحلیل و مشاوره مالی با قابلیت‌های گسترده</small>
+            </div>
+            <div class="card-body">
+                <div id="chat-container" style="height: 450px; overflow-y: auto; border: 1px solid #e9ecef; border-radius: 8px; padding: 15px; margin-bottom: 15px; background-color: #f8f9fa;">
+                    <div id="chat-messages">
+                        <!-- پیام‌های اولیه -->
+                        <div class="alert alert-primary text-center">
+                            <i class="bi bi-info-circle"></i>
+                            به سیستم چت پیشرفته مالی خوش آمدید. می‌توانید سوالات پیچیده مالی، تحلیل‌های پیشرفته، و مشاوره تخصصی دریافت کنید.
+                        </div>
+                        <div class="alert alert-info">
+                            <h6><i class="bi bi-lightning-charge"></i> قابلیت‌های سیستم:</h6>
+                            <ul class="mb-0 small">
+                                <li>تحلیل نسبت‌های مالی پیشرفته</li>
+                                <li>شناسایی انحرافات و ریسک‌های مالی</li>
+                                <li>مشاوره مالیاتی و قوانین مالی</li>
+                                <li>تولید گزارش‌های مالی حرفه‌ای</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <!-- نوار ابزار پیشرفته -->
+                    <div class="btn-group btn-group-sm mb-2 w-100" role="group" aria-label="ابزارهای ویرایش">
+                        <button type="button" class="btn btn-outline-primary" onclick="formatText('bold')" title="پررنگ">
+                            <i class="bi bi-type-bold"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-primary" onclick="formatText('italic')" title="کج">
+                            <i class="bi bi-type-italic"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-primary" onclick="formatText('underline')" title="زیرخط">
+                            <i class="bi bi-type-underline"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-primary" onclick="insertExample('analysis')" title="درج مثال تحلیل">
+                            <i class="bi bi-graph-up"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-primary" onclick="insertExample('tax')" title="درج مثال مالیاتی">
+                            <i class="bi bi-calculator"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-danger" onclick="clearText()" title="پاک کردن">
+                            <i class="bi bi-eraser"></i>
+                        </button>
+                    </div>
+                    
+                    <textarea id="chat-input" class="form-control" placeholder="سوال مالی پیشرفته خود را بپرسید (مثال: تحلیل ریسک‌های مالی شرکت، مشاوره مالیاتی برای طرح جدید، ...)" 
+                              rows="4" style="resize: vertical; min-height: 100px;"></textarea>
+                    <button class="btn btn-primary" id="send-btn">
+                        <i class="bi bi-send"></i>
+                        ارسال به سیستم پیشرفته
+                    </button>
+                </div>
+                
+                <!-- تنظیمات پیشرفته -->
+                <div class="row mt-3">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label small">شناسه شرکت:</label>
+                            <input type="number" id="company-id" class="form-control form-control-sm" value="1" min="1">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label small">دوره مالی:</label>
+                            <input type="number" id="period-id" class="form-control form-control-sm" value="1" min="1">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label small">سبک پاسخ:</label>
+                            <select id="response-style" class="form-select form-select-sm">
+                                <option value="detailed">مفصل و تحلیلی</option>
+                                <option value="concise">مختصر و کاربردی</option>
+                                <option value="technical">فنی و تخصصی</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <!-- راهنمای پیشرفته -->
+        <div class="card">
+            <div class="card-header bg-white">
+                <h6 class="card-title mb-0">
+                    <i class="bi bi-stars text-warning"></i>
+                    راهنمای استفاده پیشرفته
+                </h6>
+            </div>
+            <div class="card-body">
+                <h6>حوزه‌های تخصصی پشتیبانی شده:</h6>
+                <ul class="small">
+                    <li><strong>حسابداری و استانداردها:</strong> استانداردهای حسابداری، اصول پذیرفته شده</li>
+                    <li><strong>مالیات و قوانین مالی:</strong> قوانین مالیاتی، معافیت‌ها، اظهارنامه</li>
+                    <li><strong>تحلیل‌های مالی:</strong> نسبت‌های پیشرفته، تحلیل روند، بنچمارکینگ</li>
+                    <li><strong>حسابرسی و کنترل:</strong> کنترل‌های داخلی، ریسک حسابرسی</li>
+                    <li><strong>مشاوره مالی:</strong> برنامه‌ریزی مالی، سرمایه‌گذاری، مدیریت ریسک</li>
+                </ul>
+                
+                <hr>
+                
+                <h6 class="text-success">مثال‌های پیشرفته:</h6>
+                <div class="row mt-2">
+                    <div class="col-12 mb-2">
+                        <button class="btn btn-outline-success w-100 sample-question" data-question="تحلیل ریسک‌های مالی اصلی شرکت را ارائه دهید">
+                            <i class="bi bi-shield-exclamation"></i>
+                            تحلیل ریسک‌های مالی
+                        </button>
+                    </div>
+                    <div class="col-12 mb-2">
+                        <button class="btn btn-outline-success w-100 sample-question" data-question="مشاوره مالیاتی برای توسعه کسب‌وکار جدید">
+                            <i class="bi bi-calculator"></i>
+                            مشاوره مالیاتی
+                        </button>
+                    </div>
+                    <div class="col-12 mb-2">
+                        <button class="btn btn-outline-success w-100 sample-question" data-question="تحلیل نسبت‌های اهرمی و ساختار سرمایه">
+                            <i class="bi bi-graph-up-arrow"></i>
+                            تحلیل ساختار سرمایه
+                        </button>
+                    </div>
+                    <div class="col-12 mb-2">
+                        <button class="btn btn-outline-success w-100 sample-question" data-question="شناسایی انحرافات مالی و کنترل‌های داخلی">
+                            <i class="bi bi-clipboard-check"></i>
+                            کنترل‌های داخلی
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- اطلاعات سیستم -->
+                <div class="alert alert-info mt-3">
+                    <h6><i class="bi bi-info-circle"></i> اطلاعات سیستم:</h6>
+                    <ul class="small mb-0">
+                        <li><strong>نام:</strong> دستیار مالی پیشرفته</li>
+                        <li><strong>نسخه:</strong> ۲.۰.۰</li>
+                        <li><strong>پردازش:</strong> زمان واقعی</li>
+                        <li><strong>امنیت:</strong> رمزنگاری کامل</li>
+                    </ul>
+                </div>
+                
+                <!-- دکمه تست سیستم -->
+                <button class="btn btn-outline-primary w-100 mt-2" id="test-system-btn">
+                    <i class="bi bi-play-circle"></i>
+                    تست سلامت سیستم
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const chatInput = document.getElementById('chat-input');
+    const sendBtn = document.getElementById('send-btn');
+    const chatMessages = document.getElementById('chat-messages');
+    const chatContainer = document.getElementById('chat-container');
+    const sampleQuestions = document.querySelectorAll('.sample-question');
+    const testSystemBtn = document.getElementById('test-system-btn');
+    const companyIdInput = document.getElementById('company-id');
+    const periodIdInput = document.getElementById('period-id');
+    const responseStyleSelect = document.getElementById('response-style');
+    
+    // اسکرول به پایین چت
+    function scrollToBottom() {
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+    
+    // افزودن پیام به چت
+    function addMessage(message, isUser = false, messageType = 'normal') {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `mb-3 ${isUser ? 'text-start' : 'text-end'}`;
+        
+        const bubble = document.createElement('div');
+        bubble.className = `d-inline-block p-3 rounded-3 position-relative ${isUser ? 'bg-primary text-white' : getMessageBubbleClass(messageType)}`;
+        bubble.style.maxWidth = '80%';
+        
+        // آیکون بر اساس نوع پیام
+        let icon = '';
+        if (!isUser) {
+            switch(messageType) {
+                case 'analysis':
+                    icon = '<i class="bi bi-graph-up me-2"></i>';
+                    break;
+                case 'warning':
+                    icon = '<i class="bi bi-exclamation-triangle me-2"></i>';
+                    break;
+                case 'success':
+                    icon = '<i class="bi bi-check-circle me-2"></i>';
+                    break;
+                case 'info':
+                    icon = '<i class="bi bi-info-circle me-2"></i>';
+                    break;
+                default:
+                    icon = '<i class="bi bi-robot me-2"></i>';
+            }
+        }
+        
+        // محتوای پیام
+        const messageContent = document.createElement('div');
+        messageContent.className = 'message-content';
+        if (typeof message === 'string') {
+            messageContent.innerHTML = icon + message.replace(/\n/g, '<br>');
+        } else {
+            messageContent.appendChild(message);
+        }
+        bubble.appendChild(messageContent);
+        
+        // زمان ارسال
+        const timeSpan = document.createElement('div');
+        timeSpan.className = 'small text-muted mt-1 text-start';
+        timeSpan.style.fontSize = '0.75rem';
+        const now = new Date();
+        timeSpan.textContent = now.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
+        bubble.appendChild(timeSpan);
+        
+        messageDiv.appendChild(bubble);
+        chatMessages.appendChild(messageDiv);
+        scrollToBottom();
+    }
+    
+    // کلاس bubble بر اساس نوع پیام
+    function getMessageBubbleClass(messageType) {
+        switch(messageType) {
+            case 'analysis':
+                return 'bg-light border border-info';
+            case 'warning':
+                return 'bg-warning-subtle border border-warning';
+            case 'success':
+                return 'bg-success-subtle border border-success';
+            case 'info':
+                return 'bg-info-subtle border border-info';
+            default:
+                return 'bg-light border';
+        }
+    }
+    
+    // ارسال پیام
+    function sendMessage() {
+        const message = chatInput.value.trim();
+        if (!message) {
+            addMessage('❌ خطا: پیام نمی‌تواند خالی باشد', false, 'warning');
+            return;
+        }
+        
+        // نمایش پیام کاربر
+        addMessage(message, true);
+        chatInput.value = '';
+        
+        // نمایش وضعیت در حال پردازش
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'text-center text-muted mb-3';
+        typingDiv.id = 'typing-indicator';
+        typingDiv.innerHTML = '<i class="bi bi-robot"></i> سیستم پیشرفته در حال تحلیل سوال...';
+        chatMessages.appendChild(typingDiv);
+        scrollToBottom();
+        
+        // ارسال به سرور (API پیشرفته)
+        fetch("{% url 'financial_system:advanced_chat_api' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({
+                question: message,
+                company_id: parseInt(companyIdInput.value) || 1,
+                period_id: parseInt(periodIdInput.value) || 1,
+                response_style: responseStyleSelect.value
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // حذف نشانگر در حال پردازش
+            document.getElementById('typing-indicator')?.remove();
+            
+            if (!data.success) {
+                addMessage(`❌ خطا: ${data.error || 'خطای ناشناخته'}`, false, 'warning');
+            } else {
+                // نمایش پاسخ
+                displayAdvancedResponse(data);
+            }
+        })
+        .catch(error => {
+            document.getElementById('typing-indicator')?.remove();
+            addMessage('❌ خطا در ارتباط با سرور پیشرفته', false, 'warning');
+            console.error('Error:', error);
+        });
+    }
+    
+    // نمایش پاسخ پیشرفته
+    function displayAdvancedResponse(data) {
+        let messageType = 'info';
+        let messageContent = '';
+        
+        if (data.system_info) {
+            // پاسخ اطلاعات سیستم
+            messageType = 'info';
+            messageContent = formatSystemInfo(data);
+        } else if (data.answer || data.response) {
+            // پاسخ متنی
+            messageType = 'analysis';
+            const answer = data.answer || data.response;
+            messageContent = formatTextResponse(answer, data);
+        } else if (data.analysis) {
+            // پاسخ تحلیلی
+            messageType = 'analysis';
+            messageContent = formatAnalysisResponse(data);
+        } else {
+            // پاسخ عمومی
+            messageType = 'info';
+            messageContent = formatGenericResponse(data);
+        }
+        
+        addMessage(messageContent, false, messageType);
+    }
+    
+    // فرمت اطلاعات سیستم
+    function formatSystemInfo(data) {
+        const info = data.system_info;
+        let html = `
+            <div class="text-center mb-2">
+                <h6 class="text-primary">${info.name}</h6>
+                <small class="text-muted">نسخه ${info.version}</small>
+            </div>
+            <div class="mb-3">
+                <h6>قابلیت‌های سیستم:</h6>
+                <ul class="small mb-2">
+                    ${info.capabilities.map(cap => `<li>${cap}</li>`).join('')}
+                </ul>
+            </div>
+            <div>
+                <h6>حوزه‌های پشتیبانی:</h6>
+                <ul class="small mb-0">
+                    ${info.supported_domains.map(domain => `<li>${domain}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+        return html;
+    }
+    
+    // فرمت پاسخ متنی
+    function formatTextResponse(answer, data) {
+        let html = `
+            <div class="mb-2">
+                <h6><i class="bi bi-chat-square-text"></i> پاسخ سیستم:</h6>
+                <div class="p-2 bg-white rounded border">
+                    ${answer.replace(/\n/g, '<br>')}
+                </div>
+            </div>
+        `;
+        
+        // اگر داده اضافی وجود دارد
+        if (data.metadata || data.sources) {
+            html += `<hr class="my-2">`;
+            
+            if (data.metadata) {
+                html += `
+                    <div class="small text-muted">
+                        <i class="bi bi-tags"></i>
+                        <strong>برچسب‌ها:</strong> ${Array.isArray(data.metadata.tags) ? data.metadata.tags.join(', ') : data.metadata.tags || 'عمومی'}
+                    </div>
+                `;
+            }
+            
+            if (data.sources && data.sources.length > 0) {
+                html += `
+                    <div class="small text-muted mt-1">
+                        <i class="bi bi-link"></i>
+                        <strong>منابع:</strong>
+                        <ul class="mb-0">
+                            ${data.sources.map(source => `<li>${source}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+        }
+        
+        return html;
+    }
+    
+    // فرمت پاسخ تحلیلی
+    function formatAnalysisResponse(data) {
+        const analysis = data.analysis;
+        let html = `
+            <div class="mb-2">
+                <h6><i class="bi bi-graph-up"></i> تحلیل سیستم:</h6>
+                <div class="p-2 bg-white rounded border">
+                    ${analysis.summary.replace(/\n/g, '<br>')}
+                </div>
+            </div>
+        `;
+        
+        if (analysis.recommendations && analysis.recommendations.length > 0) {
+            html += `
+                <div class="mt-2">
+                    <h6><i class="bi bi-lightbulb"></i> توصیه‌ها:</h6>
+                    <ul class="small">
+                        ${analysis.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+        
+        return html;
+    }
+    
+    // فرمت پاسخ عمومی
+    function formatGenericResponse(data) {
+        return `
+            <div class="mb-2">
+                <h6><i class="bi bi-file-earmark-text"></i> پاسخ سیستم:</h6>
+                <div class="p-2 bg-white rounded border">
+                    ${JSON.stringify(data, null, 2).replace(/\n/g, '<br>')}
+                </div>
+            </div>
+        `;
+    }
+    
+    // توابع فرمت‌بندی متن
+    function formatText(command) {
+        const textarea = document.getElementById('chat-input');
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const selectedText = textarea.value.substring(start, end);
+        
+        let formattedText = '';
+        switch(command) {
+            case 'bold':
+                formattedText = `**${selectedText}**`;
+                break;
+            case 'italic':
+                formattedText = `*${selectedText}*`;
+                break;
+            case 'underline':
+                formattedText = `__${selectedText}__`;
+                break;
+            default:
+                formattedText = selectedText;
+        }
+        
+        textarea.value = textarea.value.substring(0, start) + formattedText + textarea.value.substring(end);
+        textarea.focus();
+        textarea.setSelectionRange(start + formattedText.length, start + formattedText.length);
+    }
+    
+    function insertExample(type) {
+        const examples = {
+            analysis: "تحلیل ریسک‌های مالی اصلی شرکت را ارائه دهید",
+            tax: "مشاوره مالیاتی برای توسعه کسب‌وکار جدید"
+        };
+        
+        const textarea = document.getElementById('chat-input');
+        textarea.value = examples[type] || "سوال مالی خود را اینجا بنویسید...";
+        textarea.focus();
+    }
+    
+    function clearText() {
+        document.getElementById('chat-input').value = '';
+        document.getElementById('chat-input').focus();
+    }
+    
+    // رویدادهای ارسال
+    sendBtn.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+    
+    // سوالات نمونه
+    sampleQuestions.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const question = this.getAttribute('data-question');
+            document.getElementById('chat-input').value = question;
+            document.getElementById('chat-input').focus();
+        });
+    });
+    
+    // تست سیستم
+    testSystemBtn.addEventListener('click', function() {
+        addMessage('🔄 در حال تست سلامت سیستم...', false, 'info');
+        
+        fetch("{% url 'financial_system:advanced_chat_api' %}", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.system_info) {
+                addMessage('✅ سیستم در وضعیت سالم است!', false, 'success');
+                addMessage(formatSystemInfo(data), false, 'info');
+            } else {
+                addMessage('⚠️ سیستم پاسخ داد اما ممکن است مشکلاتی وجود داشته باشد', false, 'warning');
+            }
+        })
+        .catch(error => {
+            addMessage('❌ خطا در ارتباط با سیستم', false, 'warning');
+        });
+    });
+    
+    // اسکرول اولیه به پایین
+    scrollToBottom();
+});
+</script>
+{% endblock %}

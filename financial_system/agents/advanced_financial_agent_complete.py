@@ -13,6 +13,10 @@ from typing import Dict, List, Any, Optional
 from functools import lru_cache
 from pydantic import BaseModel, Field
 from enum import Enum
+from dotenv import load_dotenv
+
+# بارگذاری متغیرهای محیطی
+load_dotenv()
 
 # ==================== IMPORTS ====================
 from langchain_core.language_models import BaseChatModel
@@ -314,7 +318,13 @@ class GreetingTool(BaseTool):
     name: str = "greeting_tool"
     description: str = "پاسخ به احوال‌پرسی و معرفی خدمات"
     
+    def _run(self, question: str, **kwargs) -> Dict[str, Any]:
+        return self._arun_sync(question, **kwargs)
+    
     async def _arun(self, question: str, **kwargs) -> Dict[str, Any]:
+        return self._arun_sync(question, **kwargs)
+    
+    def _arun_sync(self, question: str, **kwargs) -> Dict[str, Any]:
         return {
             "type": "greeting",
             "message": "سلام! من دستیار مالی هوشمند شما هستم. می‌توانم در امور حسابداری، مالیات، حسابرسی و تحلیل مالی به شما کمک کنم. سوال خود را بپرسید!",
@@ -325,7 +335,19 @@ class BalanceSheetTool(BaseTool):
     name: str = "balance_sheet_tool"
     description: str = "محاسبه ترازنامه و مانده حساب‌ها. کلمات کلیدی: ترازنامه، تراز، صورت وضعیت"
     
+    def _run(self, company_id: int, period_id: int, season: Optional[str] = "spring", **kwargs) -> Dict[str, Any]:
+        return self._arun_sync(company_id, period_id, season, **kwargs)
+    
     async def _arun(
+        self,
+        company_id: int,
+        period_id: int,
+        season: Optional[str] = "spring",
+        **kwargs
+    ) -> Dict[str, Any]:
+        return self._arun_sync(company_id, period_id, season, **kwargs)
+    
+    def _arun_sync(
         self,
         company_id: int,
         period_id: int,
@@ -348,7 +370,18 @@ class FinancialRatiosTool(BaseTool):
     name: str = "financial_ratios_tool"
     description: str = "محاسبه و تحلیل نسبت‌های مالی. کلمات کلیدی: نسبت، تحلیل مالی، نقدینگی، سودآوری"
     
+    def _run(self, company_id: int, period_id: int, **kwargs) -> Dict[str, Any]:
+        return self._arun_sync(company_id, period_id, **kwargs)
+    
     async def _arun(
+        self,
+        company_id: int,
+        period_id: int,
+        **kwargs
+    ) -> Dict[str, Any]:
+        return self._arun_sync(company_id, period_id, **kwargs)
+    
+    def _arun_sync(
         self,
         company_id: int,
         period_id: int,
@@ -371,7 +404,18 @@ class AnomalyDetectionTool(BaseTool):
     name: str = "anomaly_detection_tool"
     description: str = "شناسایی انحرافات و موارد مشکوک. کلمات کلیدی: انحراف، مشکوک، کنترل، مغایرت"
     
+    def _run(self, company_id: int, period_id: int, **kwargs) -> Dict[str, Any]:
+        return self._arun_sync(company_id, period_id, **kwargs)
+    
     async def _arun(
+        self,
+        company_id: int,
+        period_id: int,
+        **kwargs
+    ) -> Dict[str, Any]:
+        return self._arun_sync(company_id, period_id, **kwargs)
+    
+    def _arun_sync(
         self,
         company_id: int,
         period_id: int,
@@ -393,7 +437,19 @@ class ReportGenerationTool(BaseTool):
     name: str = "report_generation_tool"
     description: str = "تولید گزارش‌های مالی. کلمات کلیدی: گزارش، صورت مالی، سود و زیان"
     
+    def _run(self, company_id: int, period_id: int, report_type: str = "balance_sheet", **kwargs) -> Dict[str, Any]:
+        return self._arun_sync(company_id, period_id, report_type, **kwargs)
+    
     async def _arun(
+        self,
+        company_id: int,
+        period_id: int,
+        report_type: str = "balance_sheet",
+        **kwargs
+    ) -> Dict[str, Any]:
+        return self._arun_sync(company_id, period_id, report_type, **kwargs)
+    
+    def _arun_sync(
         self,
         company_id: int,
         period_id: int,
@@ -413,7 +469,19 @@ class LedgerTool(BaseTool):
     name: str = "ledger_tool"
     description: str = "مدیریت دفتر معین و دفتر کل. کلمات کلیدی: دفتر، معین، کل"
     
+    def _run(self, company_id: int, period_id: int, account_code: Optional[str] = None, **kwargs) -> Dict[str, Any]:
+        return self._arun_sync(company_id, period_id, account_code, **kwargs)
+    
     async def _arun(
+        self,
+        company_id: int,
+        period_id: int,
+        account_code: Optional[str] = None,
+        **kwargs
+    ) -> Dict[str, Any]:
+        return self._arun_sync(company_id, period_id, account_code, **kwargs)
+    
+    def _arun_sync(
         self,
         company_id: int,
         period_id: int,
@@ -435,7 +503,17 @@ class TaxAdvisorTool(BaseTool):
     name: str = "tax_advisor_tool"
     description: str = "مشاوره مالیاتی. کلمات کلیدی: مالیات، ارزش افزوده، اظهارنامه"
     
+    def _run(self, question: str, **kwargs) -> Dict[str, Any]:
+        return self._arun_sync(question, **kwargs)
+    
     async def _arun(
+        self,
+        question: str,
+        **kwargs
+    ) -> Dict[str, Any]:
+        return self._arun_sync(question, **kwargs)
+    
+    def _arun_sync(
         self,
         question: str,
         **kwargs
@@ -450,7 +528,17 @@ class AuditTool(BaseTool):
     name: str = "audit_tool"
     description: str = "خدمات حسابرسی و کنترل داخلی. کلمات کلیدی: حسابرسی، کنترل داخلی"
     
+    def _run(self, company_id: int, **kwargs) -> Dict[str, Any]:
+        return self._arun_sync(company_id, **kwargs)
+    
     async def _arun(
+        self,
+        company_id: int,
+        **kwargs
+    ) -> Dict[str, Any]:
+        return self._arun_sync(company_id, **kwargs)
+    
+    def _arun_sync(
         self,
         company_id: int,
         **kwargs
