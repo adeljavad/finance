@@ -22,7 +22,6 @@ Django==6.0
 django-allauth==65.13.1
 django-cors-headers==4.9.0
 django-filter==25.2
--e git+https://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@github.com/adeljavad/finance.git@d5476a041b459497a5a015650766abdf9e64cffc#egg=django_financial_ai_core
 django-redis==6.0.0
 django-tables2==2.8.0
 djangorestframework==3.16.1
